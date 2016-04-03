@@ -12,6 +12,8 @@ const {
 export default Ember.Component.extend({
   layout,
 
+  classNameBindings: ['classes.calendarContainerOuter'],
+
   selectedDate: null,
   currentView: 'month',
   currentMonth: null,
@@ -35,6 +37,7 @@ export default Ember.Component.extend({
   _isOpen: false,
 
   classes: {
+    calendarContainerOuter: 'date-picker__outer',
     calendarContainer: 'date-picker',
     calendarContainerInline: 'date-picker--inline',
     toggleButton: 'date-picker__button',
@@ -127,6 +130,67 @@ export default Ember.Component.extend({
     }
 
     return years;
+  }),
+
+  _daysInMonth: computed('currentMonth', 'minDate', 'maxDate', function () {
+    let currentMonth = get(this, 'currentMonth');
+    let daysInMonth = currentMonth.daysInMonth();
+    let days = Ember.A();
+
+    // start with days from previous month to fill up first week
+    let firstWeekday = currentMonth.isoWeekday();
+    for (let i = firstWeekday; i > 1; i--) {
+      let day = currentMonth.clone().subtract(i - 1, 'days');
+      let dayObject = {
+        date: day,
+        dateString: day.format('YYYY-MM-DD'),
+        year: day.year(),
+        month: day.month(),
+        day: day.date(),
+        weekday: day.isoWeekday(),
+        disabled: this._dayIsDisabled(day),
+        notInCurrentMonth: true
+      };
+
+      days.push(dayObject);
+    }
+
+    // create one day object for every day in the month
+    for (let i = 0; i < daysInMonth; i++) {
+      let day = currentMonth.clone().add(i, 'days');
+      let dayObject = {
+        date: day,
+        dateString: day.format('YYYY-MM-DD'),
+        year: day.year(),
+        month: day.month(),
+        day: day.date(),
+        weekday: day.isoWeekday(),
+        disabled: this._dayIsDisabled(day),
+        notInCurrentMonth: false
+      };
+
+      days.push(dayObject);
+    }
+
+    // end with days from next month to fill up last week
+    let lastWeekday = currentMonth.clone().endOf('month').isoWeekday();
+    for (let i = 1; i <= 7 - lastWeekday; i++) {
+      let day = currentMonth.clone().endOf('month').add(i, 'days');
+      let dayObject = {
+        date: day,
+        dateString: day.format('YYYY-MM-DD'),
+        year: day.year(),
+        month: day.month(),
+        day: day.date(),
+        weekday: day.isoWeekday(),
+        disabled: this._dayIsDisabled(day),
+        notInCurrentMonth: true
+      };
+
+      days.push(dayObject);
+    }
+
+    return days;
   }),
 
   daysInMonth: computed('currentMonth', 'minDate', 'maxDate', function () {
@@ -314,6 +378,14 @@ export default Ember.Component.extend({
       this.selectDate(date);
       this._sendAction();
       set(this, '_isOpen', false);
+    },
+    selectDateString(dateString, isDisabled) {
+      if (!isDisabled) {
+        let date = moment(dateString, 'YYYY-MM-DD');
+        this.selectDate(date);
+        this._sendAction();
+        set(this, '_isOpen', false);
+      }
     },
     gotoNextMonth() {
       if (!get(this, 'canGotoNextMonth')) {

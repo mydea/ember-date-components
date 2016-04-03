@@ -58,14 +58,10 @@
 
       <div class={{classes.calendarInner}}>
         {{#each daysInMonth as |date|}}
-          {{date-picker-day
-          class=classes.day
-          date=date.date
-          isDisabled=date.disabled
-          isToday=(is-equal-day today date.date)
-          isSelected=(is-equal-day selectedDate date.date)
-          isInactive=date.notInCurrentMonth
-          action=(action 'selectDate') }}
+          <button class={{date-picker-day-classes classes.day isDisabled=date.disabled isInactive=date.notInCurrentMonth isToday=(is-equal-day date.date today) isSelected=(is-equal-day date.date selectedDate)}}
+            {{action 'selectDateString' date.dateString date.disabled}}>
+            {{date.day}}
+          </button>
         {{/each}}
       </div>
     </div>
