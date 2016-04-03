@@ -8,7 +8,7 @@
   </button>
 {{/unless}}
 {{#if showCalendar}}
-  <div class="{{classes.calendarContainer}} {{if inline classes.calendarContainerInline}}">
+  <div class="{{classes.calendarContainer}} {{if inline classes.calendarContainerInline}}" style={{translateX}}>
     <div class={{classes.monthHeader}}>
       <button {{action 'gotoPreviousMonth'}}
           class="{{classes.monthButton}}

@@ -19,21 +19,23 @@ export default Ember.Component.extend({
   currentMonth: null,
   currentYear: null,
 
-  minDate: null,
-  maxDate: null,
+  _minDate: null,
+  _maxDate: null,
 
   showWeekdays: true,
   inline: false,
   placeholder: 'Select Date...',
+  calendarWidth: 300,
 
   action: null,
 
   localization: {
-    dateFormat: 'LL',
+    dateFormat: 'L',
     monthLongFormat: 'MMMM',
     monthShortFormat: 'MMM'
   },
 
+  isOpen: false,
   _isOpen: false,
 
   classes: {
@@ -65,38 +67,38 @@ export default Ember.Component.extend({
     return get(this, 'currentMonth').clone().add(1, 'month');
   }),
 
-  canGotoPreviousMonth: computed('currentMonth', 'minDate', function () {
+  canGotoPreviousMonth: computed('currentMonth', '_minDate', function () {
     let {
-      minDate,
+      _minDate,
       currentMonth
-    } = getProperties(this, 'minDate', 'currentMonth');
+    } = getProperties(this, '_minDate', 'currentMonth');
 
-    return !minDate || minDate.clone().startOf('month').valueOf() <= currentMonth.clone().subtract(1, 'month').valueOf();
+    return !_minDate || _minDate.clone().startOf('month').valueOf() <= currentMonth.clone().subtract(1, 'month').valueOf();
   }),
 
-  canGotoNextMonth: computed('currentMonth', 'maxDate', function () {
+  canGotoNextMonth: computed('currentMonth', '_maxDate', function () {
     let {
-      maxDate,
+      _maxDate,
       currentMonth
-    } = getProperties(this, 'maxDate', 'currentMonth');
+    } = getProperties(this, '_maxDate', 'currentMonth');
 
-    return !maxDate || maxDate.clone().startOf('month').valueOf() >= currentMonth.clone().add(1, 'month').valueOf();
+    return !_maxDate || _maxDate.clone().startOf('month').valueOf() >= currentMonth.clone().add(1, 'month').valueOf();
   }),
 
-  availableMonths: computed('currentYear', 'minDate', 'maxDate', function () {
+  availableMonths: computed('currentYear', '_minDate', '_maxDate', function () {
     let {
-      minDate,
-      maxDate,
+      _minDate,
+      _maxDate,
       currentYear
-    } = getProperties(this, 'currentYear', 'minDate', 'maxDate');
+    } = getProperties(this, 'currentYear', '_minDate', '_maxDate');
     let months = Ember.A();
 
     for (let i = 0; i < 12; i++) {
       let month = currentYear.clone().add(i, 'month');
-      if (minDate && month.valueOf() < minDate.valueOf()) {
+      if (_minDate && month.valueOf() < _minDate.valueOf()) {
         continue;
       }
-      if (maxDate && month.valueOf() > maxDate.valueOf()) {
+      if (_maxDate && month.valueOf() > _maxDate.valueOf()) {
         continue;
       }
       months.push(month);
@@ -104,23 +106,23 @@ export default Ember.Component.extend({
     return months;
   }),
 
-  availableYears: computed('currentYear', 'minDate', 'maxDate', function () {
+  availableYears: computed('currentYear', '_minDate', '_maxDate', function () {
     let {
       currentYear,
-      minDate,
-      maxDate
-    } = getProperties(this, 'currentYear', 'minDate', 'maxDate');
+      _minDate,
+      _maxDate
+    } = getProperties(this, 'currentYear', '_minDate', '_maxDate');
     let years = Ember.A();
     let minYear, maxYear;
 
-    if (minDate) {
-      minYear = minDate.clone().startOf('year');
+    if (_minDate) {
+      minYear = _minDate.clone().startOf('year');
     } else {
       minYear = currentYear.clone().subtract(100, 'years');
     }
 
-    if (maxDate) {
-      maxYear = maxDate.clone().startOf('year');
+    if (_maxDate) {
+      maxYear = _maxDate.clone().startOf('year');
     } else {
       maxYear = currentYear.clone().add(100, 'years');
     }
@@ -132,7 +134,7 @@ export default Ember.Component.extend({
     return years;
   }),
 
-  _daysInMonth: computed('currentMonth', 'minDate', 'maxDate', function () {
+  _daysInMonth: computed('currentMonth', '_minDate', '_maxDate', function () {
     let currentMonth = get(this, 'currentMonth');
     let daysInMonth = currentMonth.daysInMonth();
     let days = Ember.A();
@@ -193,7 +195,7 @@ export default Ember.Component.extend({
     return days;
   }),
 
-  daysInMonth: computed('currentMonth', 'minDate', 'maxDate', function () {
+  daysInMonth: computed('currentMonth', '_minDate', '_maxDate', function () {
     let currentMonth = get(this, 'currentMonth');
     let daysInMonth = currentMonth.daysInMonth();
     let days = Ember.A();
@@ -268,9 +270,10 @@ export default Ember.Component.extend({
     return get(this, 'inline') || get(this, '_isOpen');
   }),
 
+  translateX: null,
+
   init() {
     this._super(...arguments);
-    this.set('_isOpen', false);
   },
 
   didReceiveAttrs() {
@@ -282,15 +285,21 @@ export default Ember.Component.extend({
     let initialValue = get(this, 'value');
     let {
       minDate,
-      maxDate
-    } = getProperties(this, 'minDate', 'maxDate');
+      maxDate,
+      isOpen
+    } = getProperties(this, 'minDate', 'maxDate', 'isOpen');
     let currentDate = this._getCurrentDate();
 
     if (minDate) {
-      set(this, 'minDate', minDate.clone().startOf('day'));
+      set(this, '_minDate', minDate.clone().startOf('day'));
     }
     if (maxDate) {
-      set(this, 'maxDate', maxDate.clone().startOf('day'));
+      set(this, '_maxDate', maxDate.clone().startOf('day'));
+    }
+
+    set(this, '_isOpen', isOpen || false);
+    if (isOpen) {
+      Ember.run.schedule('afterRender', this, this._setupOutsideListener);
     }
 
     if (initialValue) {
@@ -351,17 +360,43 @@ export default Ember.Component.extend({
 
   _dayIsDisabled(day) {
     let {
-      minDate,
-      maxDate
-    } = getProperties(this, 'minDate', 'maxDate');
+      _minDate,
+      _maxDate
+    } = getProperties(this, '_minDate', '_maxDate');
 
-    if (minDate && minDate.valueOf() > day.valueOf()) {
+    if (_minDate && _minDate.valueOf() > day.valueOf()) {
       return true;
     }
-    if (maxDate && maxDate.valueOf() < day.valueOf()) {
+    if (_maxDate && _maxDate.valueOf() < day.valueOf()) {
       return true;
     }
     return false;
+  },
+
+  _openPicker() {
+    set(this, '_isOpen', true);
+    this._setupOutsideListener();
+
+    // Check if position is outside of window
+    // this happens if the date picker is at the right side of the screen
+    let $el = this.$();
+
+    let windowWidth = Ember.$(window).width();
+    let elLeftOffset = $el.offset().left;
+    let elOffset = elLeftOffset + get(this, 'calendarWidth');
+
+    if (elOffset > windowWidth) {
+      let translate = elOffset - windowWidth + 10;
+      let style = new Ember.Handlebars.SafeString(`transform: translate(-${translate}px, 0)`);
+      set(this, 'translateX', style);
+    } else {
+      set(this, 'translateX', null);
+    }
+  },
+
+  _closePicker() {
+    set(this, '_isOpen', false);
+    this._destroyOutsideListener();
   },
 
   _sendAction() {
@@ -416,9 +451,10 @@ export default Ember.Component.extend({
       this.selectDate(null);
     },
     toggleOpen() {
-      this.toggleProperty('_isOpen');
       if (get(this, '_isOpen')) {
-        this._setupOutsideListener();
+        this._closePicker();
+      } else {
+        this._openPicker();
       }
     }
   }
