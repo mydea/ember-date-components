@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <h2>Default</h2>
+  {{date-picker action=(action 'updateDate1')}}
+</div>
+
+<div class="wrapper">
+  <h2>Inline</h2>
+  {{date-picker inline=true action=(action 'updateDate1')}}
+</div>
+
+<div class="wrapper">
+  <h2>With start value</h2>
+  {{date-picker value=date2.value action=(action 'updateDate2')}}
+</div>
+
+<div class="wrapper">
+  <h2>With min & max value</h2>
+  {{date-picker minDate=date3.min maxDate=date3.max action=(action 'updateDate3')}}
+</div>
