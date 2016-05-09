@@ -240,7 +240,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  previousMonth: computed('currentMonth', function () {
+  previousMonth: computed('currentMonth', function() {
     return get(this, 'currentMonth').clone().subtract(1, 'month');
   }),
 
@@ -252,7 +252,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  nextMonth: computed('currentMonth', function () {
+  nextMonth: computed('currentMonth', function() {
     return get(this, 'currentMonth').clone().add(1, 'month');
   }),
 
@@ -265,7 +265,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  canGotoPreviousMonth: computed('currentMonth', '_minDate', function () {
+  canGotoPreviousMonth: computed('currentMonth', '_minDate', function() {
     let {
       _minDate,
       currentMonth
@@ -283,7 +283,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  canGotoNextMonth: computed('currentMonth', '_maxDate', function () {
+  canGotoNextMonth: computed('currentMonth', '_maxDate', function() {
     let {
       _maxDate,
       currentMonth
@@ -303,7 +303,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  availableMonths: computed('currentYear', '_minDate', '_maxDate', function () {
+  availableMonths: computed('currentYear', '_minDate', '_maxDate', function() {
     let {
       _minDate,
       _maxDate,
@@ -334,7 +334,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  availableYears: computed('currentYear', '_minDate', '_maxDate', function () {
+  availableYears: computed('currentYear', '_minDate', '_maxDate', function() {
     let {
       currentYear,
       _minDate,
@@ -388,7 +388,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  daysInMonth: computed('currentMonth', '_minDate', '_maxDate', function () {
+  daysInMonth: computed('currentMonth', '_minDate', '_maxDate', function() {
     let currentMonth = get(this, 'currentMonth');
     let daysInMonth = currentMonth.daysInMonth();
     let days = Ember.A();
@@ -457,7 +457,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  weekdays: computed(function () {
+  weekdays: computed(function() {
     let weekdays = moment.weekdaysMin();
     weekdays.push(weekdays.shift());
     return weekdays;
@@ -471,7 +471,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  today: computed(function () {
+  today: computed(function() {
     return moment().startOf('day');
   }),
 
@@ -484,7 +484,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  showCalendar: computed('inline', '_isOpen', function () {
+  showCalendar: computed('inline', '_isOpen', function() {
     return get(this, 'inline') || get(this, '_isOpen');
   }),
 

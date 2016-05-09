@@ -4,13 +4,13 @@ import moment from 'moment';
 
 module('Unit | Helper | is equal month');
 
-test('returns true for equal dates', function (assert) {
+test('returns true for equal dates', function(assert) {
   let d1 = moment('2016-10-10');
   let result = isEqualMonth([d1, d1]);
   assert.ok(result);
 });
 
-test('returns true for dates on same day', function (assert) {
+test('returns true for dates on same day', function(assert) {
   let d1 = moment('2016-10-10');
   let d2 = moment('2016-10-10').add(8, 'hours');
   let result = isEqualMonth([d1, d2]);
@@ -22,7 +22,7 @@ test('returns true for dates on same day', function (assert) {
   assert.ok(result);
 });
 
-test('returns true for dates on different days in same month', function (assert) {
+test('returns true for dates on different days in same month', function(assert) {
   let d1 = moment('2016-10-10');
   let d2 = moment('2016-10-09');
   let result = isEqualMonth([d1, d2]);
@@ -49,7 +49,7 @@ test('returns true for dates on different days in same month', function (assert)
   assert.ok(result);
 });
 
-test('returns false for dates in different months', function (assert) {
+test('returns false for dates in different months', function(assert) {
   let d1 = moment('2016-10-01');
   let d2 = moment('2016-09-30');
   let result = isEqualMonth([d1, d2]);

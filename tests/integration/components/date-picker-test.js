@@ -7,7 +7,7 @@ moduleForComponent('date-picker', 'Integration | Component | date picker', {
   integration: true
 });
 
-test('it renders with no attribute set', function (assert) {
+test('it renders with no attribute set', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
@@ -17,7 +17,7 @@ test('it renders with no attribute set', function (assert) {
   assert.equal(this.$().find('button').text().trim(), 'Select Date...', 'Default placeholder is displayed in button.');
 });
 
-test('default value works', function (assert) {
+test('default value works', function(assert) {
   let date = moment();
   this.set('defaultDate', date);
   this.render(hbs`{{date-picker value=defaultDate}}`);
@@ -26,10 +26,10 @@ test('default value works', function (assert) {
   assert.equal(this.$().find('button').text().trim(), date.format('L'), 'Formatted value of default date is displayed in button.');
 });
 
-test('action is sent on value change', function (assert) {
+test('action is sent on value change', function(assert) {
   assert.expect(3);
 
-  this.on('updateDate', function (date) {
+  this.on('updateDate', function(date) {
     assert.equal(arguments.length, 1, 'one argument is passed to action.');
     assert.equal(date.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed to action.');
   });
@@ -43,7 +43,7 @@ test('action is sent on value change', function (assert) {
   });
 });
 
-test('default value is not muted after change of date', function (assert) {
+test('default value is not muted after change of date', function(assert) {
   assert.expect(2);
 
   let date = moment();
@@ -58,7 +58,7 @@ test('default value is not muted after change of date', function (assert) {
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 });
 
-test('value updates if bound value changes', function (assert) {
+test('value updates if bound value changes', function(assert) {
   let date = moment();
   this.set('defaultDate', date);
   this.render(hbs`{{date-picker value=defaultDate}}`);
@@ -71,7 +71,7 @@ test('value updates if bound value changes', function (assert) {
   assert.equal(this.$().find('button').text().trim(), date.format('L'), 'value in date picker is updated.');
 });
 
-test('date picker shows month of value if set', function (assert) {
+test('date picker shows month of value if set', function(assert) {
   let date = moment().add(2, 'months');
   this.set('defaultDate', date);
   this.render(hbs`{{date-picker value=defaultDate}}`);

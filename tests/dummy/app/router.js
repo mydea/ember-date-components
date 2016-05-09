@@ -6,7 +6,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('date-picker-component', { path: '/date-picker'});
+  this.route('date-picker-component', { path: '/date-picker' });
   this.route('date-range-picker-component');
 });
 

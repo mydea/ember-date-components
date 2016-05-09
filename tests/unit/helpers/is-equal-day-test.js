@@ -4,13 +4,13 @@ import moment from 'moment';
 
 module('Unit | Helper | is equal day');
 
-test('returns true for equal dates', function (assert) {
+test('returns true for equal dates', function(assert) {
   let d1 = moment('2016-10-10');
   let result = isEqualDay([d1, d1]);
   assert.ok(result);
 });
 
-test('returns true for dates on same day', function (assert) {
+test('returns true for dates on same day', function(assert) {
   let d1 = moment('2016-10-10');
   let d2 = moment('2016-10-10').add(8, 'hours');
   let result = isEqualDay([d1, d2]);
@@ -22,7 +22,7 @@ test('returns true for dates on same day', function (assert) {
   assert.ok(result);
 });
 
-test('returns false for dates on different days', function (assert) {
+test('returns false for dates on different days', function(assert) {
   let d1 = moment('2016-10-10');
   let d2 = moment('2016-10-09');
   let result = isEqualDay([d1, d2]);
