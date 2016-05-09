@@ -13,12 +13,17 @@
   background: #fff;
   box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
   z-index: 2;
+  display: none;
 }
 
 .date-picker--inline {
   position: relative;
   vertical-align: top;
   z-index: 1;
+}
+
+.date-picker--open {
+  display: block;
 }
 
 .date-picker__button {

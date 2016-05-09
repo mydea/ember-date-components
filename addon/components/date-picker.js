@@ -153,6 +153,7 @@ export default Ember.Component.extend({
     calendarContainerOuter: 'date-picker__outer',
     calendarContainerOuterOpen: 'date-picker__outer--open',
     calendarContainer: 'date-picker',
+    calendarContainerOpen: 'date-picker--open',
     calendarContainerInline: 'date-picker--inline',
     toggleButton: 'date-picker__button',
     monthHeader: 'date-picker__month__header',
@@ -485,9 +486,7 @@ export default Ember.Component.extend({
    * @readOnly
    * @private
    */
-  showCalendar: computed('inline', '_isOpen', function() {
-    return get(this, 'inline') || get(this, '_isOpen');
-  }),
+  showCalendar: computed.or('inline', '_isOpen'),
 
   /**
    * This string is built to fix the offset of the component.
@@ -678,6 +677,7 @@ export default Ember.Component.extend({
    * @private
    */
   _openPicker() {
+    console.time('open picker');
     set(this, '_isOpen', true);
     this._setupOutsideListener();
 
