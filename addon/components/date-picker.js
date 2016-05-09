@@ -23,7 +23,7 @@ const {
  */
 export default Ember.Component.extend({
   layout,
-  classNameBindings: ['classes.calendarContainerOuter'],
+  classNameBindings: ['classes.calendarContainerOuter', 'classIsOpen'],
 
   // ATTRIBUTES BEGIN ----------------------------------------
 
@@ -151,6 +151,7 @@ export default Ember.Component.extend({
    */
   classes: {
     calendarContainerOuter: 'date-picker__outer',
+    calendarContainerOuterOpen: 'date-picker__outer--open',
     calendarContainer: 'date-picker',
     calendarContainerInline: 'date-picker--inline',
     toggleButton: 'date-picker__button',
@@ -499,6 +500,22 @@ export default Ember.Component.extend({
    * @private
    */
   translateX: null,
+
+  /**
+   * Add a class to the container if the date picker is open.
+   * This is used to set position=relative & give a z-index to the container.
+   *
+   * @property classIsOpen
+   * @type {String}
+   * @readOnly
+   * @private
+   */
+  classIsOpen: computed('_isOpen', 'classes.calendarContainerOuterOpen', function() {
+    if (get(this, '_isOpen')) {
+      return get(this, 'classes.calendarContainerOuterOpen');
+    }
+    return false;
+  }),
   // PROPERTIES END ----------------------------------------
 
   // HOOKS BEGIN ----------------------------------------

@@ -2,6 +2,11 @@
   display: inline-block;
 }
 
+.date-picker__outer--open {
+  position: relative;
+  z-index: 2;
+}
+
 .date-picker {
   position: absolute;
   width: 300px;
