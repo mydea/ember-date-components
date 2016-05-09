@@ -53,7 +53,7 @@ export default Ember.Component.extend({
 
   /**
    * The maximum date that can be selected.
-   * No date afteris date will be selectable.
+   * No date after this date will be selectable.
    * It will also be impossible to move to months/years outside of the provided bounds.
    *
    * @attribute maxDate

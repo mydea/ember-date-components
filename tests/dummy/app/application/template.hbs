@@ -1,0 +1,36 @@
+{{title 'ember-date-components'}}
+
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <div class="navbar-toggle-wrapper visible-xs">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".js-navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      {{#link-to 'index' class="navbar-brand"}}ember-date-components{{/link-to}}
+    </div>
+    <div class="collapse navbar-collapse js-navbar-collapse">
+      <ul class="navbar-nav nav">
+        <li>
+          {{#link-to 'index'}}
+            Getting Started
+          {{/link-to}}
+        </li>
+      </ul>
+      <ul class="navbar-nav nav navbar-right">
+        <li>
+          <a href="https://github.com/mydea/ember-date-components" target="_blank">
+            View on Github
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container">
+  {{outlet}}
+</div>
