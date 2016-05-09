@@ -107,6 +107,7 @@ export default Ember.Component.extend({
     updateDateFrom(date) {
       set(this, 'dateFrom', date);
       set(this, 'isToStep', true);
+      this._sendAction();
     },
 
     updateDateTo(date) {
@@ -116,5 +117,5 @@ export default Ember.Component.extend({
     }
   }
 
-  // ACTIONSD END ----------------------------------------
+  // ACTIONS END ----------------------------------------
 });
