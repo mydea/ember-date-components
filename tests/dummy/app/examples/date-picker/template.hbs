@@ -1,0 +1,19 @@
+{{title 'date-picker'}}
+
+<h1>Date Picker Example</h1>
+
+<h2>Default</h2>
+{{date-picker action=(action 'updateDate1')}}
+<div id="date1-output">
+  {{#if date1}}
+    {{moment-format date1 'L'}}
+  {{/if}}
+</div>
+
+<h2>With pre-selected date</h2>
+{{date-picker value=date2 action=(action 'updateDate2')}}
+<div id="date2-output">
+  {{#if date2}}
+    {{moment-format date2 'L' locale='en'}}
+  {{/if}}
+</div>
