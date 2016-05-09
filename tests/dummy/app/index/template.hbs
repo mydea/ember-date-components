@@ -1,24 +1,42 @@
-<div class="wrapper">
-  <h2>Default</h2>
-  {{date-picker action=(action 'updateDate')}}
+{{title 'An Ember add-on which provides pure Ember-based date picker components.'}}
+
+<div class="jumbotron text-center">
+  <h1>ember-site-tour</h1>
+  <p>
+    An Ember add-on which provides pure Ember-based date picker components.
+  </p>
+
+  <p>
+    {{#code-inline language='bash'}}ember install ember-date-components{{/code-inline}}
+  </p>
+
+  <p>
+    {{date-picker placeholder='Select a date...' action=(action 'updateDate')}}
+  </p>
+
+  <p>
+    {{#link-to 'date-picker-component' class="btn btn-primary btn-lg"}}
+      date-picker Documentation
+    {{/link-to}}
+  </p>
 </div>
 
-<div class="wrapper">
-  <h2>Inline</h2>
-  {{date-picker inline=true action=(action 'updateDate')}}
-</div>
+<h2>General</h2>
+<p>
+  All provided date components are based on <a href="http://momentjs.com/" target="_blank">moment.js</a>.
+  This means that all input and output dates are moment.js date objects. This is the only dependency for this add-on!
+</p>
 
-<div class="wrapper">
-  <h2>With start value</h2>
-  {{date-picker value=date2.value action=(action 'updateDate')}}
-</div>
+<h2>Date Picker Usage</h2>
+{{date-picker action=(action 'updateDate')}}
+{{#code-block language='handlebars'}}\{{date-picker action=(action 'updateDate')}}{{/code-block}}
+<p>
+  {{#link-to 'date-picker-component'}}More about date-picker{{/link-to}}
+</p>
 
-<div class="wrapper">
-  <h2>With min & max value</h2>
-  {{date-picker minDate=date3.min maxDate=date3.max action=(action 'updateDate')}}
-</div>
-
-<div class="wrapper">
-  <h2>Date Range Picker</h2>
-  {{date-range-picker action=(action 'updateDateRange')}}
-</div>
+<h2>Date Range Picker Usage</h2>
+{{date-range-picker action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-range-picker action=(action 'updateDateRange')}}{{/code-block}}
+<p>
+  {{#link-to 'date-range-picker-component'}}More about date-range-picker{{/link-to}}
+</p>

@@ -10,14 +10,83 @@ const {
 export default Ember.Component.extend({
   layout,
 
+  // ATTRIBUTES BEGIN ----------------------------------------
+
+  /**
+   * The default min. date.
+   *
+   * @attribute dateFrom
+   * @type {Date}
+   * @default null
+   * @public
+   */
   dateFrom: null,
+
+  /**
+   * The default max. date.
+   *
+   * @attribute dateTo
+   * @type {Date}
+   * @default null
+   * @public
+   */
   dateTo: null,
 
-  isToStep: false,
-
+  /**
+   * The placeholder for the from step.
+   *
+   * @attribute placeholderFrom
+   * @type {String}
+   * @default 'Select From...'
+   * @public
+   */
   placeholderFrom: 'Select From...',
+
+  /**
+   * The placeholder for the to step.
+   *
+   * @attribute placeholderTo
+   * @type {String}
+   * @default 'Select To...'
+   * @public
+   */
   placeholderTo: 'Select To...',
 
+  /**
+   * The action to call whenever one of the value changes.
+   *
+   * @event action
+   * @param {Date} dateFrom The selected from date (or null if empty)
+   * @param {Date} dateTo The selected to date (or null if empty)
+   * @public
+   */
+  action: null,
+
+  // ATTRIBUTES END ----------------------------------------
+
+  // PROPERTIES BEGIN ----------------------------------------
+
+  /**
+   * If the current step is the to-step.
+   * This is used for moving between the steps.
+   *
+   * @property isToStep
+   * @type {Boolean}
+   * @default false
+   * @private
+   */
+  isToStep: false,
+
+  // PROPERTIES END ----------------------------------------
+
+  // METHODS BEGIN ----------------------------------------
+
+  /**
+   * Actually send the action.
+   *
+   * @method _sendAction
+   * @private
+   */
   _sendAction() {
     let action = get(this, 'attrs.action');
     let {
@@ -30,14 +99,9 @@ export default Ember.Component.extend({
     }
   },
 
-  _openPicker() {
-    set(this, 'isOpen', true);
-  },
+  // METHODS END ----------------------------------------
 
-  _closePicker() {
-    set(this, 'isOpen', false);
-    set(this, 'isToStep', false);
-  },
+  // ACTIONS BEGIN ----------------------------------------
 
   actions: {
     updateDateFrom(date) {
@@ -49,7 +113,8 @@ export default Ember.Component.extend({
       set(this, 'dateTo', date);
       set(this, 'isToStep', false);
       this._sendAction();
-      this._closePicker();
     }
   }
+
+  // ACTIONSD END ----------------------------------------
 });

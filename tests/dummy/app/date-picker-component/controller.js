@@ -13,10 +13,8 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    updateDate() {
-    },
-    updateDateRange() {
+    updateDate(date) {
+      console.log(date);
     }
-
   }
 });

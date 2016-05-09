@@ -6754,3 +6754,12 @@ button.close {
 .logo {
   margin-top: 20px;
 }
+
+.no-wrap,
+:not(pre) > code[class*="language-"].no-wrap {
+  white-space: nowrap;
+}
+
+pre[class*="language-"] {
+  padding: 0.5em;
+}
