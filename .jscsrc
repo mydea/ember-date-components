@@ -1,4 +1,3 @@
 {
-  "preset": "ember-suave",
-  "disallowSpacesInFunction": null
+  "preset": "ember-suave"
 }

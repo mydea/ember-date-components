@@ -20,11 +20,12 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
     "ember-bootstrap": "0.7.0",
-    "ember-cli": "2.4.3",
+    "ember-cli": "2.5.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
+    "ember-cli-moment-shim": "1.1.0",
     "ember-cli-qunit": "^1.4.0",
     "ember-cli-release": "0.2.8",
     "ember-cli-sass": "5.3.1",
@@ -34,12 +35,13 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
+    "ember-moment": "6.1.0",
     "ember-page-title": "3.0.1",
     "ember-prism": "0.0.7",
     "ember-resolver": "^2.0.3",
     "ember-suave": "2.0.1",
     "ember-try": "^0.2.2",
-    "loader.js": "^4.0.1"
+    "loader.js": "^4.0.4"
   },
   "keywords": [
     "ember-addon",
@@ -50,9 +52,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
-    "ember-cli-htmlbars": "^1.0.3",
-    "ember-moment": "6.1.0",
-    "ember-cli-moment-shim": "1.1.0"
+    "ember-cli-htmlbars": "^1.0.5"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

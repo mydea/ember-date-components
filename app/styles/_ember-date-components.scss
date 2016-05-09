@@ -1,34 +1,18 @@
-$font-size: 16px;
-$font-family: Helvetica, Arial, sans-serif;
-$border-radius: 3px;
-$border-color: #ddd;
-$color-primary: #2ecc71;
-$color-button: #eee;
-$color-button-hover: #ddd;
-
-body {
-  background: #eee;
-}
-
-.date-picker__outer {
-  display: inline-block;
-}
+$font-size: 16px !default;
+$font-family: Helvetica, Arial, sans-serif !default;
+$border-radius: 3px !default;
+$border-color: #ddd !default;
+$color-primary: #2ecc71 !default;
+$color-button: #eee !default;
+$color-button-hover: #ddd !default;
 
 .date-picker {
-  position: absolute;
   width: 300px;
   background: #fff;
   box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
   border-radius: $border-radius;
   font-size: $font-size;
   font-family: $font-family;
-  z-index: 2;
-}
-
-.date-picker--inline {
-  position: relative;
-  vertical-align: top;
-  z-index: 1;
 }
 
 .date-picker__button {
@@ -38,31 +22,20 @@ body {
   min-width: 100px;
 }
 
-.date-picker__month__header {
-  font-size: 0;
-}
-
 .date-picker__month__button,
 .date-picker__month__current,
 .date-picker__year__current {
-  display: inline-block;
   padding: 10px 0;
   font-size: $font-size;
-  text-align: center;
 }
 
 .date-picker__month__button {
-  width: 20%;
-  border: 0;
-  box-shadow: none;
   background: $color-button;
-  cursor: pointer;
   transition: background 0.2s ease-in-out;
 
   &:hover,
   &:focus {
     background: $color-button-hover;
-    outline: none;
   }
 }
 
@@ -76,69 +49,16 @@ body {
 
 .date-picker__month__button--disabled {
   opacity: 0.6;
-  cursor: auto;
 
   &:hover,
   &:focus {
     background: $color-button;
-    outline: none;
   }
-}
-
-.date-picker__month__current__select,
-.date-picker__year__current {
-  box-sizing: border-box;
-  cursor: pointer;
-  border: 0;
-  box-shadow: 0;
-  background: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.date-picker__month__current {
-  position: relative;
-  width: 40%;
-}
-
-.date-picker__month__current__select {
-  width: 100%;
-}
-
-.date-picker__month__current__display {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding: 10px 0;
-  text-align: center;
-  background: #fff;
-  pointer-events: none;
-}
-
-.date-picker__year__current {
-  width: 20%;
-  padding-left: 5px;
-}
-
-.date-picker__calendar__days,
-.date-picker__header {
-  font-size: 0;
 }
 
 .date-picker__day,
 .date-picker__header__weekday {
-  display: inline-block;
-  width: (100% / 7);
   font-size: $font-size;
-  text-align: center;
 }
 
 .date-picker__header {
@@ -151,14 +71,9 @@ body {
 }
 
 .date-picker__day {
-  border: 0;
   border-top: 1px solid $border-color;
   border-right: 1px solid $border-color;
   padding: 3px 0;
-  background: none;
-  box-shadow: none;
-  cursor: pointer;
-  transition: background-color 0.1s ease-out;
 
   &:nth-child(7n) {
     border-right: 0;
@@ -166,7 +81,6 @@ body {
 
   &:hover,
   &:focus {
-    outline: none;
     background-color: mix($color-primary, #fff, 20%);
   }
 }
@@ -185,21 +99,13 @@ body {
 
   &:hover,
   &:focus {
-    outline: none;
     background: $color-primary;
   }
 }
 
 .date-picker__day--today {
-  position: relative;
 
   &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     border: 1px solid $color-primary;
   }
 }

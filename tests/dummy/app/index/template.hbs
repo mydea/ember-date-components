@@ -21,10 +21,12 @@
   </p>
 </div>
 
-<h2>General</h2>
+<h2>Dependencies</h2>
 <p>
   All provided date components are based on <a href="http://momentjs.com/" target="_blank">moment.js</a>.
-  This means that all input and output dates are moment.js date objects. This is the only dependency for this add-on!
+  This means that all input and output dates are moment.js date objects. You need to
+  {{#code-inline language='bash'}}ember install ember-moment{{/code-inline}}
+  separately for this add-on.
 </p>
 
 <h2>Date Picker Usage</h2>
@@ -39,4 +41,45 @@
 {{#code-block language='handlebars'}}\{{date-range-picker action=(action 'updateDateRange')}}{{/code-block}}
 <p>
   {{#link-to 'date-range-picker-component'}}More about date-range-picker{{/link-to}}
+</p>
+
+<h2>Configuration</h2>
+
+<p>
+  There isn't any configuration needed. A basic stylesheet will be included, unless you opt out of it:
+</p>
+
+{{#code-block language='javascript'}}// ember-cli-build.js
+// ...
+var app = new EmberApp({
+  'ember-date-components': {
+    'importCSS': false
+  }
+});
+// ...{{/code-block}}
+
+<p>
+  This will only include some basic styling for the layout. You are encouraged to overwrite the styles to fit your app.
+  If you use Sass, you can also import a provided partial with more styles:
+</p>
+
+{{#code-block language='scss'}}@import "ember-date-components";{{/code-block}}
+
+<p>
+  This partial uses a few variables that you can set:
+</p>
+
+{{#code-block language='scss'}}$font-size: 16px !default;
+$font-family: Helvetica, Arial, sans-serif !default;
+$border-radius: 3px !default;
+$border-color: #ddd !default;
+$color-primary: #2ecc71 !default;
+$color-button: #eee !default;
+$color-button-hover: #ddd !default;
+
+@import "ember-date-components";{{/code-block}}
+
+<p>
+  Note that this partial is built on top of the basic stylesheet, not instead of it, so you shouldn't opt out of it
+  if you use the Sass partial.
 </p>
