@@ -1,5 +1,5 @@
 {{#unless inline}}
-  <button class={{classes.toggleButton}} {{action 'toggleOpen'}}>
+  <button class={{classes.toggleButton}} {{action 'toggleOpen'}}  data-test="datepicker-toggle-button">
     {{#if selectedDate}}
       {{moment-format selectedDate localization.dateFormat}}
     {{else}}
@@ -8,20 +8,24 @@
   </button>
 {{/unless}}
 {{#if showCalendar}}
-  <div class="{{classes.calendarContainer}} {{if inline classes.calendarContainerInline}}" style={{translateX}}>
+  <div class="{{classes.calendarContainer}} {{if inline classes.calendarContainerInline}}"
+       style={{translateX}}  data-test="datepicker-calendar">
     <div class={{classes.monthHeader}}>
       <button {{action 'gotoPreviousMonth'}}
+          data-test="datepicker-goto-previous-month"
           class="{{classes.monthButton}}
             {{classes.monthButtonPrevious}}
             {{unless canGotoPreviousMonth classes.monthButtonDisabled}}">
-        &lt; {{moment-format previousMonth localization.monthShortFormat}}
+        &lt;
+        {{moment-format previousMonth localization.monthShortFormat}}
       </button>
 
       <div class={{classes.monthCurrent}}>
         <div class={{classes.monthCurrentDisplay}}>
           {{moment-format currentMonth localization.monthLongFormat}}
         </div>
-        <select class={{classes.monthCurrentSelect}} onchange={{action 'gotoMonth' value='target.value'}}>
+        <select class={{classes.monthCurrentSelect}} onchange={{action 'gotoMonth' value='target.value'}}
+                data-test="datepicker-select-month">
           {{#each availableMonths as |date|}}
             <option value={{moment-format date 'M'}} selected={{is-equal-month currentMonth date}}>
               {{moment-format date localization.monthLongFormat}}
@@ -30,7 +34,8 @@
         </select>
       </div>
 
-      <select class={{classes.yearCurrent}} onchange={{action 'gotoYear' value='target.value'}}>
+      <select class={{classes.yearCurrent}} onchange={{action 'gotoYear' value='target.value'}}
+              data-test="datepicker-select-year">
         {{#each availableYears as |date|}}
           <option value={{moment-format date 'YYYY'}} selected={{is-equal-year currentYear date}}>
             {{moment-format date 'YYYY'}}
@@ -39,10 +44,12 @@
       </select>
 
       <button {{action 'gotoNextMonth'}}
+          data-test="datepicker-goto-next-month"
           class="{{classes.monthButton}}
             {{classes.monthButtonNext}}
             {{unless canGotoNextMonth classes.monthButtonDisabled}}">
-        {{moment-format nextMonth localization.monthShortFormat}} &gt;
+        {{moment-format nextMonth localization.monthShortFormat}}
+        &gt;
       </button>
     </div>
     <div class={{classes.calendarOuter}}>
@@ -58,7 +65,9 @@
 
       <div class={{classes.calendarInner}}>
         {{#each daysInMonth as |date|}}
-          <button class={{date-picker-day-classes classes.day isDisabled=date.disabled isInactive=date.notInCurrentMonth isToday=(is-equal-day date.date today) isSelected=(is-equal-day date.date selectedDate)}}
+          <button
+              data-test="day-{{date.month}}-{{date.day}}"
+              class={{date-picker-day-classes classes.day isDisabled=date.disabled isInactive=date.notInCurrentMonth isToday=(is-equal-day date.date today) isSelected=(is-equal-day date.date selectedDate)}}
             {{action 'selectDateString' date.dateString date.disabled}}>
             {{date.day}}
           </button>
