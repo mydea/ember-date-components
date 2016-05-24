@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
-export function datePickerDayClasses([baseClass], { isToday=false, isSelected=false, isDisabled=false, isInactive=false }) {
+export function datePickerDayClasses([baseClass], { isToday=false, isSelected=false, isDisabled=false, isInRange=false }) {
   let isTodayClass = isToday ? ` ${baseClass}--today` : '';
   let isSelectedClass = isSelected ? ` ${baseClass}--selected` : '';
   let isDisabledClass = isDisabled ? ` ${baseClass}--disabled` : '';
-  let isInactiveClass = isInactive ? ` ${baseClass}--inactive` : '';
+  let isInRangeClass = isInRange ? ` ${baseClass}--in-range` : '';
 
-  return `${baseClass}${isTodayClass}${isSelectedClass}${isDisabledClass}${isInactiveClass}`;
+  return `${baseClass}${isTodayClass}${isSelectedClass}${isDisabledClass}${isInRangeClass}`;
 }
 
 export default Ember.Helper.helper(datePickerDayClasses);
