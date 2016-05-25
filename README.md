@@ -1,6 +1,7 @@
 # ember-date-components
 
 [![Build Status](https://travis-ci.org/mydea/ember-date-components.svg?branch=master)](https://travis-ci.org/mydea/ember-date-components)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-date-components.svg)](https://emberobserver.com/addons/ember-date-components)
 
 An Ember add-on which provides pure Ember-based date picker components.
 
