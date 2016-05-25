@@ -55,7 +55,7 @@ test('default value is not muted after change of date', function(assert) {
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 });
 
-/*test('value updates if bound value changes', function(assert) {
+test('value updates if bound value changes', function(assert) {
   let date = moment();
   this.set('defaultDate', date);
   this.render(hbs`{{date-picker value=defaultDate}}`);
@@ -66,9 +66,9 @@ test('default value is not muted after change of date', function(assert) {
     this.set('defaultDate', date);
   });
   assert.equal(this.$().find('[data-test="date-picker-toggle-button"]').text().trim(), date.format('L'), 'value in date picker is updated.');
-});*/
+});
 
-/*test('date picker shows month of value if set', function(assert) {
+test('date picker shows month of value if set', function(assert) {
   let date = moment().add(2, 'months');
   this.set('defaultDate', date);
   this.render(hbs`{{date-picker value=defaultDate}}`);
@@ -79,4 +79,4 @@ test('default value is not muted after change of date', function(assert) {
     this.set('defaultDate', date);
   });
   assert.equal(this.$().find('[data-test="date-picker-toggle-button"]').text().trim(), date.format('L'), 'value in date picker is updated.');
-});*/
+});

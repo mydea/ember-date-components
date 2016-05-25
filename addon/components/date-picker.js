@@ -237,6 +237,11 @@ export default Ember.Component.extend({
 
   // HOOKS BEGIN ----------------------------------------
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this._setupValue();
+  },
+
   willDestroyElement() {
     this._super(...arguments);
     this._destroyOutsideListener();
@@ -246,7 +251,14 @@ export default Ember.Component.extend({
 
   // METHODS BEGIN ----------------------------------------
 
-  init() {
+  /**
+   * Setup the value.
+   * This is called on didReceiveAttrs and transforms the given value into an array which can be used by this component.
+   *
+   * @method _setupValue
+   * @private
+   */
+  _setupValue() {
     let val = get(this, 'value');
     let isRange = get(this, 'range');
 
@@ -274,8 +286,6 @@ export default Ember.Component.extend({
     } else if (val.length === 0 && isRange) {
       val.pushObjects([null, null]);
     }
-
-    this._super(...arguments);
   },
 
   /**
