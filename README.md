@@ -16,8 +16,10 @@ An Ember add-on which provides pure Ember-based date picker components.
 ```
 
 ```hbs
-{{date-range-picker action=(action 'updateDateRange')}}
+{{date-picker range=true action=(action 'updateDateRange')}}
 ```
+
+The date picker can also display custom options, e.g. 'Last 7 days'.
 
 For more detailed instructions and examples,
 please visit the [documentation](http://mydea.github.io/ember-date-components/).
