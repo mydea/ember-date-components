@@ -537,6 +537,7 @@ export default Ember.Component.extend({
    */
   _close() {
     set(this, 'isOpen', false);
+    set(this, 'isToStep', false);
 
     let action = get(this, 'attrs.closeAction');
     let vals = get(this, '_dates');
