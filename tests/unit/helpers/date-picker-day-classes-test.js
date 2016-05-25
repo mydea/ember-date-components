@@ -16,10 +16,10 @@ test('all settings work together', function(assert) {
     isToday: true,
     isSelected: true,
     isDisabled: true,
-    isInactive: true
+    isInRange: true
   };
   let result = datePickerDayClasses([baseClass], options);
-  assert.equal(result, 'base base--today base--selected base--disabled base--inactive');
+  assert.equal(result, 'base base--today base--selected base--disabled base--in-range');
 });
 
 test('skipped settings default to false', function(assert) {

@@ -1,4 +1,7 @@
-<button class="date-picker__button {{buttonClasses}}{{if range ' date-picker__button--range'}}" {{action 'toggleOpen'}}>
+<button
+  class="date-picker__button {{buttonClasses}}{{if range ' date-picker__button--range'}}"
+  data-test="date-picker-toggle-button"
+  {{action 'toggleOpen'}}>
   {{buttonText}}
 </button>
 
