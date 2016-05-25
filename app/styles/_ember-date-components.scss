@@ -167,3 +167,24 @@ $date-picker-color-background: #eee !default;
   background-color: lighten($date-picker-color-primary, 10%);
   color: white;
 }
+
+.date-picker--options {
+  white-space: nowrap;
+}
+
+.date-picker--options .date-picker__calendar {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.date-picker__options {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+}
+
+.date-picker__options__button {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px 0;
+}

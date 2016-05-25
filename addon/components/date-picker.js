@@ -107,6 +107,18 @@ export default Ember.Component.extend({
   buttonDateFormat: 'L',
 
   /**
+   * If custom options should be displayed.
+   * If this is true, the default options for date-pickers/date-range-pickers will be shown.
+   * It can also be an array, where the exact options are specified.
+   *
+   * @attribute options
+   * @type {Boolean|Array}
+   * @default false
+   * @public
+   */
+  options: false,
+
+  /**
    * The action to call whenever one of the value changes.
    *
    * @event action
@@ -219,7 +231,12 @@ export default Ember.Component.extend({
    * @default 280
    * @private
    */
-  calendarWidth: 280,
+  calendarWidth: computed('options', function() {
+    let baseWidth = 280;
+    let optionWidth = 140;
+
+    return get(this, 'options') ? baseWidth + optionWidth : baseWidth;
+  }),
 
   /**
    * This string is built to fix the offset of the component.
@@ -232,6 +249,117 @@ export default Ember.Component.extend({
    * @private
    */
   translateX: null,
+
+  /**
+   * These are the parsed options.
+   * String/default options are converted into actual option objects via _optionsMap.
+   *
+   * @property _options
+   * @type {Object[]}
+   * @readOnly
+   * @private
+   */
+  _options: computed('options.[]', function() {
+    let options = get(this, 'options');
+    let isRange = get(this, 'range');
+    let optionsMap = get(this, '_optionsMap');
+
+    if (!options) {
+      return Ember.A();
+    }
+
+    // If options is true, return the default options depending on isRange
+    if (Ember.typeOf(options) !== 'array') {
+      options = isRange ? get(this, '_defaultDateRangeOptions') : get(this, '_defaultDateOptions');
+    }
+
+    return options.map((option) => {
+      return Ember.typeOf(option) === 'string' ? optionsMap[option] : option;
+    });
+  }),
+
+  /**
+   * This maps how option names are mapped to actual options.
+   * You can overwrite this if you want to have different option shortcuts.
+   *
+   * @property _optionsMap
+   * @type {Object}
+   * @private
+   */
+  _optionsMap: {
+    'clear': {
+      action: 'clearDate',
+      label: 'Clear'
+    },
+    'today': {
+      action: 'selectToday',
+      label: 'Today'
+    },
+    'last7Days': {
+      action: 'selectDateRange',
+      label: 'Last 7 days',
+      actionValue: [moment().startOf('day').subtract(6, 'days'), moment().startOf('day')]
+    },
+    'last30Days': {
+      action: 'selectDateRange',
+      label: 'Last 30 days',
+      actionValue: [moment().startOf('day').subtract(29, 'days'), moment().startOf('day')]
+    },
+    'lastYear': {
+      action: 'selectDateRange',
+      label: 'Last year',
+      actionValue: [moment().startOf('day').subtract(1, 'year').add(1, 'day'), moment().startOf('day')]
+    },
+    'last3Months': {
+      action: 'selectDateRange',
+      label: 'Last 3 months',
+      actionValue: [moment().startOf('day').subtract(3, 'months').add(1, 'day'), moment().startOf('day')]
+    },
+    'last6Months': {
+      action: 'selectDateRange',
+      label: 'Last 6 months',
+      actionValue: [moment().startOf('day').subtract(6, 'months').add(1, 'day'), moment().startOf('day')]
+    },
+    'thisWeek': {
+      action: 'selectDateRange',
+      label: 'This week',
+      actionValue: [moment().startOf('isoweek'), moment().startOf('day')]
+    },
+    'thisMonth': {
+      action: 'selectDateRange',
+      label: 'This month',
+      actionValue: [moment().startOf('month'), moment().startOf('day')]
+    }
+  },
+
+  /**
+   * The default options for date pickers.
+   * You can overwrite this if you want different default options.
+   *
+   * @property _defaultDateOptions
+   * @type {Array}
+   * @private
+   */
+  _defaultDateOptions: Ember.A([
+    'clear',
+    'today'
+  ]),
+
+  /**
+   * The default options for date range pickers.
+   * you can overwrite this if you want different default options.
+   *
+   * @property _defaultDateRangeOptions
+   * @type {Array}
+   * @private
+   */
+  _defaultDateRangeOptions: Ember.A([
+    'clear',
+    'today',
+    'last7Days',
+    'last30Days',
+    'last3Months'
+  ]),
 
   // PROPERTIES END ----------------------------------------
 
@@ -419,7 +547,7 @@ export default Ember.Component.extend({
 
   actions: {
 
-    clear() {
+    clearDate() {
       set(this, '_dates', Ember.A());
       set(this, 'isToStep', false);
       this._sendAction();
@@ -435,7 +563,7 @@ export default Ember.Component.extend({
       }
 
       this._sendAction();
-      this.close();
+      this._close();
     },
 
     toggleOpen() {
@@ -456,7 +584,7 @@ export default Ember.Component.extend({
       set(this, 'currentMonth', month.clone().subtract(1, 'month'));
     },
 
-    updateDate(date) {
+    selectDate(date) {
       let isRange = get(this, 'range');
 
       if (!isRange) {
@@ -466,6 +594,13 @@ export default Ember.Component.extend({
       }
 
       this._sendAction();
+    },
+
+    selectDateRange(dates) {
+      set(this, '_dates', Ember.A(dates));
+
+      this._sendAction();
+      this._close();
     }
   }
 

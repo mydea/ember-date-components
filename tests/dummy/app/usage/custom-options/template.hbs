@@ -1,0 +1,88 @@
+{{title 'Custom Options'}}
+
+<h1>Custom Options</h1>
+
+<p>
+  The date picker can show custom options by setting
+  {{#code-inline language='javascript'}}options=true{{/code-inline}}.
+  This will extend the date picker to show quick select buttons for often used date (-range) values.
+</p>
+
+<h2>Default options for date picker</h2>
+{{date-picker options=true action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-picker options=true action=(action 'updateDate')}}{{/code-block}}
+
+<h2>Default options for date range picker</h2>
+{{date-picker options=true range=true action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-picker options=true range=true action=(action 'updateDateRange')}}{{/code-block}}
+
+<h2>Custom options for date range picker</h2>
+<p>
+  You can also specify which options should be visible. The following options are built-in:
+</p>
+
+{{#code-block language='javascript'}}{
+  'clear': {
+    action: 'clearDate',
+    label: 'Clear'
+  },
+  'today': {
+    action: 'selectToday',
+    label: 'Today'
+  },
+  'last7Days': {
+    action: 'selectDateRange',
+    label: 'Last 7 days',
+    actionValue: [moment().startOf('day').subtract(6, 'days'), moment().startOf('day')]
+  },
+  'last30Days': {
+    action: 'selectDateRange',
+    label: 'Last 30 days',
+    actionValue: [moment().startOf('day').subtract(29, 'days'), moment().startOf('day')]
+  },
+  'lastYear': {
+    action: 'selectDateRange',
+    label: 'Last year',
+    actionValue: [moment().startOf('day').subtract(1, 'year').add(1, 'day'), moment().startOf('day')]
+  },
+  'last3Months': {
+    action: 'selectDateRange',
+    label: 'Last 3 months',
+    actionValue: [moment().startOf('day').subtract(3, 'months').add(1, 'day'), moment().startOf('day')]
+  },
+  'last6Months': {
+    action: 'selectDateRange',
+    label: 'Last 6 months',
+    actionValue: [moment().startOf('day').subtract(6, 'months').add(1, 'day'), moment().startOf('day')]
+  },
+  'thisWeek': {
+    action: 'selectDateRange',
+    label: 'This week',
+    actionValue: [moment().startOf('isoweek'), moment().startOf('day')]
+  },
+  'thisMonth': {
+    action: 'selectDateRange',
+    label: 'This month',
+    actionValue: [moment().startOf('month'), moment().startOf('day')]
+  }
+}{{/code-block}}
+
+<p>
+  You can also specify custom options. Options also take a <i>classes</i> property, which will be appended to the button.
+  An example configuration could be:
+</p>
+
+{{#code-block language='javascript'}}let myOptions = [
+  'clear',
+  'today',
+  'thisWeek',
+  {
+    action: 'selectDateRange',
+    label: 'Last 3 days',
+    actionValue: [moment().startOf('day').subtract(2, 'days'), moment().startOf('day')],
+    classes: 'my-custom-class other-class'
+  }
+];{{/code-block}}
+
+{{date-picker options=myOptions range=true action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-picker options=myOptions range=true action=(action 'updateDateRange')}}{{/code-block}}

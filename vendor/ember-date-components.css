@@ -89,10 +89,6 @@
   font-size: 0.9em;
 }
 
-.date-picker__calendar {
-  border-radius: 3px;
-}
-
 .date-picker__day {
   border: 0;
   box-shadow: none;
@@ -160,4 +156,25 @@
 .date-picker__day--in-range {
   background-color: #66afe9;
   color: white;
+}
+
+.date-picker--options {
+  white-space: nowrap;
+}
+
+.date-picker--options .date-picker__calendar {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.date-picker__options {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+}
+
+.date-picker__options__button {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px 0;
 }

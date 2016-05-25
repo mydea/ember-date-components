@@ -6,28 +6,41 @@
 </button>
 
 {{#if isOpen}}
-  <div class="date-picker" style={{translateX}}>
-    <div class="date-picker__header">
+  <div class="date-picker{{if options ' date-picker--options'}}" style={{translateX}}>
+    <div class="date-picker__calendar">
+      <div class="date-picker__header">
 
-      <button class="date-picker__header__button date-picker__header__button--previous" {{action 'gotoPreviousMonth'}}>
-        &lt;
-      </button>
+        <button
+          class="date-picker__header__button date-picker__header__button--previous" {{action 'gotoPreviousMonth'}}>
+          &lt;
+        </button>
 
-      <button class="date-picker__header__button date-picker__header__button--next" {{action 'gotoNextMonth'}}>
-        &gt;
-      </button>
+        <button class="date-picker__header__button date-picker__header__button--next" {{action 'gotoNextMonth'}}>
+          &gt;
+        </button>
 
-      <div class="date-picker__header__title">
-        {{moment-format currentMonth 'MMMM YYYY'}}
+        <div class="date-picker__header__title">
+          {{moment-format currentMonth 'MMMM YYYY'}}
+        </div>
+
       </div>
 
+      {{date-picker-month
+      month=currentMonth
+      selectedDates=selectedDates
+      selectDate=(action 'selectDate')
+      minDate=minDate
+      maxDate=maxDate}}
     </div>
 
-    {{date-picker-month
-    month=currentMonth
-    selectedDates=selectedDates
-    selectDate=(action 'updateDate')
-    minDate=minDate
-    maxDate=maxDate}}
+    {{#if options}}
+      <div class="date-picker__options">
+        {{#each _options as |option|}}
+          <button {{action option.action option.actionValue}} class="date-picker__options__button {{option.classes}}">
+            {{option.label}}
+          </button>
+        {{/each}}
+      </div>
+    {{/if}}
   </div>
 {{/if}}
