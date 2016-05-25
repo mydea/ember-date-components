@@ -579,6 +579,7 @@ export default Ember.Component.extend({
     let [dateFrom, dateTo] = get(this, '_dates');
     let isToStep = get(this, 'isToStep');
     let vals;
+    let close = false;
 
     if (!isToStep) {
       if (dateTo && date.valueOf() > dateTo.valueOf()) {
@@ -592,11 +593,14 @@ export default Ember.Component.extend({
       } else {
         vals = Ember.A([dateFrom, date]);
       }
-      this._close();
+      close = true;
     }
 
     this.toggleProperty('isToStep');
     set(this, '_dates', vals);
+    if (close) {
+      this._close();
+    }
     return vals;
   },
 
