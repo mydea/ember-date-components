@@ -9,9 +9,8 @@ export default Ember.Controller.extend({
     max: moment().add(20, 'days')
   },
 
-
   actions: {
-    updateValue(vals) {
+    updateDateRange(vals) {
       console.log(vals);
     }
   }

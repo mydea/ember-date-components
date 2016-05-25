@@ -1,0 +1,18 @@
+{{title 'Date Range Picker'}}
+
+<h1>Date Range Picker</h1>
+
+<p>
+  The date picker can also be used as a date range picker by setting
+  {{#code-inline language='javascript'}}range=true{{/code-inline}}.
+  This will change the behavior of the date picker to select a range instead of a single date.
+</p>
+
+<p>
+  Date Range Pickers will receive an array as parameter for their action. This array has two elements, the first is the
+  fromDate and the second is the toDate. Both of these can be either a moment.js-Date or null.
+</p>
+
+<h2>Basic Usage</h2>
+{{date-picker range=true action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-picker range=true action=(action 'updateDateRange')}}{{/code-block}}

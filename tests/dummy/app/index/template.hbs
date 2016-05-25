@@ -1,7 +1,7 @@
 {{title 'An Ember add-on which provides pure Ember-based date picker components.'}}
 
 <div class="jumbotron text-center">
-  <h1>ember-site-tour</h1>
+  <h1>ember-date-components</h1>
   <p>
     An Ember add-on which provides pure Ember-based date picker components.
   </p>
@@ -15,7 +15,7 @@
   </p>
 
   <p>
-    {{#link-to 'date-picker-component' class="btn btn-primary btn-lg"}}
+    {{#link-to 'usage.date-picker' class="btn btn-primary btn-lg"}}
       date-picker Documentation
     {{/link-to}}
   </p>
@@ -33,14 +33,18 @@
 {{date-picker action=(action 'updateDate')}}
 {{#code-block language='handlebars'}}\{{date-picker action=(action 'updateDate')}}{{/code-block}}
 <p>
-  {{#link-to 'date-picker-component'}}More about date-picker{{/link-to}}
+  {{#link-to 'usage.date-picker'}}
+    More about Date Picker usage
+  {{/link-to}}
 </p>
 
 <h2>Date Range Picker Usage</h2>
 {{date-picker range=true action=(action 'updateDateRange')}}
 {{#code-block language='handlebars'}}\{{date-picker range=true action=(action 'updateDateRange')}}{{/code-block}}
 <p>
-  {{#link-to 'date-range-picker-component'}}More about date-range-picker{{/link-to}}
+  {{#link-to 'usage.date-range-picker'}}
+    More about Date Range Picker usage
+  {{/link-to}}
 </p>
 
 <h2>Configuration</h2>
@@ -59,8 +63,8 @@ var app = new EmberApp({
 // ...{{/code-block}}
 
 <p>
-  This will only include some basic styling for the layout. You are encouraged to overwrite the styles to fit your app.
-  If you use Sass, you can also import a provided partial with more styles:
+  You are encouraged to overwrite the styles to fit your app.
+  If you use Sass, you can also import a provided partial:
 </p>
 
 {{#code-block language='scss'}}@import "ember-date-components";{{/code-block}}
@@ -70,16 +74,13 @@ var app = new EmberApp({
 </p>
 
 {{#code-block language='scss'}}$font-size: 16px !default;
-$font-family: Helvetica, Arial, sans-serif !default;
 $border-radius: 3px !default;
-$border-color: #ddd !default;
-$color-primary: #2ecc71 !default;
-$color-button: #eee !default;
-$color-button-hover: #ddd !default;
+$date-picker-color-primary: #2ecc71 !default;
+$date-picker-color-secondary: #ccc !default;
+$date-picker-color-background: #eee !default;
 
 @import "ember-date-components";{{/code-block}}
 
 <p>
-  Note that this partial is built on top of the basic stylesheet, not instead of it, so you shouldn't opt out of it
-  if you use the Sass partial.
+  Note that if you use this partial, you set {{#code-inline langauge='javascript'}}importCSS: false{{/code-inline}}.
 </p>

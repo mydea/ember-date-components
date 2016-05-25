@@ -8,8 +8,8 @@ export default Ember.Controller.extend({
   },
 
   date3: {
-    min: moment().subtract(1, 'month'),
-    max: moment().add(1, 'month').add(10, 'days')
+    min: moment().subtract(5, 'days'),
+    max: moment().add(10, 'days')
   },
 
   actions: {
