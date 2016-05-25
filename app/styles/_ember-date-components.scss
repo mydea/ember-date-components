@@ -16,6 +16,7 @@ $date-picker-color-background: #eee !default;
 
 .date-picker {
   position: absolute;
+  margin-top: 1px;
   padding: 15px;
   background: white;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -28,8 +29,8 @@ $date-picker-color-background: #eee !default;
   text-align: center;
 }
 
-.date-picker__button--range {
-  min-width: 180px;
+.date-picker__button--focus {
+  border-color: $date-picker-color-primary;
 }
 
 .date-picker__header {

@@ -74,16 +74,13 @@ export default Ember.Component.extend({
 
   /**
    * The placeholder for the button, if no date is selected.
-   * By default, this will be either 'Select Date...' or 'Select Date Range...'.
    *
    * @attribute placeholder
    * @type {String}
-   * @optional
+   * @default 'Select Date...'
    * @public
    */
-  placeholder: computed('range', function() {
-    return get(this, 'range') ? 'Select Date Range...' : 'Select Date...';
-  }),
+  placeholder: 'Select Date...',
 
   /**
    * Optional classes for the button.
@@ -127,9 +124,28 @@ export default Ember.Component.extend({
    */
   action: null,
 
+  /**
+   * The action to call whenever the date picker is closed.
+   *
+   * @event action
+   * @param {Date|Date[]} date Either a single date (or null) if `range=false`, or an array with two elements if `range=true`.
+   * @public
+   */
+  closeAction: null,
+
   // ATTRIBUTES END ----------------------------------------
 
   // PROPERTIES BEGIN ----------------------------------------
+
+  /**
+   * A separator for the date range buttons.
+   *
+   * @property dateRangeSeparator
+   * @type {String}
+   * @default ' - '
+   * @private
+   */
+  dateRangeSeparator: ' - ',
 
   /**
    * The internal dates. No matter if it is a range or a single date selector,
@@ -172,10 +188,11 @@ export default Ember.Component.extend({
 
   /**
    * The text for the button.
-   * This will either return the placeholder, or the formatted date(s).
+   * This will either return the placeholder, or the formatted date.
    *
    * @property buttonText
    * @type {String}
+   * @readOnly
    * @private
    */
   buttonText: computed('range', '_dates.[]', function() {
@@ -183,7 +200,7 @@ export default Ember.Component.extend({
     let vals = get(this, '_dates') || Ember.A([]);
     let dateFormat = get(this, 'buttonDateFormat');
 
-    let [dateFrom, dateTo] = vals;
+    let [dateFrom] = vals;
 
     if (!isRange) {
       if (!dateFrom) {
@@ -192,11 +209,66 @@ export default Ember.Component.extend({
       return dateFrom.format(dateFormat);
     }
 
-    if (!dateFrom && !dateTo) {
+    if (!dateFrom) {
       return get(this, 'placeholder');
     }
 
-    return `${dateFrom.format(dateFormat)} - ${dateTo ? dateTo.format(dateFormat) : '...'}`;
+    return dateFrom.format(dateFormat);
+  }),
+
+  /**
+   * The text for the to-button.
+   * This is only used for date range pickers.
+   * It will either return the placeholder, or the formatted date.
+   *
+   * @property buttonToText
+   * @type {String}
+   * @readOnly
+   * @private
+   */
+  buttonToText: computed('range', '_dates.[]', function() {
+    let vals = get(this, '_dates') || Ember.A([]);
+    let dateFormat = get(this, 'buttonDateFormat');
+
+    let [,dateTo] = vals;
+
+    if (!dateTo) {
+      return get(this, 'placeholder');
+    }
+
+    return dateTo.format(dateFormat);
+  }),
+
+  /**
+   * If the (first) button is currently focused.
+   *
+   * @property buttonFocused
+   * @type {Boolean}
+   * @readOnly
+   * @private
+   */
+  buttonFocused: computed('range', 'isOpen', 'isToStep', function() {
+    let isRange = get(this, 'range');
+    let isOpen = get(this, 'isOpen');
+    let isToStep = get(this, 'isToStep');
+
+    return isRange ? (isOpen && !isToStep) : (isOpen);
+  }),
+
+  /**
+   * If the to-button is currently focused.
+   *
+   * @property buttonToFocused
+   * @type {Boolean}
+   * @readOnly
+   * @private
+   */
+  buttonToFocused: computed('range', 'isOpen', 'isToStep', function() {
+    let isRange = get(this, 'range');
+    let isOpen = get(this, 'isOpen');
+    let isToStep = get(this, 'isToStep');
+
+    return isRange ? (isOpen && isToStep) : false;
   }),
 
   /**
@@ -371,8 +443,8 @@ export default Ember.Component.extend({
   },
 
   willDestroyElement() {
-    this._super(...arguments);
     this._destroyOutsideListener();
+    this._super(...arguments);
   },
 
   // HOOKS END ----------------------------------------
@@ -465,6 +537,15 @@ export default Ember.Component.extend({
    */
   _close() {
     set(this, 'isOpen', false);
+
+    let action = get(this, 'attrs.closeAction');
+    let vals = get(this, '_dates');
+    let isRange = get(this, 'range');
+
+    if (action) {
+      action(isRange ? vals : vals[0] || null);
+    }
+
     this._destroyOutsideListener();
   },
 
@@ -494,12 +575,16 @@ export default Ember.Component.extend({
    * @private
    */
   _setDateRange(date) {
-    let [dateFrom] = get(this, '_dates');
+    let [dateFrom, dateTo] = get(this, '_dates');
     let isToStep = get(this, 'isToStep');
     let vals;
 
     if (!isToStep) {
-      vals = Ember.A([date, null]);
+      if (dateTo && date.valueOf() > dateTo.valueOf()) {
+        vals = Ember.A([date, null]);
+      } else {
+        vals = Ember.A([date, dateTo || null]);
+      }
     } else {
       if (date.valueOf() < dateFrom.valueOf()) {
         vals = Ember.A([date, dateFrom]);
@@ -524,6 +609,9 @@ export default Ember.Component.extend({
     let $element = this.$();
 
     Ember.$('body').on(`click.${this.elementId}`, (e) => {
+      if (this.get('isDestroyed')) {
+        return;
+      }
       let $target = Ember.$(e.target);
       if (!$target.closest($element).length) {
         this._close();
@@ -567,9 +655,45 @@ export default Ember.Component.extend({
     },
 
     toggleOpen() {
-      if (get(this, 'isOpen')) {
-        this._close();
+      let isOpen = get(this, 'isOpen');
+      let isRange = get(this, 'range');
+      let isToStep = get(this, 'isToStep');
+
+      if (!isRange) {
+        if (isOpen) {
+          this._close();
+        } else {
+          this._open();
+        }
+        return;
+      }
+
+      if (isOpen) {
+        // If it is a range picker, either close it or switch to isToStep=false
+        if (isToStep) {
+          set(this, 'isToStep', false);
+        } else {
+          this._close();
+        }
       } else {
+        this._open();
+      }
+    },
+
+    toggleOpenTo() {
+      let isOpen = get(this, 'isOpen');
+      let isToStep = get(this, 'isToStep');
+
+      if (isOpen) {
+        if (!isToStep) {
+          set(this, 'isToStep', true);
+        } else {
+          this._close();
+        }
+      } else {
+        if (get(this, 'selectedDates.length') > 1) {
+          set(this, 'isToStep', true);
+        }
         this._open();
       }
     },

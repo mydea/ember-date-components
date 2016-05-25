@@ -61,6 +61,23 @@
     </tr>
     <tr>
       <td>
+        closeAction
+      </td>
+      <td>
+       While <i>action</i> will be sent whenever one of the values changes, this action will be called whenever the
+        date-picker is closed. This is especially useful for date range pickers.
+        Has to be an actual action method, not an action name, e.g.
+        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
+        The action will receive the selected (moment.js) date as parameter.
+        If you set {{#code-inline language='javascript'}}range=true{{/code-inline}}, the action will receive
+        an array with 2 elements as parameter.
+      </td>
+      <td>
+        {{#code-inline language='javascript'}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
         minDate
       </td>
       <td>
@@ -98,7 +115,7 @@
         placeholder
       </td>
       <td>
-        The placeholder for the date picker. Defaults to 'Select Date...' or 'Select Date Range...'.
+        The placeholder for the date picker. Defaults to 'Select Date...'.
       </td>
       <td>
         {{#code-inline language='javascript' class="no-wrap"}}'Select Date...'{{/code-inline}}
