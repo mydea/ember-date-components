@@ -11,7 +11,7 @@
   </p>
 
   <p>
-    {{date-picker placeholder='Select a date...' action=(action 'updateDate')}}
+    {{date-picker action=(action 'updateDate')}}
   </p>
 
   <p>
@@ -37,8 +37,8 @@
 </p>
 
 <h2>Date Range Picker Usage</h2>
-{{date-range-picker action=(action 'updateDateRange')}}
-{{#code-block language='handlebars'}}\{{date-range-picker action=(action 'updateDateRange')}}{{/code-block}}
+{{date-picker range=true action=(action 'updateDateRange')}}
+{{#code-block language='handlebars'}}\{{date-picker range=true action=(action 'updateDateRange')}}{{/code-block}}
 <p>
   {{#link-to 'date-range-picker-component'}}More about date-range-picker{{/link-to}}
 </p>

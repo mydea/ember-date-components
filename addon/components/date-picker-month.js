@@ -4,24 +4,116 @@ import moment from 'moment';
 
 const { get, set, computed, getProperties } = Ember;
 
+/**
+ * A single month view.
+ * This is used internally by the date-picker.
+ * It is stand alone and could also be used without it.
+ *
+ * @namespace EmberDateComponents
+ * @class DatePickerMonth
+ * @extends Ember.Component
+ * @public
+ */
 export default Ember.Component.extend({
   layout,
   classNames: ['date-picker__calendar__outer'],
 
-  showWeekdays: true,
+  // ATTRIBUTES BEGIN ----------------------------------------
 
+  /**
+   * The selected dates for the date picker.
+   * This has to be an array with 0-2 elements. If it has 2 elements, it will show the range between the two.
+   *
+   * @attributes selectedDates
+   * @type {Date[]}
+   * @optional
+   * @public
+   */
   selectedDates: [],
 
+  /**
+   * The month that should be shown.
+   * If this is not set, it will default to the current month.
+   *
+   * @attribute month
+   * @type {Date}
+   * @optional
+   * @public
+   */
   month: null,
 
+  /**
+   * An optional minimum date.
+   * No dates before this date will be selectable.
+   *
+   * @attribute minDate
+   * @type {Date}
+   * @optional
+   * @public
+   */
   minDate: null,
 
+  /**
+   * An optional maximum date.
+   * No dates after this date will be selectable.
+   *
+   * @attribute maxDate
+   * @type {Date}
+   * @optional
+   * @public
+   */
   maxDate: null,
 
+  /**
+   * If weekdays (Mo, Tu, ...) should be shown in the calendar.
+   *
+   * @attribute showWeekdays
+   * @type {Boolean}
+   * @default true
+   * @public
+   */
+  showWeekdays: true,
+
+  /**
+   * This action will receive the selected date as parameter.
+   * It is called when a date is clicked.
+   *
+   * @event selectDate
+   * @param {Date} date The selected date
+   * @public
+   */
+  selectDate: null,
+
+  // ATTRIBUTES END ----------------------------------------
+
+  // PROPERTIES BEGIN ----------------------------------------
+
+  /**
+   * Internally, the minDate is copied, set to startOf('day') and saved here to save unnecessary processing.
+   *
+   * @property _minDate
+   * @type {Date}
+   * @private
+   */
   _minDate: null,
 
+  /**
+   * Internally, the maxDate is copied, set to startOf('day') and saved here to save unnecessary processing.
+   *
+   * @property _maxDate
+   * @type {Date}
+   * @private
+   */
   _maxDate: null,
 
+  /**
+   * This takes the given month and converts it to the beginning of the Date object.
+   * If no month is given, it will default to the current month.
+   *
+   * @property currentMonth
+   * @type {Date}
+   * @private
+   */
   currentMonth: computed('month', function() {
     let date = get(this, 'month');
     return date ? date.clone().startOf('month') : moment().startOf('month');
@@ -48,7 +140,7 @@ export default Ember.Component.extend({
    * }
    * ```
    *
-   * @property daysInMonth
+   * @property _daysInMonth
    * @type {Object[]}
    * @readOnly
    * @private
@@ -88,6 +180,16 @@ export default Ember.Component.extend({
     return days;
   }),
 
+  /**
+   * This takes the generated _daysInMonth and parses the days.
+   * It will set disabled and inRange accordingly for all days.
+   * Note that for performance reasons, this will mutate the original array instead of creating a new one.
+   *
+   * @property daysInMonth
+   * @type {Object[]}
+   * @readOnly
+   * @private
+   */
   daysInMonth: computed('_daysInMonth', '_minDate', '_maxDate', 'selectedDates.[]', function() {
     let days = get(this, '_daysInMonth');
 
@@ -128,7 +230,17 @@ export default Ember.Component.extend({
     return moment().startOf('day');
   }),
 
+  // PROPERTIES END ----------------------------------------
+
   // HOOKS BEGIN ----------------------------------------
+
+  didReceiveAttrs() {
+    let minDate = get(this, 'minDate');
+    let maxDate = get(this, 'maxDate');
+
+    set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
+    set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
+  },
 
   // HOOKS END ----------------------------------------
 
@@ -155,6 +267,15 @@ export default Ember.Component.extend({
     return _maxDate && _maxDate.valueOf() < day.valueOf();
   },
 
+  /**
+   * Check if a day is in the range of the selectedDates.
+   * If selectedDates does not consist of two dates, this will always return false.
+   *
+   * @method _dayIsInRange
+   * @param {Object} day
+   * @return {Boolean}
+   * @private
+   */
   _dayIsInRange(day) {
     let selectedDates = get(this, 'selectedDates');
 
@@ -171,14 +292,6 @@ export default Ember.Component.extend({
     } else {
       return dayVal < selectedUntilVal && dayVal > selectedDateVal;
     }
-  },
-
-  didReceiveAttrs() {
-    let minDate = get(this, 'minDate');
-    let maxDate = get(this, 'maxDate');
-
-    set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
-    set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
   },
 
   actions: {
