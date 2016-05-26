@@ -567,6 +567,50 @@ export default Ember.Component.extend({
   },
 
   /**
+   * Set the from date to the selected date.
+   * It might also switch the to-date with the from-date if the to-date is before the from-date.
+   *
+   * @method _setFromDate
+   * @param date
+   * @private
+   */
+  _setFromDate(date) {
+    let dates = get(this, '_dates');
+    let [, dateTo] = dates;
+    let vals;
+
+    if (dateTo && date.valueOf() > dateTo.valueOf()) {
+      vals = Ember.A([date, null]);
+    } else {
+      vals = Ember.A([date, dateTo || null]);
+    }
+
+    set(this, '_dates', vals);
+  },
+
+  /**
+   * Set the to date to the selected date.
+   * It might also switch the to-date with the from-date if the to-date is before the from-date.
+   *
+   * @method _setToDate
+   * @param date
+   * @private
+   */
+  _setToDate(date) {
+    let dates = get(this, '_dates');
+    let [dateFrom] = dates;
+    let vals;
+
+    if (date && date.valueOf() < dateFrom.valueOf()) {
+      vals = Ember.A([date, dateFrom]);
+    } else {
+      vals = Ember.A([dateFrom, date]);
+    }
+
+    set(this, '_dates', vals);
+  },
+
+  /**
    * Set date range values.
    * It will also close the date picker if it is the to-date.
    *
@@ -576,32 +620,67 @@ export default Ember.Component.extend({
    * @private
    */
   _setDateRange(date) {
-    let [dateFrom, dateTo] = get(this, '_dates');
     let isToStep = get(this, 'isToStep');
-    let vals;
-    let close = false;
 
     if (!isToStep) {
-      if (dateTo && date.valueOf() > dateTo.valueOf()) {
-        vals = Ember.A([date, null]);
-      } else {
-        vals = Ember.A([date, dateTo || null]);
-      }
+      this._setFromDate(date);
+      this._moveToToStep();
     } else {
-      if (date.valueOf() < dateFrom.valueOf()) {
-        vals = Ember.A([date, dateFrom]);
-      } else {
-        vals = Ember.A([dateFrom, date]);
-      }
-      close = true;
-    }
-
-    this.toggleProperty('isToStep');
-    set(this, '_dates', vals);
-    if (close) {
+      this._setToDate(date);
       this._close();
     }
-    return vals;
+  },
+
+  /**
+   * Move to the from step.
+   * This will set the current month to the month of the from-step (if a from-date is set)
+   *
+   * @method _moveToFromStep
+   * @private
+   */
+  _moveToFromStep() {
+    let [month] = get(this, '_dates') || Ember.A();
+    if (month) {
+      set(this, 'currentMonth', month.clone().startOf('month'));
+    }
+    set(this, 'isToStep', false);
+  },
+
+  /**
+   * Move to the to step.
+   * This will set the current month to the month of the to-step (if a to-date is set)
+   *
+   * @method _moveToToStep
+   * @private
+   */
+  _moveToToStep() {
+    let [,month] = get(this, '_dates') || Ember.A();
+    if (month) {
+      set(this, 'currentMonth', month.clone().startOf('month'));
+    }
+    set(this, 'isToStep', true);
+  },
+
+  /**
+   * Move to the from date and open the date picker.
+   *
+   * @method _openFromDate
+   * @private
+   */
+  _openFromDate() {
+    this._moveToFromStep();
+    this._open();
+  },
+
+  /**
+   * Move to the to step and open the date picker.
+   *
+   * @method _openToDate
+   * @private
+   */
+  _openToDate() {
+    this._moveToToStep();
+    this._open();
   },
 
   /**
@@ -618,7 +697,7 @@ export default Ember.Component.extend({
         return;
       }
       let $target = Ember.$(e.target);
-      if (!$target.closest($element).length) {
+      if (!$target.hasClass('date-picker__day') && !$target.closest($element).length) {
         this._close();
       }
     });
@@ -668,7 +747,7 @@ export default Ember.Component.extend({
         if (isOpen) {
           this._close();
         } else {
-          this._open();
+          this._openFromDate();
         }
         return;
       }
@@ -676,12 +755,12 @@ export default Ember.Component.extend({
       if (isOpen) {
         // If it is a range picker, either close it or switch to isToStep=false
         if (isToStep) {
-          set(this, 'isToStep', false);
+          this._moveToFromStep();
         } else {
           this._close();
         }
       } else {
-        this._open();
+        this._openFromDate();
       }
     },
 
@@ -692,15 +771,16 @@ export default Ember.Component.extend({
 
       if (isOpen) {
         if (!isToStep) {
-          set(this, 'isToStep', true);
+          this._moveToToStep();
         } else {
           this._close();
         }
       } else {
         if (get(selectedDates, 'length') >= 1) {
-          set(this, 'isToStep', true);
+          this._openToDate();
+        } else {
+          this._openFromDate();
         }
-        this._open();
       }
     },
 
