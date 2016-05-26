@@ -1,5 +1,10 @@
 # Changelog
 
+v0.3.2
+
+* Move to selected month when switching between from- and to-date
+* Fix bug which did not open to-field if no to-field has been selected
+
 v0.3.1
 
 * Fix bug if a null value is given to the date picker
