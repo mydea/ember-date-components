@@ -688,6 +688,7 @@ export default Ember.Component.extend({
     toggleOpenTo() {
       let isOpen = get(this, 'isOpen');
       let isToStep = get(this, 'isToStep');
+      let selectedDates = get(this, 'selectedDates');
 
       if (isOpen) {
         if (!isToStep) {
@@ -696,7 +697,7 @@ export default Ember.Component.extend({
           this._close();
         }
       } else {
-        if (get(this, 'selectedDates.length') > 1) {
+        if (get(selectedDates, 'length') >= 1) {
           set(this, 'isToStep', true);
         }
         this._open();
