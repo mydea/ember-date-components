@@ -601,6 +601,10 @@ export default Ember.Component.extend({
     let [dateFrom] = dates;
     let vals;
 
+    if (date) {
+      date = date.endOf('day');
+    }
+
     if (date && (dateFrom && date.valueOf() < dateFrom.valueOf())) {
       vals = Ember.A([date, dateFrom]);
     } else {

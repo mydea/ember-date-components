@@ -3,6 +3,10 @@ import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import Ember from 'ember';
 
+const {
+  typeOf: getTypeOf
+} = Ember;
+
 moduleForComponent('date-picker', 'Integration | Component | date picker', {
   integration: true
 });
@@ -36,7 +40,7 @@ test('action is sent on value change', function(assert) {
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 
   Ember.run.next(() => {
-    assert.notOk(this.$().find('.date-picker').hasClass('date-picker--open'), 'date picker is closed after selection.');
+    assert.notOk(this.$().find('.date-picker').length, 'date picker is closed after selection.');
   });
 });
 
@@ -79,4 +83,76 @@ test('date picker shows month of value if set', function(assert) {
     this.set('defaultDate', date);
   });
   assert.equal(this.$().find('[data-test="date-picker-toggle-button"]').text().trim(), date.format('L'), 'value in date picker is updated.');
+});
+
+test('date-range picker action works', function(assert) {
+  assert.expect(9);
+
+  let counter = 0;
+  this.on('updateDate', function(dates) {
+    assert.equal(arguments.length, 1, 'one argument is passed to action.');
+    assert.equal(getTypeOf(dates), 'array', 'array is passed');
+
+    let [from, to] = dates;
+
+    if (counter === 0) {
+      assert.equal(from.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as from-date.');
+      assert.equal(to, null, 'to-date is null');
+    } else {
+      assert.equal(from.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as from-date.');
+      assert.equal(to.format('YYYY-MM-DD'), moment().date(14).format('YYYY-MM-DD'), 'correct date is passed as to-date.');
+    }
+    counter++;
+  });
+  this.render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
+
+  this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
+  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+
+  Ember.run.next(() => {
+    assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
+
+    this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
+  });
+});
+
+test('date-range allows selection of to-value without from-value', function(assert) {
+  assert.expect(4);
+
+  this.on('updateDate', function(dates) {
+    assert.equal(arguments.length, 1, 'one argument is passed to action.');
+    assert.equal(getTypeOf(dates), 'array', 'array is passed');
+
+    let [from, to] = dates;
+    assert.equal(from, null, 'from-date is null');
+    assert.equal(to.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as to-date.');
+
+  });
+  this.render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
+
+  this.$().find('[data-test="date-picker-toggle-button"]:last-child').click();
+  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+});
+
+test('date-range picker closeAction works', function(assert) {
+  assert.expect(5);
+
+  this.on('updateDate', function(dates) {
+    assert.equal(arguments.length, 1, 'one argument is passed to action.');
+    assert.equal(getTypeOf(dates), 'array', 'array is passed');
+
+    let [from, to] = dates;
+    assert.equal(from.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as from-date.');
+    assert.equal(to.format('YYYY-MM-DD'), moment().date(14).format('YYYY-MM-DD'), 'correct date is passed as to-date.');
+  });
+  this.render(hbs`{{date-picker range=true closeAction=(action 'updateDate')}}`);
+
+  this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
+  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+
+  Ember.run.next(() => {
+    assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
+
+    this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
+  });
 });
