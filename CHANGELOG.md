@@ -1,5 +1,10 @@
 # Changelog
 
+v0.4.0
+
+* Allow selection of to-date without from-date
+* to-date should always be `endOf('day')` (e.g. 23:59:59)
+
 v0.3.2
 
 * Move to selected month when switching between from- and to-date
