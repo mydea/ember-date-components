@@ -601,7 +601,7 @@ export default Ember.Component.extend({
     let [dateFrom] = dates;
     let vals;
 
-    if (date && date.valueOf() < dateFrom.valueOf()) {
+    if (date && (dateFrom && date.valueOf() < dateFrom.valueOf())) {
       vals = Ember.A([date, dateFrom]);
     } else {
       vals = Ember.A([dateFrom, date]);
@@ -767,7 +767,6 @@ export default Ember.Component.extend({
     toggleOpenTo() {
       let isOpen = get(this, 'isOpen');
       let isToStep = get(this, 'isToStep');
-      let selectedDates = get(this, 'selectedDates');
 
       if (isOpen) {
         if (!isToStep) {
@@ -776,11 +775,7 @@ export default Ember.Component.extend({
           this._close();
         }
       } else {
-        if (get(selectedDates, 'length') >= 1) {
-          this._openToDate();
-        } else {
-          this._openFromDate();
-        }
+        this._openToDate();
       }
     },
 
