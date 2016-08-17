@@ -1,5 +1,9 @@
 # Changelog
 
+v0.5.0
+
+* Add time-picker component
+
 v0.4.0
 
 * Allow selection of to-date without from-date
