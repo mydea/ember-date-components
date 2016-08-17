@@ -1,8 +1,15 @@
 import Ember from 'ember';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
+import computed from 'ember-computed';
 
-const { get, set, computed, getProperties } = Ember;
+const {
+  get,
+  set,
+  getProperties,
+  Component,
+  A: array
+} = Ember;
 
 /**
  * A single month view.
@@ -14,7 +21,7 @@ const { get, set, computed, getProperties } = Ember;
  * @extends Ember.Component
  * @public
  */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['date-picker__calendar__outer'],
 
@@ -148,7 +155,7 @@ export default Ember.Component.extend({
   _daysInMonth: computed('currentMonth', function() {
     let currentMonth = get(this, 'currentMonth');
     let daysInMonth = currentMonth.daysInMonth();
-    let days = Ember.A();
+    let days = array();
 
     // start with days from previous month to fill up first week
     let firstWeekday = currentMonth.isoWeekday();

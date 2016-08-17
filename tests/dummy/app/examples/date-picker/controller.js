@@ -1,9 +1,16 @@
 import Ember from 'ember';
 import moment from 'moment';
+import computed from 'ember-computed';
 
-export default Ember.Controller.extend({
+const {
+  Controller
+} = Ember;
+
+export default Controller.extend({
+
   date1: null,
-  date2: Ember.computed(function() {
+
+  date2: computed(function() {
     return moment('2015-01-01');
   }),
 

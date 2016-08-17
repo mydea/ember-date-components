@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-export default Ember.Controller.extend({
+const {
+  Controller
+} = Ember;
+
+export default Controller.extend({
 
   date1: {
     value: [moment().subtract(7, 'days'), moment().add(2, 'days')],

@@ -1,11 +1,16 @@
 import Ember from 'ember';
 import layout from '../templates/components/date-picker';
 import moment from 'moment';
+import computed from 'ember-computed';
+import $ from 'jquery';
 
 const {
   get,
   set,
-  computed
+  Component,
+  A: array,
+  typeOf: getTypeOf,
+  String: EmberString
 } = Ember;
 
 /**
@@ -17,7 +22,7 @@ const {
  * @extends Ember.Component
  * @public
  */
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
   classNames: ['date-picker__wrapper'],
@@ -197,7 +202,7 @@ export default Ember.Component.extend({
    */
   buttonText: computed('range', '_dates.[]', function() {
     let isRange = get(this, 'range');
-    let vals = get(this, '_dates') || Ember.A([]);
+    let vals = get(this, '_dates') || array([]);
     let dateFormat = get(this, 'buttonDateFormat');
 
     let [dateFrom] = vals;
@@ -227,7 +232,7 @@ export default Ember.Component.extend({
    * @private
    */
   buttonToText: computed('range', '_dates.[]', function() {
-    let vals = get(this, '_dates') || Ember.A([]);
+    let vals = get(this, '_dates') || array([]);
     let dateFormat = get(this, 'buttonDateFormat');
 
     let [,dateTo] = vals;
@@ -290,7 +295,7 @@ export default Ember.Component.extend({
     if (dateTo) {
       arr.push(dateTo);
     }
-    return Ember.A(arr);
+    return array(arr);
   }),
 
   /**
@@ -337,16 +342,16 @@ export default Ember.Component.extend({
     let optionsMap = get(this, '_optionsMap');
 
     if (!options) {
-      return Ember.A();
+      return array();
     }
 
     // If options is true, return the default options depending on isRange
-    if (Ember.typeOf(options) !== 'array') {
+    if (getTypeOf(options) !== 'array') {
       options = isRange ? get(this, '_defaultDateRangeOptions') : get(this, '_defaultDateOptions');
     }
 
     return options.map((option) => {
-      return Ember.typeOf(option) === 'string' ? optionsMap[option] : option;
+      return getTypeOf(option) === 'string' ? optionsMap[option] : option;
     });
   }),
 
@@ -412,7 +417,7 @@ export default Ember.Component.extend({
    * @type {Array}
    * @private
    */
-  _defaultDateOptions: Ember.A([
+  _defaultDateOptions: array([
     'clear',
     'today'
   ]),
@@ -425,7 +430,7 @@ export default Ember.Component.extend({
    * @type {Array}
    * @private
    */
-  _defaultDateRangeOptions: Ember.A([
+  _defaultDateRangeOptions: array([
     'clear',
     'today',
     'last7Days',
@@ -463,11 +468,11 @@ export default Ember.Component.extend({
     let isRange = get(this, 'range');
 
     if (val) {
-      if (Ember.typeOf(val) !== 'array') {
-        val = Ember.A([val]);
+      if (getTypeOf(val) !== 'array') {
+        val = array([val]);
       }
     } else {
-      val = Ember.A();
+      val = array();
     }
 
     set(this, '_dates', val);
@@ -516,13 +521,13 @@ export default Ember.Component.extend({
 
     let $el = this.$();
 
-    let windowWidth = Ember.$(window).width();
+    let windowWidth = $(window).width();
     let elLeftOffset = $el.offset().left;
     let elOffset = elLeftOffset + get(this, 'calendarWidth');
 
     if (elOffset > windowWidth) {
       let translate = elOffset - windowWidth + 10;
-      let style = new Ember.Handlebars.SafeString(`transform: translate(-${translate}px, 0)`);
+      let style = EmberString.htmlSafe(`transform: translate(-${translate}px, 0)`);
       set(this, 'translateX', style);
     } else {
       set(this, 'translateX', null);
@@ -560,7 +565,7 @@ export default Ember.Component.extend({
    * @private
    */
   _setSingleDate(date) {
-    let vals = Ember.A([date]);
+    let vals = array([date]);
     set(this, '_dates', vals);
     this._close();
     return vals;
@@ -580,9 +585,9 @@ export default Ember.Component.extend({
     let vals;
 
     if (dateTo && date.valueOf() > dateTo.valueOf()) {
-      vals = Ember.A([date, null]);
+      vals = array([date, null]);
     } else {
-      vals = Ember.A([date, dateTo || null]);
+      vals = array([date, dateTo || null]);
     }
 
     set(this, '_dates', vals);
@@ -606,9 +611,9 @@ export default Ember.Component.extend({
     }
 
     if (date && (dateFrom && date.valueOf() < dateFrom.valueOf())) {
-      vals = Ember.A([date, dateFrom]);
+      vals = array([date, dateFrom]);
     } else {
-      vals = Ember.A([dateFrom, date]);
+      vals = array([dateFrom, date]);
     }
 
     set(this, '_dates', vals);
@@ -643,7 +648,7 @@ export default Ember.Component.extend({
    * @private
    */
   _moveToFromStep() {
-    let [month] = get(this, '_dates') || Ember.A();
+    let [month] = get(this, '_dates') || array();
     if (month) {
       set(this, 'currentMonth', month.clone().startOf('month'));
     }
@@ -658,7 +663,7 @@ export default Ember.Component.extend({
    * @private
    */
   _moveToToStep() {
-    let [,month] = get(this, '_dates') || Ember.A();
+    let [,month] = get(this, '_dates') || array();
     if (month) {
       set(this, 'currentMonth', month.clone().startOf('month'));
     }
@@ -696,11 +701,11 @@ export default Ember.Component.extend({
   _setupOutsideListener() {
     let $element = this.$();
 
-    Ember.$('body').on(`click.${this.elementId}`, (e) => {
+    $('body').on(`click.${this.elementId}`, (e) => {
       if (this.get('isDestroyed')) {
         return;
       }
-      let $target = Ember.$(e.target);
+      let $target = $(e.target);
       if (!$target.hasClass('date-picker__day') && !$target.closest($element).length) {
         this._close();
       }
@@ -714,7 +719,7 @@ export default Ember.Component.extend({
    * @private
    */
   _destroyOutsideListener() {
-    Ember.$('body').off(`click.${this.elementId}`);
+    $('body').off(`click.${this.elementId}`);
   },
 
   // METHODS END ----------------------------------------
@@ -724,7 +729,7 @@ export default Ember.Component.extend({
   actions: {
 
     clearDate() {
-      set(this, '_dates', Ember.A());
+      set(this, '_dates', array());
       set(this, 'isToStep', false);
       this._sendAction();
       this._close();
@@ -733,9 +738,9 @@ export default Ember.Component.extend({
     selectToday() {
       let today = moment().startOf('day');
       if (get(this, 'range')) {
-        set(this, '_dates', Ember.A([today, today]));
+        set(this, '_dates', array([today, today]));
       } else {
-        set(this, '_dates', Ember.A([today]));
+        set(this, '_dates', array([today]));
       }
 
       this._sendAction();
@@ -806,7 +811,7 @@ export default Ember.Component.extend({
     },
 
     selectDateRange(dates) {
-      set(this, '_dates', Ember.A(dates));
+      set(this, '_dates', array(dates));
 
       this._sendAction();
       this._close();

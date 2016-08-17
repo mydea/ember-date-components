@@ -4,6 +4,7 @@ import moment from 'moment';
 import Ember from 'ember';
 
 const {
+  run,
   typeOf: getTypeOf
 } = Ember;
 
@@ -39,7 +40,7 @@ test('action is sent on value change', function(assert) {
   this.$().find('[data-test="date-picker-toggle-button"]').click();
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 
-  Ember.run.next(() => {
+  run.next(() => {
     assert.notOk(this.$().find('.date-picker').length, 'date picker is closed after selection.');
   });
 });
@@ -65,7 +66,7 @@ test('value updates if bound value changes', function(assert) {
   this.render(hbs`{{date-picker value=defaultDate}}`);
 
   assert.equal(this.$().find('[data-test="date-picker-toggle-button"]').text().trim(), date.format('L'), 'Formatted value of default date is displayed in button.');
-  Ember.run(() => {
+  run(() => {
     date = moment().add(1, 'day');
     this.set('defaultDate', date);
   });
@@ -78,7 +79,7 @@ test('date picker shows month of value if set', function(assert) {
   this.render(hbs`{{date-picker value=defaultDate}}`);
 
   assert.equal(this.$().find('[data-test="date-picker-toggle-button"]').text().trim(), date.format('L'), 'Formatted value of default date is displayed in button.');
-  Ember.run(() => {
+  run(() => {
     date = moment().add(1, 'day');
     this.set('defaultDate', date);
   });
@@ -109,7 +110,7 @@ test('date-range picker action works', function(assert) {
   this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 
-  Ember.run.next(() => {
+  run.next(() => {
     assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
 
     this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
@@ -150,7 +151,7 @@ test('date-range picker closeAction works', function(assert) {
   this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
   this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
 
-  Ember.run.next(() => {
+  run.next(() => {
     assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
 
     this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
