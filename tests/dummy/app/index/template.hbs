@@ -3,7 +3,7 @@
 <div class="jumbotron text-center">
   <h1>ember-date-components</h1>
   <p>
-    An Ember add-on which provides pure Ember-based date picker components.
+    An Ember add-on which provides pure Ember-based date & time picker components.
   </p>
 
   <p>
@@ -12,6 +12,7 @@
 
   <p>
     {{date-picker action=(action 'updateDate')}}
+    {{time-picker action=(action 'updateTime')}}
   </p>
 
   <p>
@@ -47,6 +48,15 @@
   {{/link-to}}
 </p>
 
+<h2>Time Picker Usage</h2>
+{{time-picker action=(action 'updateTime')}}
+{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime')}}{{/code-block}}
+<p>
+  {{#link-to 'usage.time-picker'}}
+    More about Time Picker usage
+  {{/link-to}}
+</p>
+
 <h2>Custom Date Options</h2>
 {{date-picker range=true options=true action=(action 'updateDateRange')}}
 {{#code-block language='handlebars'}}\{{date-picker range=true options=true action=(action 'updateDateRange')}}{{/code-block}}
@@ -65,9 +75,9 @@
 {{#code-block language='javascript'}}// ember-cli-build.js
 // ...
 var app = new EmberApp({
-  'ember-date-components': {
-    'importCSS': false
-  }
+'ember-date-components': {
+'importCSS': false
+}
 });
 // ...{{/code-block}}
 

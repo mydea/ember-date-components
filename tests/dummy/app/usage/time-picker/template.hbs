@@ -1,0 +1,209 @@
+{{title 'Time Picker'}}
+
+<h1>time-picker</h1>
+
+<p>
+  This component adds a configurable time picker which emits an action if the selected time changes.
+</p>
+
+<h2>Basic Usage</h2>
+{{time-picker action=(action 'updateTime')}}
+{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime')}}{{/code-block}}
+
+<h2>With a default value</h2>
+{{time-picker action=(action 'updateTime') value='14:30'}}
+{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime') value='14:30'}}{{/code-block}}
+
+<h2>With a min/max values & 15min step</h2>
+{{time-picker action=(action 'updateTime') minTime='08:30' maxTime='17:30' step=15}}
+{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime') minTime='08:30' maxTime='17:30' step=15}}{{/code-block}}
+
+<h2>Notes about the Usage</h2>
+
+<p>
+  Note that this will send moment.js objects with the corresponding times set on them as parameter for the action.
+  They are basically generated like this:
+  {{#code-inline language='javascript'}}moment(0).hours(hours).minutes(minutes);{{/code-inline}}.
+</p>
+
+<p>
+  This means that you can work with them like this:
+</p>
+
+{{#code-block language='javascript'}}actions: {
+updateTime(time) {
+let date = this.get('date');
+let hours = time ? time.hours() : 0;
+let minutes = time ? time.minutes() : 0;
+let newDate = date.clone().startOf('day').hours(hours).minutes(minutes);
+// Do something with newDate
+}
+}{{/code-block}}
+
+Or simply use the included util which does exactly the above:
+
+{{#code-block language='javascript'}}import setTimeOnDate from 'ember-date-components/utils/set-time-on-date';
+// ...
+
+actions: {
+updateTime(time) {
+let date = this.get('date');
+let newDate = setTimeOnDate(date, time);
+// Do something with newDate
+}
+}{{/code-block}}
+
+<p>
+  Other useful tips: You can always close the time picker with ESC.
+  The date picker tries to be as smart as possible about recognizing input.
+  This means that you can enter things like:
+</p>
+
+<ul>
+  <li>7</li>
+  <li>8pm</li>
+  <li>6,5</li>
+  <li>14:30</li>
+  <li>9:30 pm</li>
+</ul>
+
+<p>
+  And press enter, and the time will be parsed from it.
+</p>
+
+<h2>Attributes</h2>
+
+<table class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        value
+      </td>
+      <td>
+        The default value for the time picker.
+        This can be null, a moment.js-Date, or a parseable string like {{#code-inline}}14:30{{/code-inline}}
+        or {{#code-inline}}7:15 pm{{/code-inline}}
+      </td>
+      <td>
+        {{#code-inline language='javascript'}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        action
+      </td>
+      <td>
+        The action to call whenever the time changes.
+        Has to be an actual action method, not an action name, e.g.
+        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
+        The action will receive the selected (moment.js) date as parameter.
+      </td>
+      <td>
+        {{#code-inline language='javascript'}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        minTime
+      </td>
+      <td>
+        The minimum selectable time. No time before this time will be selectable.
+        This can be either a moment.js date, or a parseable string.
+      </td>
+      <td>
+        {{#code-inline language='javascript'}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        maxTime
+      </td>
+      <td>
+        The maximum selectable time. No time after this time will be selectable.
+        This can be either a moment.js date, or a parseable string.
+      </td>
+      <td>
+        {{#code-inline language='javascript'}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        step
+      </td>
+      <td>
+        The step in which the times can be set, in minutes.
+        Times entered will be rounded to the nearest fitting step.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}30{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        selectStep
+      </td>
+      <td>
+        The steps that are available in the dropdown. By default, this takes the value
+        from {{#code-inline language='javascript' class="no-wrap"}}step{{/code-inline}}, so you don't need to define
+        this again here. You only need to set it if you want
+        the select to e.g. only show 30 minute steps, while also allowing the entry of 15 minute steps.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}null{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        placeholder
+      </td>
+      <td>
+        The placeholder for the time input. Defaults to 'Enter time...'.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}'Enter time...'{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        inputClasses
+      </td>
+      <td>
+        Classes to add to the time input.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        dropdownClasses
+      </td>
+      <td>
+        Classes to add to the dropdown container.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        amPm
+      </td>
+      <td>
+        If the am/pm time format should be used instead of the 24h format.
+        By default, this is computed from the moment.js locale.
+        You can overwrite this if necessary.
+      </td>
+      <td>
+        {{#code-inline language='javascript' class="no-wrap"}}true{{/code-inline}}
+      </td>
+    </tr>
+  </tbody>
+</table>
