@@ -1,6 +1,7 @@
 {{time-picker-input
 value=(readonly displayValue)
 class=(concat 'time-picker__input ' inputClasses)
+id=(concat elementId '-input')
 placeholder=placeholder
 input-change=(action 'updateInputValue')
 click=(action 'openAndClear')
