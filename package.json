@@ -1,6 +1,6 @@
 {
   "name": "ember-date-components",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "An Ember add-on which provides pure Ember-based date picker components.",
   "directories": {
     "doc": "doc",
