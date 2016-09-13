@@ -492,6 +492,9 @@ export default Component.extend({
       // Wait for all other events to finish
       // Somehow, 1 or 10 doesn't work
       run.later(this, () => {
+        if (get(this, 'isDestroyed')) {
+          return;
+        }
         let inputValue = get(this, 'inputValue');
         // If there is an input, this means it hasn't been processed yet
         // --> Process it now!
