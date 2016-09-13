@@ -1,4 +1,5 @@
 <button
+  disabled={{disabled}}
   class="date-picker__button {{buttonClasses}}{{if range ' date-picker__button--range'}}{{if buttonFocused ' date-picker__button--focus'}}"
   data-test="date-picker-toggle-button"
   {{action 'toggleOpen'}}>

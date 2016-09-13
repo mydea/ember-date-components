@@ -17,7 +17,20 @@ const {
  */
 export default TextField.extend({
   classNames: [],
+
+  attributeBindings: ['disabled'],
+
   type: 'text',
+
+  /**
+   * If this is true, the time picker is disabled and the selected time cannot be changed.
+   *
+   * @attribute disabled
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  disabled: false,
 
   interpretKeyEvents(event) {
     let map = get(this, 'KEY_EVENTS');

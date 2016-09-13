@@ -40,6 +40,16 @@ export default Component.extend({
   value: null,
 
   /**
+   * If this is true, the time picker is disabled and the selected time cannot be changed.
+   *
+   * @attribute disabled
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  disabled: false,
+
+  /**
    * The action to call when the time changes.
    *
    * @event action
@@ -421,7 +431,7 @@ export default Component.extend({
     let value = get(this, '_value') || null;
     let action = get(this, 'action');
 
-    if (action) {
+    if (action && !get(this, 'disabled')) {
       action(value);
     }
 

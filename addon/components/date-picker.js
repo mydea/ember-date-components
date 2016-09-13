@@ -121,6 +121,16 @@ export default Component.extend({
   options: false,
 
   /**
+   * If this is true, the date picker is disabled and the selected date cannot be changed.
+   *
+   * @attribute disabled
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  disabled: false,
+
+  /**
    * The action to call whenever one of the value changes.
    *
    * @event action
@@ -504,7 +514,7 @@ export default Component.extend({
     let vals = get(this, '_dates');
     let isRange = get(this, 'range');
 
-    if (action) {
+    if (action && !get(this, 'disabled')) {
       action(isRange ? vals : vals[0] || null);
     }
   },
