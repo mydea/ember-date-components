@@ -1,5 +1,9 @@
 # Changelog
 
+v0.5.2
+
+* Add `disabled` attribute to date-picker & time-picker
+
 v0.5.1
 
 * Use time-picker's ID to build the input's ID (e.g. `my-id` -> `my-id-input`)
