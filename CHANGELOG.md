@@ -1,5 +1,9 @@
 # Changelog
 
+v0.5.3
+
+* Minor bugfix release
+
 v0.5.2
 
 * Add `disabled` attribute to date-picker & time-picker
