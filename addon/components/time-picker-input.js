@@ -33,6 +33,9 @@ export default TextField.extend({
   disabled: false,
 
   interpretKeyEvents(event) {
+    if (!event) {
+      return this.inputChange();
+    }
     let map = get(this, 'KEY_EVENTS');
     let { keyCode } = event;
 
@@ -40,7 +43,7 @@ export default TextField.extend({
     if (method) {
       return this[method](event);
     } else {
-      this.inputChange();
+      return this.inputChange();
     }
   },
 
