@@ -50,7 +50,7 @@ export default TextField.extend({
   inputChange() {
     this._elementValueDidChange();
     let value = get(this, 'value');
-    this.sendAction('input-change', value, this, event);
+    this.sendAction('input-change', value, this);
   },
 
   arrowUp(event) {
