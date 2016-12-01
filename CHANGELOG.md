@@ -1,5 +1,9 @@
 # Changelog
 
+v0.5.4
+
+* Minor bugfix release
+
 v0.5.3
 
 * Minor bugfix release
