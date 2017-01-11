@@ -1,5 +1,10 @@
 # Changelog
 
+v0.6.0
+
+* Fix bug that incorrectly checked if parameters where moment instances
+* Add `{{date-picker-inline}}` component
+
 v0.5.4
 
 * Minor bugfix release
