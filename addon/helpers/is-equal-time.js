@@ -1,12 +1,12 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 const {
-  Helper,
-  typeOf: getTypeOf
+  Helper
 } = Ember;
 
 export function isEqualTime([d1, d2]) {
-  if (getTypeOf(d1) !== 'instance' || getTypeOf(d2) !== 'instance') {
+  if (!moment.isMoment(d1) || !moment.isMoment(d2)) {
     return false;
   }
 

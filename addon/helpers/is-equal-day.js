@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 const {
   Helper,
@@ -7,8 +8,8 @@ const {
 
 export function isEqualDay([d1, d2]) {
   if (getTypeOf(d2) === 'array') {
-    return d2.find((d2) => {
-      if (getTypeOf(d1) !== 'instance' || getTypeOf(d2) !== 'instance') {
+    return !!d2.find((d2) => {
+      if (!moment.isMoment(d1) || !moment.isMoment(d2)) {
         return false;
       }
 
@@ -16,9 +17,10 @@ export function isEqualDay([d1, d2]) {
     });
   }
 
-  if (getTypeOf(d1) !== 'instance' || getTypeOf(d2) !== 'instance') {
+  if (!moment.isMoment(d1) || !moment.isMoment(d2)) {
     return false;
   }
+
   return d1.format('YYYY-MM-DD') === d2.format('YYYY-MM-DD');
 }
 

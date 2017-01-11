@@ -10,8 +10,7 @@ const {
   set,
   Component,
   run,
-  isNone,
-  typeOf: getTypeOf
+  isNone
 } = Ember;
 
 /**
@@ -450,7 +449,7 @@ export default Component.extend({
     let format = get(this, 'format');
 
     value = parseTime(value);
-    value = (getTypeOf(value) === 'instance') ? value.format(format) : value;
+    value = moment.isMoment(value) ? value.format(format) : value;
     set(this, 'stringValue', value || null);
   },
 
