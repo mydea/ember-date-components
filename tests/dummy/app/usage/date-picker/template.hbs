@@ -25,6 +25,14 @@
   {{date-picker disabled=true action=(action 'updateDate')}}
 </div>
 
+<div class="wrapper">
+  <h2>Inline Form</h2>
+
+  {{#code-block language='handlebars'}}\{{date-picker-inline action=(action 'updateDate')}}{{/code-block}}
+
+  {{date-picker-inline action=(action 'updateDate')}}
+</div>
+
 <h2>Attributes</h2>
 
 <table class="table table-bordered table-hover table-striped">
@@ -69,7 +77,7 @@
         closeAction
       </td>
       <td>
-       While <i>action</i> will be sent whenever one of the values changes, this action will be called whenever the
+        While <i>action</i> will be sent whenever one of the values changes, this action will be called whenever the
         date-picker is closed. This is especially useful for date range pickers.
         Has to be an actual action method, not an action name, e.g.
         {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.

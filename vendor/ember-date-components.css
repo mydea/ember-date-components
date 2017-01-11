@@ -162,6 +162,11 @@
   vertical-align: top;
 }
 
+.date-picker--inline {
+  position: relative;
+  box-shadow: none;
+}
+
 .date-picker__options {
   display: inline-block;
   vertical-align: top;

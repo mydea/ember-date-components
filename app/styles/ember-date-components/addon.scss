@@ -162,6 +162,11 @@ $date-picker-color-background: #eee !default;
   color: white;
 }
 
+.date-picker--inline {
+  position: relative;
+  box-shadow: none;
+}
+
 .date-picker--options {
   white-space: nowrap;
 }

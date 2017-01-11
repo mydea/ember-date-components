@@ -12,6 +12,9 @@ module.exports = function(defaults) {
       'theme': 'twilight',
       'components': ['bash', 'handlebars', 'javascript', 'scss'],
       'plugins': ['line-highlight']
+    },
+    'ember-date-components': {
+      includeCSS: true
     }
   });
 
