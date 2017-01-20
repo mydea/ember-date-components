@@ -26,5 +26,15 @@ An Ember add-on which provides pure Ember-based date picker components.
 
 The date picker can also display custom options, e.g. 'Last 7 days'.
 
+It also provides test helpers to easily interact with the date picker in integration & acceptance tests:
+
+```js
+import interactWithDatePicker from 'ember-date-components/helpers/interactWithDatePicker';
+
+let datepicker = interactWithDatePicker(this.$('.datepicker'));
+datepicker.toggle();
+datepicker.select(moment());
+```
+
 For more detailed instructions and examples,
 please visit the [documentation](http://mydea.github.io/ember-date-components/).

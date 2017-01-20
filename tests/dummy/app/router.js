@@ -16,6 +16,7 @@ Router.map(function() {
     this.route('date-range-picker');
     this.route('time-picker');
     this.route('custom-options');
+    this.route('testing');
   });
   this.route('examples', function() {
     this.route('date-picker');
