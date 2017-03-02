@@ -1,5 +1,9 @@
 # Changelog
 
+v0.6.1
+
+* Add `interactWithDatePicker` helper at `ember-date-components/helpers/interact-with-date-components` for tests
+
 v0.6.0
 
 * Fix bug that incorrectly checked if parameters where moment instances
