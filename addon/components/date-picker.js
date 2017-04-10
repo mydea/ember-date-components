@@ -148,6 +148,16 @@ export default Component.extend({
    */
   closeAction: null,
 
+  /**
+   * Whether the calendar displays the week starting on Monday or Sunday.
+   *
+   * @attribute startWeekOnSunday
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  startWeekOnSunday: false,
+
   // ATTRIBUTES END ----------------------------------------
 
   // PROPERTIES BEGIN ----------------------------------------
