@@ -154,11 +154,12 @@ export default Component.extend({
    */
   _daysInMonth: computed('currentMonth', function() {
     let currentMonth = get(this, 'currentMonth');
+    let startWeekOnSunday = get(this, 'startWeekOnSunday');
     let daysInMonth = currentMonth.daysInMonth();
     let days = array();
 
     // start with days from previous month to fill up first week
-    let firstWeekday = currentMonth.isoWeekday();
+    let firstWeekday = startWeekOnSunday ? currentMonth.day() + 1 : currentMonth.isoWeekday();
     for (let i = firstWeekday; i > 1; i--) {
       days.push(null);
     }
@@ -179,8 +180,9 @@ export default Component.extend({
     }
 
     // end with days from next month to fill up last week
-    let lastWeekday = currentMonth.clone().endOf('month').isoWeekday();
-    for (let i = 1; i <= 7 - lastWeekday; i++) {
+    let endOfMonth = currentMonth.clone().endOf('month');
+    let lastWeekday = startWeekOnSunday ? endOfMonth.day() + 1 : endOfMonth.isoWeekday();
+    for (let i = 7; i > lastWeekday; i--) {
       days.push(null);
     }
 
@@ -212,7 +214,7 @@ export default Component.extend({
   }),
 
   /**
-   * The localized weekdays, starting with monday.
+   * The localized weekdays.
    *
    * @property weekdays
    * @type {String[]}
@@ -221,7 +223,12 @@ export default Component.extend({
    */
   weekdays: computed(function() {
     let weekdays = moment.weekdaysMin();
-    weekdays.push(weekdays.shift());
+    let startWeekOnSunday = get(this, 'startWeekOnSunday');
+
+    if (!startWeekOnSunday) {
+      weekdays.push(weekdays.shift());
+    }
+
     return weekdays;
   }),
 

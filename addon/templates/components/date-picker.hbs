@@ -37,11 +37,12 @@
       </div>
 
       {{date-picker-month
-      month=currentMonth
-      selectedDates=selectedDates
-      selectDate=(action 'selectDate')
-      minDate=minDate
-      maxDate=maxDate}}
+        month=currentMonth
+        selectedDates=selectedDates
+        selectDate=(action 'selectDate')
+        minDate=minDate
+        maxDate=maxDate
+        startWeekOnSunday=startWeekOnSunday}}
     </div>
 
     {{#if options}}
