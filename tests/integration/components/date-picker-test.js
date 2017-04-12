@@ -92,15 +92,19 @@ test('date picker shows month of value if set', function(assert) {
 test('calendar displays week starting on Monday', function(assert) {
   this.render(hbs`{{date-picker}}`);
 
-  this.$('[data-test="date-picker-toggle-button"]').click();
-  assert.equal(this.$('.date-picker__weekday:first-child').text().trim(), 'Mo', 'first week day is Monday');
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+
+  assert.equal($('.date-picker .date-picker__weekday:first-child').text().trim(), 'Mo', 'first week day is Monday');
 });
 
 test('calendar displays week starting on Sunday', function(assert) {
   this.render(hbs`{{date-picker startWeekOnSunday=true}}`);
 
-  this.$('[data-test="date-picker-toggle-button"]').click();
-  assert.equal(this.$('.date-picker__weekday:first-child').text().trim(), 'Su', 'first week day is Sunday');
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+
+  assert.equal($('.date-picker .date-picker__weekday:first-child').text().trim(), 'Su', 'first week day is Sunday');
 });
 
 test('date-range picker action works', function(assert) {
