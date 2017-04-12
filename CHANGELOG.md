@@ -1,5 +1,11 @@
 # Changelog
 
+v1.0.0-beta.0
+
+* Refactor to use ember-basic-dropdown
+* Add month & year picker
+* Add `startWeekOnSunday` option (PR by rafael-paiva via https://github.com/mydea/ember-date-components/pull/6)
+
 v0.6.1
 
 * Add `interactWithDatePicker` helper at `ember-date-components/helpers/interact-with-date-components` for tests
