@@ -16,13 +16,15 @@ $date-picker-color-background: #eee !default;
 }
 
 .date-picker {
-  position: absolute;
-  margin-top: 1px;
   padding: 15px;
   background: white;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   border-radius: $border-radius;
   font-size: $font-size;
+}
+
+.date-picker__trigger {
+  outline: 0;
 }
 
 .date-picker__button {
