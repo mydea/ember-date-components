@@ -1,8 +1,12 @@
 import $ from 'jquery';
+import { click } from 'ember-native-dom-helpers';
 
 export const interactWithDatePicker = function(element) {
   let $el = $(element);
   let $button = $el.find('[data-test="date-picker-toggle-button"]');
+
+  let button = $button.get(0);
+  let buttonTo = $button.get(1);
 
   return {
     buttonText() {
@@ -10,19 +14,28 @@ export const interactWithDatePicker = function(element) {
     },
 
     toggle() {
-      $button.click();
+      click(button);
+    },
+
+    toggleTo() {
+      click(buttonTo);
     },
 
     select(date) {
-      $el.find(`button[data-test="day-${date.month()}-${date.date()}"]`).click();
+      let button = $(`.date-picker button[data-test="day-${date.month()}-${date.date()}"]`).get(0);
+      click(button);
     },
 
     nextMonth() {
-      $el.find('.date-picker__header__button--next').click();
+      $('.date-picker .date-picker__header__button--next').click();
     },
 
     previousMonth() {
-      $el.find('.date-picker__header__button--previous').click();
+      $('.date-picker .date-picker__header__button--previous').click();
+    },
+
+    isOpen() {
+      return !!$('.date-picker').length;
     },
 
     element: $el,

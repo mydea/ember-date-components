@@ -2,6 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import Ember from 'ember';
+import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
 
 const {
   run,
@@ -37,8 +38,9 @@ test('action is sent on value change', function(assert) {
   });
   this.render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-  this.$().find('[data-test="date-picker-toggle-button"]').click();
-  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+  datePicker.select(moment().date(7));
 
   run.next(() => {
     assert.notOk(this.$().find('.date-picker').length, 'date picker is closed after selection.');
@@ -56,8 +58,9 @@ test('default value is not muted after change of date', function(assert) {
   });
   this.render(hbs`{{date-picker value=defaultDate action=(action 'updateDate')}}`);
 
-  this.$().find('[data-test="date-picker-toggle-button"]').click();
-  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+  datePicker.select(moment().date(7));
 });
 
 test('value updates if bound value changes', function(assert) {
@@ -101,7 +104,7 @@ test('calendar displays week starting on Sunday', function(assert) {
 });
 
 test('date-range picker action works', function(assert) {
-  assert.expect(9);
+  assert.expect(10);
 
   let counter = 0;
   this.on('updateDate', function(dates) {
@@ -116,18 +119,23 @@ test('date-range picker action works', function(assert) {
     } else {
       assert.equal(from.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as from-date.');
       assert.equal(to.format('YYYY-MM-DD'), moment().date(14).format('YYYY-MM-DD'), 'correct date is passed as to-date.');
+
+      run.next(() => {
+        assert.notOk(datePicker.isOpen(), 'date picker is closed after to-selection.');
+      });
     }
     counter++;
   });
   this.render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
 
-  this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
-  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+  datePicker.select(moment().date(7));
 
   run.next(() => {
-    assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
+    assert.ok(datePicker.isOpen(), 'date picker is not closed after from-selection.');
 
-    this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
+    datePicker.select(moment().date(14));
   });
 });
 
@@ -145,12 +153,13 @@ test('date-range allows selection of to-value without from-value', function(asse
   });
   this.render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
 
-  this.$().find('[data-test="date-picker-toggle-button"]:last-child').click();
-  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggleTo();
+  datePicker.select(moment().date(7));
 });
 
 test('date-range picker closeAction works', function(assert) {
-  assert.expect(5);
+  assert.expect(6);
 
   this.on('updateDate', function(dates) {
     assert.equal(arguments.length, 1, 'one argument is passed to action.');
@@ -159,15 +168,20 @@ test('date-range picker closeAction works', function(assert) {
     let [from, to] = dates;
     assert.equal(from.format('YYYY-MM-DD'), moment().date(7).format('YYYY-MM-DD'), 'correct date is passed as from-date.');
     assert.equal(to.format('YYYY-MM-DD'), moment().date(14).format('YYYY-MM-DD'), 'correct date is passed as to-date.');
+
+    run.next(() => {
+      assert.notOk(datePicker.isOpen(), 'date picker is closed after to-selection.');
+    });
   });
   this.render(hbs`{{date-picker range=true closeAction=(action 'updateDate')}}`);
 
-  this.$().find('[data-test="date-picker-toggle-button"]:first-child').click();
-  this.$().find(`button[data-test="day-${moment().month()}-7"]`).click();
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+  datePicker.select(moment().date(7));
 
   run.next(() => {
-    assert.ok(this.$().find('.date-picker').length, 'date picker is not closed after from-selection.');
+    assert.ok(datePicker.isOpen(), 'date picker is not closed after from-selection.');
 
-    this.$().find(`button[data-test="day-${moment().month()}-14"]`).click();
+    datePicker.select(moment().date(14));
   });
 });

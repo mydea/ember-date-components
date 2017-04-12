@@ -3,7 +3,7 @@
 <h1>Date Picker Example</h1>
 
 <h2>Default</h2>
-{{date-picker action=(action 'updateDate1')}}
+{{date-picker action=(action 'updateDate1') id='date-picker-1'}}
 <div id="date1-output">
   {{#if date1}}
     {{moment-format date1 'L'}}
