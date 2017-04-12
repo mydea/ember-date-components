@@ -83,10 +83,13 @@ var app = new EmberApp({
 
 <p>
   You are encouraged to overwrite the styles to fit your app.
-  If you use Sass, you can also import a provided partial:
+  If you use Sass, you can also import a provided partial (don't forget to disable the CSS import in that case!).
+  You'll also need to ensure that the ember-basic-dropdown partial is correctly imported. If you don't use Sass,
+  it will automatically be added to your project (via the ember-basic-dropdown addon).
 </p>
 
-{{#code-block language='scss'}}@import "ember-date-components/addon";{{/code-block}}
+{{#code-block language='scss'}}@import "ember-basic-dropdown";
+@import "ember-date-components/addon";{{/code-block}}
 
 <p>
   This partial uses a few variables that you can set:
