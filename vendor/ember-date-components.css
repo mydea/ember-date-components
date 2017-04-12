@@ -3,11 +3,6 @@
 .date-picker__wrapper {
   display: inline-block;
   position: relative;
-  z-index: 10;
-}
-
-.date-picker__wrapper--open {
-  z-index: 11;
 }
 
 .date-picker {
@@ -189,11 +184,6 @@
   display: inline-block;
   position: relative;
   width: 7em;
-  z-index: 10;
-}
-
-.time-picker__wrapper--open {
-  z-index: 11;
 }
 
 .time-picker__input {
@@ -201,8 +191,6 @@
 }
 
 .time-picker__dropdown {
-  position: absolute;
-  display: none;
   width: 100%;
   max-height: 300px;
   background: #fff;
@@ -211,11 +199,6 @@
   font-size: 16px;
   overflow-y: auto;
   text-align: left;
-  z-index: 2;
-}
-
-.time-picker__dropdown--open {
-  display: block;
 }
 
 .time-picker__dropdown__item {

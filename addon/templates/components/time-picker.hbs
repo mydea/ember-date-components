@@ -1,25 +1,43 @@
-{{time-picker-input
-disabled=disabled
-value=(readonly displayValue)
-class=(concat 'time-picker__input ' inputClasses)
-id=(concat elementId '-input')
-placeholder=placeholder
-input-change=(action 'updateInputValue')
-click=(action 'openAndClear')
+{{#basic-dropdown
+  onOpen=(action 'openDropdown')
+  onClose=(action 'closeDropdown')
+as |dd| }}
 
-focus-out=(action 'closeNext')
-focus-in=(action 'open')
+  {{#dd.trigger
+    onKeyDown=(action 'onKeyDown')
+  }}
+    {{time-picker-input
+      disabled=disabled
+      value=(readonly displayValue)
+      class=(concat 'time-picker__input ' inputClasses)
+      id=(concat elementId '-input')
+      placeholder=placeholder
+      input-change=(action 'updateInputValue')
+      click=(action 'openAndClear')
 
-escape=(action 'close')
-enter=(action 'selectCurrent')
-arrow-up=(action 'selectUp')
-arrow-down=(action 'selectDown')}}
+      focus-out=(action 'closeNext')
+      focus-in=(action 'open')
 
-<div class='time-picker__dropdown {{dropdownClasses}} {{if isOpen 'time-picker__dropdown--open'}}'>
-  {{#each filteredOptions as |option i|}}
-    <div
-      class='time-picker__dropdown__item{{if (is-equal selected i) ' time-picker__dropdown__item--selected'}}' {{action 'selectValue' option.value}}>
-      {{option.value}}
+      escape=(action 'close')
+      enter=(action 'selectCurrent')
+      arrow-up=(action 'selectUp')
+      arrow-down=(action 'selectDown')
+    }}
+  {{/dd.trigger}}
+
+  {{#dd.content}}
+    <div class='time-picker__dropdown {{dropdownClasses}}'>
+      {{#each filteredOptions as |option i|}}
+        <div
+          class='time-picker__dropdown__item
+            {{if (is-equal selected i) 'time-picker__dropdown__item--selected'}}'
+          {{action 'selectValue' option.value}}
+        >
+          {{option.value}}
+        </div>
+      {{/each}}
     </div>
-  {{/each}}
-</div>
+
+  {{/dd.content}}
+
+{{/basic-dropdown}}

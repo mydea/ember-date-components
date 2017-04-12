@@ -83,7 +83,7 @@ export default Component.extend({
   minTime: '00:00',
 
   /**
-   * The maxmimum time which can be selected.
+   * The maximum time which can be selected.
    * This should be either a parseable string or a moment.js object.
    *
    * @attribute minTime
@@ -291,6 +291,16 @@ export default Component.extend({
   }),
 
   /**
+   * The API of ember-basic-dropdown.
+   * This is used to manually open/close the dropdown.
+   *
+   * @property _dropdownApi
+   * @type {Object}
+   * @private
+   */
+  _dropdownApi: null,
+
+  /**
    * Open the dropdown.
    *
    * @method _open
@@ -306,9 +316,20 @@ export default Component.extend({
    * @method _close
    * @private
    */
-  _close() {
+  _close(forceCloseDropdown = true) {
     set(this, 'isOpen', false);
     this._reset();
+
+    if (forceCloseDropdown) {
+      this._closeDropdown();
+    }
+  },
+
+  _closeDropdown() {
+    let dropdownApi = get(this, '_dropdownApi');
+    if (dropdownApi) {
+      dropdownApi.actions.close();
+    }
   },
 
   /**
@@ -555,6 +576,23 @@ export default Component.extend({
       // Always open the select box when someone starts to type
       this._open();
       set(this, 'inputValue', val);
+    },
+
+    openDropdown(dropdownApi) {
+      set(this, '_dropdownApi', dropdownApi);
+    },
+
+    closeDropdown() {
+      this._close(false);
+    },
+
+    onKeyDown(dropdownApi, event) {
+      // Also handle the enter event here, since ember-basic-dropdown seems to be interfering somewhere
+      let { keyCode } = event;
+      let enterKeyCode = 13;
+      if (keyCode === enterKeyCode) {
+        this.send('selectCurrent');
+      }
     }
   }
 });
