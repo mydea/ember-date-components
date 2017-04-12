@@ -129,6 +129,36 @@ export default Component.extend({
   disabled: false,
 
   /**
+   * If set to true, the month picker will not be usable.
+   *
+   * @attribute disableMonthPicker
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  disableMonthPicker: false,
+
+  /**
+   * If set to true, the year picker will not be usable.
+   *
+   * @attribute disableYearPicker
+   * @type {Boolean}
+   * @default false
+   * @public
+   */
+  disableYearPicker: false,
+
+  /**
+   * The number of years before & after the current year to show in the year picker.
+   *
+   * @attribute availableYearOffset
+   * @type {Number}
+   * @default 10
+   * @public
+   */
+  availableYearOffset: 10,
+
+  /**
    * The action to call whenever one of the value changes.
    *
    * @event action
@@ -767,6 +797,10 @@ export default Component.extend({
     gotoPreviousMonth() {
       let month = get(this, 'currentMonth');
       set(this, 'currentMonth', month.clone().subtract(1, 'month'));
+    },
+
+    gotoMonth(month) {
+      set(this, 'currentMonth', month.clone().startOf('month'));
     },
 
     selectDate(date) {

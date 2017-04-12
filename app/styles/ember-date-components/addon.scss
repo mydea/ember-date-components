@@ -187,6 +187,41 @@ $date-picker-color-background: #eee !default;
 
 /* Date Picker End */
 
+/* Month/Year Picker Begin */
+.date-picker__header__select {
+  display: inline-block;
+}
+
+.date-picker__header__select:focus {
+  outline: none;
+}
+
+.date-picker__header__select__content {
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 1px 2px 2px $date-picker-color-secondary;
+}
+
+.date-picker__header__select__item {
+  display: block;
+  width: 100%;
+  padding: 2px 10px;
+  border: 0;
+  border-bottom: 1px solid $date-picker-color-secondary;
+  box-shadow: none;
+  background: none;
+}
+
+.date-picker__header__select__item:last-child {
+  border: 0;
+}
+
+.date-picker__header__select__item--current {
+  background: $date-picker-color-primary;
+  color: white;
+}
+/* Month/Year Picker End */
+
 /* Time Picker Begin */
 
 .time-picker__wrapper {

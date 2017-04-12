@@ -47,7 +47,17 @@ as |dd| }}
           </button>
 
           <div class="date-picker__header__title">
-            {{moment-format currentMonth 'MMMM YYYY'}}
+
+            {{date-picker-month-year-select
+              minDate=minDate
+              maxDate=maxDate
+              currentMonth=currentMonth
+              disableMonthPicker=disableMonthPicker
+              disableYearPicker=disableYearPicker
+              availableYearOffset=availableYearOffset
+              gotoMonth=(action 'gotoMonth')
+            }}
+
           </div>
 
         </div>

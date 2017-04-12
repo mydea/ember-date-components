@@ -1,0 +1,61 @@
+{{#unless monthPickerDisabled}}
+
+  {{#basic-dropdown
+    horizontalPosition='right'
+  as |monthDropdown|}}
+    {{#monthDropdown.trigger
+      class='date-picker__header__month date-picker__header__select'
+    }}
+      {{moment-format currentMonth 'MMMM'}}
+    {{/monthDropdown.trigger}}
+    {{#monthDropdown.content}}
+      <div class="date-picker__header__select__content">
+        {{#each availableMonths as |month|}}
+          <button
+            class="date-picker__header__select__item
+                            {{if (is-equal-month month currentMonth) 'date-picker__header__select__item--current'}}"
+            {{action 'gotoMonth' month monthDropdown}}
+          >
+            {{moment-format month 'MMMM'}}
+          </button>
+        {{/each}}
+      </div>
+    {{/monthDropdown.content}}
+  {{/basic-dropdown}}
+
+{{else}}
+
+  {{moment-format currentMonth 'MMMM'}}
+
+{{/unless}}
+
+{{#unless yearPickerDisabled}}
+
+  {{#basic-dropdown
+  as |yearDropdown|}}
+    {{#yearDropdown.trigger
+      class='date-picker__header__year date-picker__header__select'
+      horizontalPosition='auto'
+    }}
+      {{moment-format currentMonth 'YYYY'}}
+    {{/yearDropdown.trigger}}
+    {{#yearDropdown.content}}
+      <div class="date-picker__header__select__content">
+        {{#each availableYears as |year|}}
+          <button
+            class="date-picker__header__select__item
+                              {{if (is-equal-year year currentMonth) 'date-picker__header__select__item--current'}}"
+            {{action 'gotoMonth' year yearDropdown}}
+          >
+            {{moment-format year 'YYYY'}}
+          </button>
+        {{/each}}
+      </div>
+    {{/yearDropdown.content}}
+  {{/basic-dropdown}}
+
+{{else}}
+
+  {{moment-format currentMonth 'YYYY'}}
+
+{{/unless}}
