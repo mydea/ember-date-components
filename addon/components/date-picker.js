@@ -8,7 +8,8 @@ const {
   set,
   Component,
   A: array,
-  typeOf: getTypeOf
+  typeOf: getTypeOf,
+  run
 } = Ember;
 
 /**
@@ -177,7 +178,7 @@ export default Component.extend({
   closeAction: null,
 
   /**
-   * Whether the calendar displays the week starting on Monday or Sunday.
+   * Whether the calendar displays the week starting on Mondayf or Sunday.
    *
    * @attribute startWeekOnSunday
    * @type {Boolean}
@@ -557,16 +558,22 @@ export default Component.extend({
     set(this, 'isOpen', false);
     set(this, 'isToStep', false);
 
-    let action = get(this, 'attrs.closeAction');
-    let vals = get(this, '_dates');
-    let isRange = get(this, 'range');
-
-    if (sendAction && action) {
-      action(isRange ? vals : vals[0] || null);
+    if (sendAction) {
+      run.once(this, this._sendCloseAction);
     }
 
     if (forceCloseDropdown) {
       this._closeDropdown();
+    }
+  },
+
+  _sendCloseAction() {
+    let action = get(this, 'attrs.closeAction');
+    let vals = get(this, '_dates');
+    let isRange = get(this, 'range');
+
+    if (action) {
+      action(isRange ? vals : vals[0] || null);
     }
   },
 
@@ -823,7 +830,7 @@ export default Component.extend({
     },
 
     closeDropdown() {
-      this._close(false, false);
+      this._close(true, false);
     },
 
     openDropdown(dropdownApi) {
