@@ -474,6 +474,20 @@ export default Component.extend({
     set(this, 'stringValue', value || null);
   },
 
+  _closeNext() {
+    if (get(this, 'isDestroyed') || !get(this, 'isOpen')) {
+      return;
+    }
+    let inputValue = get(this, 'inputValue');
+    // If there is an input, this means it hasn't been processed yet
+    // --> Process it now!
+    if (inputValue) {
+      this._checkStringInput();
+    }
+
+    this._close();
+  },
+
   /**
    * Prepare data for the time input.
    *
@@ -496,6 +510,11 @@ export default Component.extend({
   actions: {
 
     open() {
+      let timer = get(this, '_closeNextTimer');
+      if (timer) {
+        run.cancel(timer);
+      }
+
       this._open();
     },
 
@@ -510,20 +529,8 @@ export default Component.extend({
 
     closeNext() {
       // Wait for all other events to finish
-      // Somehow, 1 or 10 doesn't work
-      run.later(this, () => {
-        if (get(this, 'isDestroyed')) {
-          return;
-        }
-        let inputValue = get(this, 'inputValue');
-        // If there is an input, this means it hasn't been processed yet
-        // --> Process it now!
-        if (inputValue) {
-          this._checkStringInput();
-        }
-
-        this._close();
-      }, 100);
+      let closeNext = run.debounce(this, this._closeNext, 100);
+      set(this, '_closeNextTimer', closeNext);
     },
 
     selectUp() {
@@ -565,11 +572,13 @@ export default Component.extend({
       let value = get(selectedOption, 'value');
       set(this, 'stringValue', value);
       this._checkInput();
+      this._close();
     },
 
     selectValue(value) {
       set(this, 'stringValue', value);
       this._checkInput();
+      this._close();
     },
 
     updateInputValue(val) {
@@ -590,8 +599,10 @@ export default Component.extend({
       // Also handle the enter event here, since ember-basic-dropdown seems to be interfering somewhere
       let { keyCode } = event;
       let enterKeyCode = 13;
-      if (keyCode === enterKeyCode) {
+      let tabKeyCode = 9;
+      if (keyCode === enterKeyCode || keyCode === tabKeyCode) {
         this.send('selectCurrent');
+        return false;
       }
     }
   }

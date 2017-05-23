@@ -1,6 +1,6 @@
 {{#basic-dropdown
   onOpen=(action 'openDropdown')
-  onClose=(action 'closeDropdown')
+  onClose=(action 'closeNext')
 as |dd| }}
 
   {{#dd.trigger
@@ -14,9 +14,6 @@ as |dd| }}
       placeholder=placeholder
       input-change=(action 'updateInputValue')
       click=(action 'openAndClear')
-
-      focus-out=(action 'closeNext')
-      focus-in=(action 'open')
 
       escape=(action 'close')
       enter=(action 'selectCurrent')

@@ -93,21 +93,3 @@ test('amPm is correctly evaluated for locale de', function(assert) {
 
   assert.equal(this.$().find('input').val().trim(), time.format('HH:mm'), 'Correct date is shown');
 });
-
-test('action is sent when the user removes focus from input field', function(assert) {
-  assert.expect(3);
-
-  this.on('uptimeTime', function(time) {
-    assert.equal(arguments.length, 1, 'one argument is passed to action.');
-    assert.equal(time.format('HH:mm'), '14:30', 'correct time is passed to action.');
-  });
-  this.render(hbs`{{time-picker action=(action 'uptimeTime')}}`);
-
-  let $input = this.$().find('input');
-  $input.val('14:30').trigger('keyup').trigger('focus');
-  $input.trigger('focusout');
-
-  return wait().then(() => {
-    assert.notOk(this.$().find('.time-picker__dropdown').hasClass('time-picker__dropdown--open'), 'time picker dropdown is closed after selection.');
-  });
-});
