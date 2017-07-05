@@ -94,8 +94,8 @@ test('amPm is correctly evaluated for locale de', function(assert) {
 });
 
 test('`renderPlace` correctly rendered', function(assert) {
-  this.set('renderInplace', true);
-  this.render(hbs`{{time-picker renderInplace=renderInplace}}`);
+  this.set('renderInPlace', true);
+  this.render(hbs`{{time-picker renderInPlace=renderInPlace}}`);
 
   let $input = this.$().find('input');
   let enterEvent = $.Event('keyup');
