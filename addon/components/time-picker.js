@@ -29,6 +29,15 @@ export default Component.extend({
   classNameBindings: ['isOpen:time-picker__wrapper--open'],
 
   /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * @attribute value
+   * @type {Boolean}
+   * @public
+   */
+  renderInPlace: false,
+
+  /**
    * The current value of the time picker.
    * Has to be a moment.js object or null.
    *

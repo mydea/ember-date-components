@@ -189,3 +189,15 @@ test('date-range picker closeAction works', function(assert) {
     datePicker.select(moment().date(14));
   });
 });
+
+test('`renderPlace` correctly rendered', function(assert) {
+  this.set('renderInPlace', true);
+  this.render(hbs`{{date-picker renderInPlace=renderInPlace}}`);
+
+  let datePicker = interactWithDatePicker(this.$().find('.date-picker__wrapper'));
+  datePicker.toggle();
+
+  run.next(() => {
+    assert.ok(this.$().find('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
+  });
+});

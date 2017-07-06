@@ -3,7 +3,6 @@ import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import Ember from 'ember';
 import $ from 'jquery';
-import wait from 'ember-test-helpers/wait';
 
 const {
   run
@@ -92,4 +91,19 @@ test('amPm is correctly evaluated for locale de', function(assert) {
   this.render(hbs`{{time-picker value=defaultTime}}`);
 
   assert.equal(this.$().find('input').val().trim(), time.format('HH:mm'), 'Correct date is shown');
+});
+
+test('`renderPlace` correctly rendered', function(assert) {
+  this.set('renderInPlace', true);
+  this.render(hbs`{{time-picker renderInPlace=renderInPlace}}`);
+
+  let $input = this.$().find('input');
+  let enterEvent = $.Event('keyup');
+  enterEvent.which = 13;
+  enterEvent.keyCode = 13;
+  $input.trigger(enterEvent);
+
+  run.next(() => {
+    assert.ok(this.$().find('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
+  });
 });

@@ -28,6 +28,14 @@ export default Component.extend({
   classNameBindings: ['isOpen:date-picker__wrapper--open'],
 
   // ATTRIBUTES BEGIN ----------------------------------------
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * @attribute value
+   * @type {Boolean}
+   * @public
+   */
+  renderInPlace: false,
 
   /**
    * The default value for the date picker.
