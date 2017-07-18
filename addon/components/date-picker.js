@@ -38,6 +38,28 @@ export default Component.extend({
   renderInPlace: false,
 
   /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are right|center|left
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  horizontalPosition: 'auto',
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are above|below
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  verticalPosition: 'auto',
+
+  /**
    * The default value for the date picker.
    * Can be a value or an array.
    * Note that internally, this will always be converted to an array (if for a sinle-date picker field).
