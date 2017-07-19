@@ -38,6 +38,28 @@ export default Component.extend({
   renderInPlace: false,
 
   /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are right|center|left
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  horizontalPosition: 'auto',
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are above|below
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  verticalPosition: 'auto',
+
+  /**
    * The current value of the time picker.
    * Has to be a moment.js object or null.
    *
