@@ -1,6 +1,10 @@
 # Changelog
 
-v1.0.0-beta.0
+v1.0.1
+
+* Fix bug where time select would sometimes not fire action
+
+v1.0.0
 
 * Refactor to use ember-basic-dropdown
 * Add month & year picker
