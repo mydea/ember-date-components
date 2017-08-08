@@ -1,5 +1,11 @@
 # Changelog
 
+v1.0.2
+
+* Add renderInPlace option (Thanks @PromoRepublic)
+* Add horizontalPosition & verticalPosition options (Thanks to @Nikash)
+* Bump ember-basic-dropdown (Thanks to @mixonic)
+
 v1.0.1
 
 * Fix bug where time select would sometimes not fire action
