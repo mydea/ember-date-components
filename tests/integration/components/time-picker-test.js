@@ -8,6 +8,17 @@ const {
   run
 } = Ember;
 
+function setTimePickerValue($el, val) {
+  let $timeInput = $el.find('input');
+  $timeInput.val(val).trigger('keyup');
+  /* eslint-disable new-cap */
+  let enterEvent = $.Event('keyup');
+  /* eslint-enable new-cap */
+  enterEvent.which = 13;
+  enterEvent.keyCode = 13;
+  $timeInput.trigger(enterEvent);
+}
+
 moduleForComponent('time-picker', 'Integration | Component | time picker', {
   integration: true
 });
@@ -44,12 +55,7 @@ test('action is sent on value change', function(assert) {
   });
   this.render(hbs`{{time-picker action=(action 'uptimeTime')}}`);
 
-  let $input = this.$().find('input');
-  $input.val('14:30').trigger('keyup');
-  let enterEvent = $.Event('keyup');
-  enterEvent.which = 13;
-  enterEvent.keyCode = 13;
-  $input.trigger(enterEvent);
+  setTimePickerValue(this.$(), '14:30');
 
   run.next(() => {
     assert.notOk(this.$().find('.time-picker__dropdown').hasClass('time-picker__dropdown--open'), 'time picker dropdown is closed after selection.');
@@ -67,12 +73,7 @@ test('default value is not muted after change of time', function(assert) {
   });
   this.render(hbs`{{time-picker value=defaultTime action=(action 'uptimeTime')}}`);
 
-  let $input = this.$().find('input');
-  $input.val('05:30').trigger('keyup');
-  let enterEvent = $.Event('keyup');
-  enterEvent.which = 13;
-  enterEvent.keyCode = 13;
-  $input.trigger(enterEvent);
+  setTimePickerValue(this.$(), '05:30');
 });
 
 test('amPm is correctly evaluated for locale en', function(assert) {
@@ -96,12 +97,6 @@ test('amPm is correctly evaluated for locale de', function(assert) {
 test('`renderPlace` correctly rendered', function(assert) {
   this.set('renderInPlace', true);
   this.render(hbs`{{time-picker renderInPlace=renderInPlace}}`);
-
-  let $input = this.$().find('input');
-  let enterEvent = $.Event('keyup');
-  enterEvent.which = 13;
-  enterEvent.keyCode = 13;
-  $input.trigger(enterEvent);
 
   run.next(() => {
     assert.ok(this.$().find('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');

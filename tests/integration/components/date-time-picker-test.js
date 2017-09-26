@@ -2,11 +2,14 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
 import moment from 'moment';
+import $ from 'jquery';
 
 function setTimePickerValue($el, val) {
   let $timeInput = $el.find('input');
   $timeInput.val(val).trigger('keyup');
+  /* eslint-disable new-cap */
   let enterEvent = $.Event('keyup');
+  /* eslint-enable new-cap */
   enterEvent.which = 13;
   enterEvent.keyCode = 13;
   $timeInput.trigger(enterEvent);

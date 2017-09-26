@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import Ember from 'ember';
 import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
+import $ from 'jquery';
 
 const {
   run,

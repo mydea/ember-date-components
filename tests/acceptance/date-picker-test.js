@@ -2,6 +2,7 @@ import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
 import moment from 'moment';
+import $ from 'jquery';
 
 moduleForAcceptance('Acceptance | date picker');
 
