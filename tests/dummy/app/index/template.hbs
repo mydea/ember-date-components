@@ -57,6 +57,15 @@
   {{/link-to}}
 </p>
 
+<h2>Date/Time Picker Usage</h2>
+{{date-time-picker action=(action 'updateDateTime')}}
+{{#code-block language='handlebars'}}\{{date-time-picker action=(action 'updateDateTime')}}{{/code-block}}
+<p>
+  {{#link-to 'usage.date-time-picker'}}
+    More about Date-Time Picker usage
+  {{/link-to}}
+</p>
+
 <h2>Custom Date Options</h2>
 {{date-picker range=true options=true action=(action 'updateDateRange')}}
 {{#code-block language='handlebars'}}\{{date-picker range=true options=true action=(action 'updateDateRange')}}{{/code-block}}

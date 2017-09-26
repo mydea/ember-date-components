@@ -29,37 +29,6 @@ export default Component.extend({
   classNameBindings: ['isOpen:time-picker__wrapper--open'],
 
   /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * @attribute value
-   * @type {Boolean}
-   * @public
-   */
-  renderInPlace: false,
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are right|center|left
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  horizontalPosition: 'auto',
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are above|below
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  verticalPosition: 'auto',
-
-  /**
    * The current value of the time picker.
    * Has to be a moment.js object or null.
    *
@@ -166,6 +135,37 @@ export default Component.extend({
    * @public
    */
   inputClasses: '',
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * @attribute value
+   * @type {Boolean}
+   * @public
+   */
+  renderInPlace: false,
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are right|center|left
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  horizontalPosition: 'auto',
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are above|below
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  verticalPosition: 'auto',
 
   /**
    * Classes which should be added to the dropdown container.
@@ -338,6 +338,9 @@ export default Component.extend({
    * @private
    */
   _open() {
+    if (get(this, 'disabled')) {
+      return;
+    }
     set(this, 'isOpen', true);
   },
 

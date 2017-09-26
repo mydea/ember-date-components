@@ -1,0 +1,29 @@
+<span class="date-time-picker__item date-time-picker__item--date">
+  {{date-picker
+    value=value
+    buttonClasses=datePickerClasses
+    minDate=minDate
+    maxDate=maxDate
+    disabled=disabled
+    renderInPlace=renderInPlace
+    horizontalPosition=horizontalPosition
+    verticalPosition=verticalPosition
+    action=(action 'updateDate')
+  }}
+</span>
+
+<span class="date-time-picker__item date-time-picker__item--time">
+  {{time-picker
+    value=timePickerValue
+    disabled=timePickerDisabled
+    minTime=minTime
+    maxTime=maxTime
+    step=step
+    selectStep=selectStep
+    inputClasses=timePickerClasses
+    renderInPlace=renderInPlace
+    horizontalPosition=horizontalPosition
+    verticalPosition=verticalPosition
+    action=(action 'updateTime')
+  }}
+</span>

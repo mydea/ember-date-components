@@ -28,36 +28,6 @@ export default Component.extend({
   classNameBindings: ['isOpen:date-picker__wrapper--open'],
 
   // ATTRIBUTES BEGIN ----------------------------------------
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * @attribute value
-   * @type {Boolean}
-   * @public
-   */
-  renderInPlace: false,
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are right|center|left
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  horizontalPosition: 'auto',
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are above|below
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  verticalPosition: 'auto',
 
   /**
    * The default value for the date picker.
@@ -188,6 +158,37 @@ export default Component.extend({
    * @public
    */
   availableYearOffset: 10,
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * @attribute value
+   * @type {Boolean}
+   * @public
+   */
+  renderInPlace: false,
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are right|center|left
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  horizontalPosition: 'auto',
+
+  /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * Available values are above|below
+   *
+   * @attribute value
+   * @type {String}
+   * @public
+   */
+  verticalPosition: 'auto',
 
   /**
    * The action to call whenever one of the value changes.
