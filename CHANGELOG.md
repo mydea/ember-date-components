@@ -1,5 +1,10 @@
 # Changelog
 
+v1.0.3
+
+* Add date-time-picker component
+* Update dependencies
+
 v1.0.2
 
 * Add renderInPlace option (Thanks @PromoRepublic)
