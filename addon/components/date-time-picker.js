@@ -245,7 +245,7 @@ export default Component.extend({
   actions: {
     updateDate(val) {
       let oldDate = get(this, '_value');
-      if (oldDate) {
+      if (oldDate && val) {
         val.hours(oldDate.hours());
         val.minutes(oldDate.minutes());
         val.seconds(oldDate.seconds());
@@ -259,7 +259,7 @@ export default Component.extend({
     updateTime(val) {
       let oldDate = get(this, '_value');
 
-      if (oldDate) {
+      if (oldDate && val) {
         val.year(oldDate.year());
         val.month(oldDate.month());
         val.date(oldDate.date());
