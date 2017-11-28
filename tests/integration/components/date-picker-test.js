@@ -198,3 +198,43 @@ test('`renderPlace` correctly rendered', function(assert) {
     assert.ok(this.$().find('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place'), 'The trigger has a special `--in-place` class');
   });
 });
+
+test('yielding a button works', function(assert) {
+  let date = moment();
+  this.set('defaultDate', date);
+  this.render(hbs`{{#date-picker value=defaultDate}}<button class='test1'>Button</button>{{/date-picker}}`);
+
+  assert.ok(this.$().find('.test1').length, 'Custom Button is displayed');
+});
+
+test('the yielded content receives the array of selected dates as values', function(assert) {
+  let date = moment();
+  this.set('defaultDate', date);
+  this.render(hbs`{{#date-picker 
+    value=defaultDate
+  as |values|}}
+    {{#each values as |value|}}
+      <div class='test-values'>{{if value (moment-format value 'YYYY-MM-DD')}}</div>
+    {{/each}}
+  {{/date-picker}}`);
+
+  assert.equal(this.$().find('.test-values').length, 1, 'one value is yielded for regular date pickers');
+  assert.equal(this.$().find('.test-values').eq(0).text().trim(), date.format('YYYY-MM-DD'), 'correct date is yielded');
+});
+
+test('the yielded content receives the array of selected dates as values (date-range)', function(assert) {
+  let date = moment();
+  this.set('defaultDates', [date, null]);
+  this.render(hbs`{{#date-picker 
+    value=defaultDates
+    range=true
+  as |values|}}
+    {{#each values as |value|}}
+      <div class='test-values'>{{if value (moment-format value 'YYYY-MM-DD')}}</div>
+    {{/each}}
+  {{/date-picker}}`);
+
+  assert.equal(this.$().find('.test-values').length, 2, 'two values are yielded for date range pickers');
+  assert.equal(this.$().find('.test-values').eq(0).text().trim(), date.format('YYYY-MM-DD'), 'correct date is yielded');
+  assert.equal(this.$().find('.test-values').eq(1).text().trim(), '', 'correct date is yielded');
+});

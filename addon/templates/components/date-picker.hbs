@@ -7,32 +7,34 @@
 as |dd| }}
 
   {{#dd.trigger class='date-picker__trigger'}}
-
-    <button
-      class="date-picker__button {{buttonClasses}}
-        {{if range ' date-picker__button--range'}}
-        {{if buttonFocused 'date-picker__button--focus'}}"
-      data-test="date-picker-toggle-button"
-      disabled={{disabled}}
-        {{action 'toggleOpen' dd}}
-    >
-      {{buttonText}}
-    </button>
-
-    {{#if range}}
-      {{dateRangeSeparator}}
+    {{#if hasBlock}}
+      {{yield _dates}}
+    {{else}}
       <button
         class="date-picker__button {{buttonClasses}}
           {{if range ' date-picker__button--range'}}
-          {{if buttonToFocused ' date-picker__button--focus'}}"
+          {{if buttonFocused 'date-picker__button--focus'}}"
         data-test="date-picker-toggle-button"
         disabled={{disabled}}
-          {{action 'toggleOpenTo' dd}}
+          {{action 'toggleOpen' dd}}
       >
-        {{buttonToText}}
+        {{buttonText}}
       </button>
-    {{/if}}
 
+      {{#if range}}
+        {{dateRangeSeparator}}
+        <button
+          class="date-picker__button {{buttonClasses}}
+            {{if range ' date-picker__button--range'}}
+            {{if buttonToFocused ' date-picker__button--focus'}}"
+          data-test="date-picker-toggle-button"
+          disabled={{disabled}}
+            {{action 'toggleOpenTo' dd}}
+        >
+          {{buttonToText}}
+        </button>
+      {{/if}}
+    {{/if}}
   {{/dd.trigger}}
 
   {{#dd.content}}

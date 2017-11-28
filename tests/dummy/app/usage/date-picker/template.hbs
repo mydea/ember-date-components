@@ -34,6 +34,28 @@
 </div>
 
 <div class="wrapper">
+  <h2>Custom Button</h2>
+
+  {{#code-block language='handlebars'}}\{{#date-picker
+  action=(action 'updateDate')
+as |selectedDates|}}
+  &lt;button>Select me! Current value: \{{moment-format selectedDates.firstObject 'L'}}&lt;/button>
+\{{/date-picker}}{{/code-block}}
+
+  {{#date-picker
+    action=(action 'updateDate')
+  as |selectedDates|}}
+    <button>Select me! Current value: {{moment-format selectedDates.firstObject 'L'}}</button>
+  {{/date-picker}}
+
+  <p>
+    Note that this will always receive an array as yielded content.
+    For a regular date picker, this array will have exactly one value (which can be null or a moment instance).
+    For a date range picker, it will have two values (which can both either be null or a moment instance).
+  </p>
+</div>
+
+<div class="wrapper">
   <h2>Disable month/year picker</h2>
   {{date-picker disableYearPicker=true disableMonthPicker=true action=(action 'updateDate')}}
 </div>
@@ -221,7 +243,7 @@
         renderInPlace
       </td>
       <td>
-       This is passed through to ember-basic-dropdown.
+        This is passed through to ember-basic-dropdown.
         See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
       </td>
       <td>
