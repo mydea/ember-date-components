@@ -1,5 +1,9 @@
 # Changelog
 
+v1.0.6
+
+* Bugfix: Do not parse time when entering a space
+
 v1.0.5
 
 * Allow yielding a custom button for date-picker
