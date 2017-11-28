@@ -40,7 +40,7 @@ export function parseTime(value) {
   }
 
   // Moment.js objects are handled directly.
-  if (typeof value === 'object' && typeof value.format === 'function') {
+  if (moment.isMoment(value)) {
     return value;
   }
 

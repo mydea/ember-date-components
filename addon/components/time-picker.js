@@ -628,8 +628,12 @@ export default Component.extend({
       let { keyCode } = event;
       let enterKeyCode = 13;
       let tabKeyCode = 9;
+      let spaceKeyCode = 32;
       if (keyCode === enterKeyCode || keyCode === tabKeyCode) {
         this.send('selectCurrent');
+        return false;
+      }
+      if (keyCode === spaceKeyCode) {
         return false;
       }
     }
