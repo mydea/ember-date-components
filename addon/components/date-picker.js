@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/date-picker';
 import moment from 'moment';
-import computed from 'ember-computed';
 
 const {
   get,
@@ -9,7 +8,8 @@ const {
   Component,
   A: array,
   typeOf: getTypeOf,
-  run
+  run,
+  computed
 } = Ember;
 
 /**

@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
-import computed from 'ember-computed';
 
 const {
   get,
   set,
   getProperties,
   Component,
-  A: array
+  A: array,
+  computed
 } = Ember;
 
 /**

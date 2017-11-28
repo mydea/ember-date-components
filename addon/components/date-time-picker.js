@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import computed from 'ember-computed';
 import layout from '../templates/components/date-time-picker';
 
 const {
   Component,
   get,
-  set
+  set,
+  computed
 } = Ember;
 
 /**

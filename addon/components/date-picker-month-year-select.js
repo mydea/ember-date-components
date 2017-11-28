@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/date-picker-month-year-select';
-import computed from 'ember-computed';
 import moment from 'moment';
 
 const {
   Component,
-  get
+  get,
+  computed
 } = Ember;
 
 export default Component.extend({

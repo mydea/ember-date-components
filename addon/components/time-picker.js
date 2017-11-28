@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/time-picker';
 import moment from 'moment';
-import computed from 'ember-computed';
 import parseTime from 'ember-date-components/utils/parse-time';
 import buildTimeRange from 'ember-date-components/utils/build-time-range';
 
@@ -10,7 +9,8 @@ const {
   set,
   Component,
   run,
-  isNone
+  isNone,
+  computed
 } = Ember;
 
 /**
