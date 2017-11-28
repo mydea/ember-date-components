@@ -1,15 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { A as array } from '@ember/array';
+import { computed, getProperties, set, get } from '@ember/object';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
-
-const {
-  get,
-  set,
-  getProperties,
-  Component,
-  A: array,
-  computed
-} = Ember;
 
 /**
  * A single month view.

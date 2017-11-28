@@ -1,14 +1,10 @@
+import { run } from '@ember/runloop';
+import { typeOf as getTypeOf } from '@ember/utils';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import Ember from 'ember';
 import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
 import $ from 'jquery';
-
-const {
-  run,
-  typeOf: getTypeOf
-} = Ember;
 
 moduleForComponent('date-picker', 'Integration | Component | date picker', {
   integration: true

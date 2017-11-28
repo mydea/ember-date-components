@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import { isNone } from '@ember/utils';
 import parseTime from './parse-time';
-
-const {
-  isNone
-} = Ember;
 
 /**
  * Build a time range.

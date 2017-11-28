@@ -1,10 +1,6 @@
-import Ember from 'ember';
+import Helper from '@ember/component/helper';
+import { typeOf as getTypeOf } from '@ember/utils';
 import moment from 'moment';
-
-const {
-  Helper,
-  typeOf: getTypeOf
-} = Ember;
 
 export function isEqualDay([d1, d2]) {
   if (getTypeOf(d2) === 'array') {

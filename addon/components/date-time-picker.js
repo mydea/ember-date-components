@@ -1,12 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-time-picker';
-
-const {
-  Component,
-  get,
-  set,
-  computed
-} = Ember;
 
 /**
  * A date & time picker combo.

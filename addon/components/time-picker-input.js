@@ -1,9 +1,5 @@
-import Ember from 'ember';
-
-const {
-  get,
-  TextField
-} = Ember;
+import { get } from '@ember/object';
+import TextField from '@ember/component/text-field';
 
 /**
  * This is an extended {{input}} to send appropriate events for arrowUp/arrowDown.

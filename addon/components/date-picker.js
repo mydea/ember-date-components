@@ -1,16 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { A as array } from '@ember/array';
+import { typeOf as getTypeOf } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-picker';
 import moment from 'moment';
-
-const {
-  get,
-  set,
-  Component,
-  A: array,
-  typeOf: getTypeOf,
-  run,
-  computed
-} = Ember;
 
 /**
  * A versatile date picker component.

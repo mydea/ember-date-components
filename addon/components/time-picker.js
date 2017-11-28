@@ -1,17 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { isNone } from '@ember/utils';
+import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/time-picker';
 import moment from 'moment';
 import parseTime from 'ember-date-components/utils/parse-time';
 import buildTimeRange from 'ember-date-components/utils/build-time-range';
-
-const {
-  get,
-  set,
-  Component,
-  run,
-  isNone,
-  computed
-} = Ember;
 
 /**
  * An input field to choose a time in a day.
