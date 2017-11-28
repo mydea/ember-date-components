@@ -1,5 +1,14 @@
 # Changelog
 
+v1.0.5
+
+* Allow yielding a custom button for date-picker
+* Update dependencies
+
+v1.0.4
+
+* Bugfix: Check for empty value in date-time-picker
+
 v1.0.3
 
 * Add date-time-picker component
