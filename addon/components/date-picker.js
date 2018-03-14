@@ -528,7 +528,7 @@ export default Component.extend({
     set(this, '_dates', val);
 
     if (val.length > 0) {
-      let month = val[0] ? val[0].clone().startOf('month') : moment().startOf('month');
+      let month = val[0] && moment.isMoment(val[0]) ? val[0].clone().startOf('month') : moment().startOf('month');
       set(this, 'currentMonth', month);
     } else {
       let month = moment().startOf('month');
