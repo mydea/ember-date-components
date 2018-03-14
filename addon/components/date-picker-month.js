@@ -29,7 +29,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  selectedDates: [],
+  selectedDates: null,
 
   /**
    * The month that should be shown.
@@ -242,11 +242,18 @@ export default Component.extend({
   // HOOKS BEGIN ----------------------------------------
 
   didReceiveAttrs() {
+    this._super(...arguments);
+
     let minDate = get(this, 'minDate');
     let maxDate = get(this, 'maxDate');
 
     set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
     set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
+  },
+
+  init() {
+    this._super(...arguments);
+    set(this, 'selectedDates', []);
   },
 
   // HOOKS END ----------------------------------------

@@ -1,46 +1,51 @@
-import $ from 'jquery';
-import { click } from 'ember-native-dom-helpers';
+import { click, triggerKeyEvent, fillIn } from '@ember/test-helpers';
 
-export const interactWithDatePicker = function(element) {
-  let $el = $(element);
-  let $button = $el.find('[data-test="date-picker-toggle-button"]');
+function isJQueryObject(el) {
+  return el && typeof el.length !== 'undefined';
+}
 
-  let button = $button.get(0);
-  let buttonTo = $button.get(1);
+export function interactWithDatePicker(element) {
+  let jqueryMode = isJQueryObject(element);
+  let [button, buttonTo] = element.querySelectorAll('[data-test="date-picker-toggle-button"]');
 
   return {
     buttonText() {
-      return $button.text().trim();
+      return button.innerText.trim();
     },
 
     toggle() {
-      click(button);
+      return click(button);
     },
 
     toggleTo() {
-      click(buttonTo);
+      return click(buttonTo);
     },
 
     select(date) {
-      let button = $(`.date-picker button[data-test="day-${date.month()}-${date.date()}"]`).get(0);
-      click(button);
+      return click(`.date-picker button[data-test="day-${date.month()}-${date.date()}"]`);
     },
 
     nextMonth() {
-      $('.date-picker .date-picker__header__button--next').click();
+      return click('.date-picker .date-picker__header__button--next');
     },
 
     previousMonth() {
-      $('.date-picker .date-picker__header__button--previous').click();
+      return click('.date-picker .date-picker__header__button--previous');
     },
 
     isOpen() {
-      return !!$('.date-picker').length;
+      return !!document.querySelector('.date-picker');
     },
 
-    element: $el,
-    buttonElement: $button
+    element,
+    buttonElement: jqueryMode ? element.find(button) : button
   };
-};
+}
+
+export async function setTimePickerValue(el, val) {
+  let timeInput = el.querySelector('input');
+  await fillIn(timeInput, val);
+  await triggerKeyEvent(timeInput, 'keyup', 13); // Enter event
+}
 
 export default interactWithDatePicker;

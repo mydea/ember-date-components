@@ -278,7 +278,7 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timeOptions: computed('options.minTime', 'options.maxTime', 'options.selectStep', function() {
+  timeOptions: computed('options.{minTime,maxTime,selectStep}', function() {
     let { minTime, maxTime, selectStep } = get(this, 'options');
     let format = get(this, 'format');
 

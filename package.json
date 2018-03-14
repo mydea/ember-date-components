@@ -8,8 +8,9 @@
   },
   "scripts": {
     "build": "ember build",
-    "start": "ember server",
-    "test": "ember try:each"
+    "lint:js": "eslint ./*.js app config lib server tests",
+    "start": "ember serve",
+    "test": "ember test"
   },
   "repository": "https://github.com/mydea/ember-date-components",
   "engines": {
@@ -20,11 +21,11 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.6.0",
     "ember-bootstrap": "^0.11.2",
-    "ember-cli": "^2.16.2",
+    "ember-cli": "^3.0.0",
     "ember-cli-app-version": "^3.1.0",
     "ember-cli-dependency-checker": "^2.1.0",
     "ember-cli-eslint": "^4.2.2",
-    "ember-cli-github-pages": "^0.1.2",
+    "ember-cli-github-pages": "^0.2.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.2",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-moment-shim": "^3.5.0",
@@ -32,18 +33,23 @@
     "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sass": "^7.1.1",
     "ember-cli-shims": "^1.2.0",
-    "ember-cli-test-loader": "^2.2.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
+    "ember-maybe-import-regenerator": "^0.1.6",
     "ember-moment": "^7.5.0",
-    "ember-page-title": "^3.2.2",
+    "ember-page-title": "^4.0.3",
     "ember-prism": "^0.2.0",
     "ember-resolver": "^4.5.0",
-    "ember-source": "^2.16.2",
+    "ember-source": "^3.0.0",
+    "ember-source-channel-url": "^1.0.1",
+    "ember-try": "^0.2.23",
+    "eslint-plugin-ember": "^5.1.0",
     "eslint-plugin-ember-suave": "^1.0.0",
-    "loader.js": "^4.2.3"
+    "eslint-plugin-node": "^6.0.1",
+    "loader.js": "^4.2.3",
+    "qunit-dom": "^0.5.0"
   },
   "dependencies": {
     "ember-basic-dropdown": "^0.34.0",

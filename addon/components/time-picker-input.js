@@ -1,5 +1,6 @@
-import { get } from '@ember/object';
+import { get, computed } from '@ember/object';
 import TextField from '@ember/component/text-field';
+import { once } from '@ember/runloop';
 
 /**
  * This is an extended {{input}} to send appropriate events for arrowUp/arrowDown.
@@ -28,6 +29,15 @@ export default TextField.extend({
    */
   disabled: false,
 
+  KEY_EVENTS: computed(function() {
+    return {
+      38: 'arrowUp',
+      40: 'arrowDown',
+      13: 'enter',
+      27: 'escape'
+    };
+  }),
+
   interpretKeyEvents(event) {
     if (!event) {
       return this.inputChange();
@@ -39,36 +49,63 @@ export default TextField.extend({
     if (method) {
       return this[method](event);
     } else {
-      return this.inputChange();
+      return once(this, this.inputChange);
     }
+  },
+
+  change() {
+    once(this, this.inputChange);
   },
 
   inputChange() {
     this._elementValueDidChange();
     let value = get(this, 'value');
-    this.sendAction('input-change', value, this);
+
+    let action = get(this, 'input-change');
+    if (action && typeof action === 'function') {
+      return action(value, this);
+    } else {
+      console.warn('input-change action on time-picker-input needs to be a closure action.'); // eslint-disable-line
+    }
   },
 
   arrowUp(event) {
-    this.sendAction('arrow-up', this, event);
+    let action = get(this, 'arrow-up');
+
+    if (action && typeof action === 'function') {
+      return action(this, event);
+    } else {
+      console.warn('arrow-up action on time-picker-input needs to be a closure action.'); // eslint-disable-line
+    }
   },
 
   arrowDown(event) {
-    this.sendAction('arrow-down', this, event);
+    let action = get(this, 'arrow-down');
+
+    if (action && typeof action === 'function') {
+      return action(this, event);
+    } else {
+      console.warn('arrow-down action on time-picker-input needs to be a closure action.'); // eslint-disable-line
+    }
   },
 
   escape(event) {
-    this.sendAction('escape', this, event);
+    let action = get(this, 'escape');
+
+    if (action && typeof action === 'function') {
+      return action(this, event);
+    } else {
+      console.warn('escape action on time-picker-input needs to be a closure action.'); // eslint-disable-line
+    }
   },
 
   enter(event) {
-    this.sendAction('enter', this, event);
-  },
+    let action = get(this, 'enter');
 
-  KEY_EVENTS: {
-    38: 'arrowUp',
-    40: 'arrowDown',
-    13: 'enter',
-    27: 'escape'
+    if (action && typeof action === 'function') {
+      return action(this, event);
+    } else {
+      console.warn('enter action on time-picker-input needs to be a closure action.'); // eslint-disable-line
+    }
   }
 });
