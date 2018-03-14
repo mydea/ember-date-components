@@ -1,5 +1,12 @@
 # Changelog
 
+v1.1.0
+
+* Update all dependencies (incl. update to Ember 3)
+* Move to new test syntax
+* Drop all usage of jQuery
+* [POTENTIALLY BREAKING]: Refactor interactWithDatePicker to use new @ember/test-helpers instead of jQuery
+
 v1.0.6
 
 * Bugfix: Do not parse time when entering a space
