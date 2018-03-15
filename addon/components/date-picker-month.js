@@ -203,7 +203,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  daysInMonth: computed('_daysInMonth', '_minDate', '_maxDate', 'selectedDates.[]', function() {
+  daysInMonth: computed('_daysInMonth', 'disabledDates.[]', '_minDate', '_maxDate', 'selectedDates.[]', function() {
     let days = get(this, '_daysInMonth');
 
     days.forEach((day) => {
