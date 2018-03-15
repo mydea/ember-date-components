@@ -3,8 +3,6 @@ import Controller from '@ember/controller';
 import moment from 'moment';
 
 export default Controller.extend({
-  disableDates: [moment(), moment().add(1, 'd')],
-  minDate: moment(),
 
   date2: computed(function() {
     return {

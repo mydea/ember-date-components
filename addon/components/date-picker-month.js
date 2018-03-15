@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { A as array } from '@ember/array';
-import { computed, getProperties, set, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
 
@@ -106,17 +106,16 @@ export default Component.extend({
    * @type [Date]
    * @private
    */
-   _disableDates: false,
+  _disableDates: false,
 
   /**
-   * Internally, the dateStatus is set as disabledDates are matched and iterated through.
+   * Internally, the dateStatus is set as disableDates are matched and iterated through.
    *
    * @property dateStatus
    * @type boolean
    * @private
    */
-   dateStatus: false,
-
+  dateStatus: false,
 
   /**
    * Internally, the minDate is copied, set to startOf('day') and saved here to save unnecessary processing.
@@ -230,7 +229,6 @@ export default Component.extend({
         return;
       }
       set(day, 'disabled', this._dayIsOutOfRange(day.date));
-      
       set(day, 'inRange', this._dayIsInRange(day.date));
     });
     return days;
@@ -275,7 +273,7 @@ export default Component.extend({
     this._super(...arguments);
     let minDate = get(this, 'minDate');
     let maxDate = get(this, 'maxDate');
-    let disableDates = get(this, 'disableDates');
+    let disableDates = get(this, 'disableDates') || [];
 
     set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
     set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
@@ -325,10 +323,11 @@ export default Component.extend({
     let _disableDates = get(this, '_disableDates');
     set(this, 'dateStatus', false);
 
-    _disableDates.forEach(date => {
+    _disableDates.forEach((date) => {
       let status = date.startOf('day').valueOf() === day.valueOf() ? true : false;
-      if(status === true)
+      if (status === true) {
         set(this, 'dateStatus', true);
+      }
     });
     return get(this, 'dateStatus');
   },

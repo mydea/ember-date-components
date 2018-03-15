@@ -239,4 +239,16 @@ module('Integration | Component | date picker', function(hooks) {
     assert.dom('.test-values:nth-child(1)').hasText(date.format('YYYY-MM-DD'), 'correct date is yielded');
     assert.dom('.test-values:nth-child(2)').hasText('', 'correct date is yielded');
   });
+
+  test('Submitting disabled dates disables those dates on the date picker', async function(assert) {
+    let defaultDates = [moment(), moment().add(1, 'd')];
+    set(this, 'disabledDates', defaultDates);
+    await render(hbs`{{date-picker disableDates=disabledDates}}`);
+
+    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    await datePicker.toggle();
+
+    assert.dom(`button[data-test="day-${defaultDates[0].month()}-${defaultDates[0].date()}"]`).hasAttribute('disabled');
+    assert.dom(`button[data-test="day-${defaultDates[1].month()}-${defaultDates[1].date()}"]`).hasAttribute('disabled');
+  });
 });
