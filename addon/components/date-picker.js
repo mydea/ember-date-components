@@ -40,12 +40,12 @@ export default Component.extend({
    * An array of optional dates to disable for this date picker.
    * These dates will not be selectable.
    *
-   * @attribute disableDates
+   * @attribute disabledDates
    * @type [Date]
    * @optional
    * @public
    */
-  disableDates: null,
+  disabledDates: null,
 
   /**
    * An optional minimum date for this date picker.

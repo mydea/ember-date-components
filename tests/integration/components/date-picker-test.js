@@ -243,7 +243,7 @@ module('Integration | Component | date picker', function(hooks) {
   test('Submitting disabled dates disables those dates on the date picker', async function(assert) {
     let defaultDates = [moment(), moment().add(1, 'd')];
     set(this, 'disabledDates', defaultDates);
-    await render(hbs`{{date-picker disableDates=disabledDates}}`);
+    await render(hbs`{{date-picker disabledDates=disabledDates}}`);
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggle();
