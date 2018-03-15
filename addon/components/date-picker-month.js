@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { A as array } from '@ember/array';
-import { computed, getProperties, set, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
 
@@ -41,6 +41,17 @@ export default Component.extend({
    * @public
    */
   month: null,
+
+  /**
+   * An array of optional dates to disable for this date picker.
+   * These dates will not be selectable.
+   *
+   * @attribute disabledDates
+   * @type [Date]
+   * @optional
+   * @public
+   */
+  disabledDates: null,
 
   /**
    * An optional minimum date.
@@ -192,7 +203,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  daysInMonth: computed('_daysInMonth', '_minDate', '_maxDate', 'selectedDates.[]', function() {
+  daysInMonth: computed('_daysInMonth', 'disabledDates.[]', '_minDate', '_maxDate', 'selectedDates.[]', function() {
     let days = get(this, '_daysInMonth');
 
     days.forEach((day) => {
@@ -202,7 +213,6 @@ export default Component.extend({
       set(day, 'disabled', this._dayIsDisabled(day.date));
       set(day, 'inRange', this._dayIsInRange(day.date));
     });
-
     return days;
   }),
 
@@ -243,7 +253,6 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-
     let minDate = get(this, 'minDate');
     let maxDate = get(this, 'maxDate');
 
@@ -270,15 +279,29 @@ export default Component.extend({
    * @private
    */
   _dayIsDisabled(day) {
-    let {
-      _minDate,
-      _maxDate
-    } = getProperties(this, '_minDate', '_maxDate');
-
+    let _minDate = get(this, '_minDate');
+    let _maxDate = get(this, '_maxDate');
     if (_minDate && _minDate.valueOf() > day.valueOf()) {
       return true;
+    } else if (_maxDate && _maxDate.valueOf() < day.valueOf()) {
+      return true;
+    } else {
+      return this._dayNotAvailable(day);
     }
-    return _maxDate && _maxDate.valueOf() < day.valueOf();
+  },
+
+  /**
+   * Check if a date is disabled.
+   * This checks if the date is inside of minDate/maxDate.
+   *
+   * @method _dayIsDisabled
+   * @param {Date} day The date to check
+   * @return {Boolean}
+   * @private
+   */
+  _dayNotAvailable(day) {
+    let disabledDates = get(this, 'disabledDates') || [];
+    return !!disabledDates.find((date) => date.isSame(day, 'day'));
   },
 
   /**
