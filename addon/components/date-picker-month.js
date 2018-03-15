@@ -43,6 +43,17 @@ export default Component.extend({
   month: null,
 
   /**
+   * An array of optional dates to disable for this date picker.
+   * These dates will not be selectable.
+   *
+   * @attribute disableDates
+   * @type [Date]
+   * @optional
+   * @public
+   */
+  disableDates: null,
+
+  /**
    * An optional minimum date.
    * No dates before this date will be selectable.
    *
@@ -87,6 +98,25 @@ export default Component.extend({
   // ATTRIBUTES END ----------------------------------------
 
   // PROPERTIES BEGIN ----------------------------------------
+
+  /**
+   * Internally, the disableDate is copied and saved here to save unnecessary processing.
+   *
+   * @property _disableDates
+   * @type [Date]
+   * @private
+   */
+   _disableDates: false,
+
+  /**
+   * Internally, the dateStatus is set as disabledDates are matched and iterated through.
+   *
+   * @property dateStatus
+   * @type boolean
+   * @private
+   */
+   dateStatus: false,
+
 
   /**
    * Internally, the minDate is copied, set to startOf('day') and saved here to save unnecessary processing.
@@ -192,17 +222,17 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  daysInMonth: computed('_daysInMonth', '_minDate', '_maxDate', 'selectedDates.[]', function() {
+  daysInMonth: computed('_daysInMonth', '_disableDates', '_minDate', '_maxDate', 'selectedDates.[]', function() {
     let days = get(this, '_daysInMonth');
 
     days.forEach((day) => {
       if (!day) {
         return;
       }
-      set(day, 'disabled', this._dayIsDisabled(day.date));
+      set(day, 'disabled', this._dayIsOutOfRange(day.date));
+      
       set(day, 'inRange', this._dayIsInRange(day.date));
     });
-
     return days;
   }),
 
@@ -243,12 +273,13 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-
     let minDate = get(this, 'minDate');
     let maxDate = get(this, 'maxDate');
+    let disableDates = get(this, 'disableDates');
 
     set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
     set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
+    set(this, '_disableDates', disableDates);
   },
 
   init() {
@@ -269,16 +300,37 @@ export default Component.extend({
    * @return {Boolean}
    * @private
    */
-  _dayIsDisabled(day) {
-    let {
-      _minDate,
-      _maxDate
-    } = getProperties(this, '_minDate', '_maxDate');
-
+  _dayIsOutOfRange(day) {
+    let _minDate = get(this, '_minDate');
+    let _maxDate = get(this, '_maxDate');
     if (_minDate && _minDate.valueOf() > day.valueOf()) {
       return true;
+    } else if (_maxDate && _maxDate.valueOf() < day.valueOf()) {
+      return true;
+    } else {
+      return this._dayIsDisabled(day);
     }
-    return _maxDate && _maxDate.valueOf() < day.valueOf();
+  },
+
+  /**
+   * Check if a date is disabled.
+   * This checks if the date is inside of minDate/maxDate.
+   *
+   * @method _dayIsDisabled
+   * @param {Date} day The date to check
+   * @return {Boolean}
+   * @private
+   */
+  _dayIsDisabled(day) {
+    let _disableDates = get(this, '_disableDates');
+    set(this, 'dateStatus', false);
+
+    _disableDates.forEach(date => {
+      let status = date.startOf('day').valueOf() === day.valueOf() ? true : false;
+      if(status === true)
+        set(this, 'dateStatus', true);
+    });
+    return get(this, 'dateStatus');
   },
 
   /**
