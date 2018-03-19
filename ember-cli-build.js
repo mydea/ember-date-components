@@ -5,7 +5,11 @@ module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
     sassOptions: {},
     'ember-bootstrap': {
-      'importBootstrapTheme': true
+      'importBootstrapTheme': true,
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': false,
+      'whitelist': ['bs-dropdown']
     },
     'ember-prism': {
       'theme': 'twilight',
@@ -16,8 +20,6 @@ module.exports = function(defaults) {
       includeCSS: true
     }
   });
-
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
   return app.toTree();
 };

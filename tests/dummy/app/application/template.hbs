@@ -21,35 +21,39 @@
           {{/link-to}}
         </li>
 
-        {{#bs-dropdown tagName="li"}}
-          {{#bs-dropdown-toggle}}Component Docs <span class="caret"></span>{{/bs-dropdown-toggle}}
-          {{#bs-dropdown-menu}}
-            <li>
+        {{#bs-dropdown tagName="li" as |dd|}}
+          {{#dd.toggle}}
+            Component Docs
+            <span class="caret"></span>
+          {{/dd.toggle}}
+
+          {{#dd.menu as |menu|}}
+            {{#menu.item}}
               {{#link-to 'usage.date-picker'}}
                 Date Picker
               {{/link-to}}
-            </li>
-            <li>
+            {{/menu.item}}
+            {{#menu.item}}
               {{#link-to 'usage.date-range-picker'}}
                 Date Range Picker
               {{/link-to}}
-            </li>
-            <li>
+            {{/menu.item}}
+            {{#menu.item}}
               {{#link-to 'usage.time-picker'}}
                 Time Picker
               {{/link-to}}
-            </li>
-            <li>
+            {{/menu.item}}
+            {{#menu.item}}
               {{#link-to 'usage.date-time-picker'}}
                 Date Time Picker
               {{/link-to}}
-            </li>
-            <li>
+            {{/menu.item}}
+            {{#menu.item}}
               {{#link-to 'usage.custom-options'}}
                 Presets
               {{/link-to}}
-            </li>
-          {{/bs-dropdown-menu}}
+            {{/menu.item}}
+          {{/dd.menu}}
         {{/bs-dropdown}}
 
         <li>

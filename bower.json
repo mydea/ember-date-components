@@ -1,7 +1,0 @@
-{
-  "name": "ember-date-components",
-  "dependencies": {
-    "prism": "1.5.1",
-    "bootstrap": "3.3.7"
-  }
-}
