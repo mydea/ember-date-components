@@ -1,5 +1,9 @@
 # Changelog
 
+v1.1.1
+
+* Add `disabledDates` attribute to date-picker (via #15 - thanks to @ehubbell)
+
 v1.1.0
 
 * Update all dependencies (incl. update to Ember 3)
