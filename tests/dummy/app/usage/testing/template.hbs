@@ -7,20 +7,21 @@
 </p>
 
 {{#code-block
-  language='javascript'}}import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
+  language='javascript'
+}}import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
 
 // Give the containing DOM element of the date picker as argument
-let datepicker = interactWithDatePicker(this.$('.date-picker__wrapper'));
+let datepicker = interactWithDatePicker(this.element);
 
 // Open/close the date picker
-datepicker.toggle();
+await datepicker.toggle();
 
 // Try to select the provided date. If the date is not on the current page, this will do nothing
-datepicker.select(moment());
+await datepicker.select(moment());
 
 // Go to the next/previous month
-datepicker.nextMonth();
-datepicker.previousMonth();
+await datepicker.nextMonth();
+await datepicker.previousMonth();
 
 // The current text displayed on the date picker
 datepicker.buttonText();{{/code-block}}

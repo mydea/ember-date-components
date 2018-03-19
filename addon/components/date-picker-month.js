@@ -47,7 +47,7 @@ export default Component.extend({
    * These dates will not be selectable.
    *
    * @attribute disabledDates
-   * @type [Date]
+   * @type {Date[]}
    * @optional
    * @public
    */
