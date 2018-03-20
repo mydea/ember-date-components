@@ -6,7 +6,8 @@ function isJQueryObject(el) {
 
 export function interactWithDatePicker(element) {
   let jqueryMode = isJQueryObject(element);
-  let [button, buttonTo] = element.querySelectorAll('[data-test="date-picker-toggle-button"]');
+  let domElement = jqueryMode ? element.get(0) : element;
+  let [button, buttonTo] = domElement.querySelectorAll('[data-test="date-picker-toggle-button"]');
 
   return {
     buttonText() {
