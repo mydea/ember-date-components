@@ -1,5 +1,9 @@
 # Changelog
 
+v1.1.2
+
+* Fix bug with `interactWithDatePicker` when passing it a jQuery element (fixes #16)
+
 v1.1.1
 
 * Add `disabledDates` attribute to date-picker (via #15 - thanks to @ehubbell)
