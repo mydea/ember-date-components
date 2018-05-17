@@ -119,7 +119,7 @@ module('Integration | Component | date time picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(this.element);
     await datePicker.toggle();
-    await datePicker.select(moment('2017-05-06'));
+    await datePicker.selectDate(moment('2017-05-06'));
   });
 
   test('selecting a date works with a value pre-set', async function(assert) {
@@ -142,7 +142,7 @@ module('Integration | Component | date time picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(this.element);
     await datePicker.toggle();
-    await datePicker.select(today);
+    await datePicker.selectDate(today);
   });
 
   test('date-picker value is pre-filled', async function(assert) {

@@ -16,7 +16,7 @@ module('Acceptance | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('#date-picker-1'));
     await datePicker.toggle();
-    await datePicker.select(moment().date(12));
+    await datePicker.selectDate(moment().date(12));
 
     assert.dom('#date1-output').hasText(moment().date(12).format('L'), 'date 1 is correctly updated.');
   });

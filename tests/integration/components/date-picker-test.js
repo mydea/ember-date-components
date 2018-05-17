@@ -43,7 +43,7 @@ module('Integration | Component | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggle();
-    await datePicker.select(moment().date(7));
+    await datePicker.selectDate(moment().date(7));
 
     assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
   });
@@ -61,7 +61,7 @@ module('Integration | Component | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggle();
-    await datePicker.select(moment().date(7));
+    await datePicker.selectDate(moment().date(7));
   });
 
   test('value updates if bound value changes', async function(assert) {
@@ -138,11 +138,11 @@ module('Integration | Component | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggle();
-    await datePicker.select(moment().date(7));
+    await datePicker.selectDate(moment().date(7));
 
     assert.ok(datePicker.isOpen(), 'date picker is not closed after from-selection.');
 
-    await datePicker.select(moment().date(14));
+    await datePicker.selectDate(moment().date(14));
   });
 
   test('date-range allows selection of to-value without from-value', async function(assert) {
@@ -161,7 +161,7 @@ module('Integration | Component | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggleTo();
-    await datePicker.select(moment().date(7));
+    await datePicker.selectDate(moment().date(7));
   });
 
   test('date-range picker closeAction works', async function(assert) {
@@ -183,11 +183,11 @@ module('Integration | Component | date picker', function(hooks) {
 
     let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
     await datePicker.toggle();
-    await datePicker.select(moment().date(7));
+    await datePicker.selectDate(moment().date(7));
 
     assert.ok(datePicker.isOpen(), 'date picker is not closed after from-selection.');
 
-    await datePicker.select(moment().date(14));
+    await datePicker.selectDate(moment().date(14));
   });
 
   test('`renderPlace` correctly rendered', async function(assert) {
@@ -251,4 +251,66 @@ module('Integration | Component | date picker', function(hooks) {
     assert.dom(`button[data-test="day-${defaultDates[0].month()}-${defaultDates[0].date()}"]`).hasAttribute('disabled');
     assert.dom(`button[data-test="day-${defaultDates[1].month()}-${defaultDates[1].date()}"]`).hasAttribute('disabled');
   });
+
+  test('interactWithDatepicker.select works (deprecated)', async function(assert) {
+    assert.expect(3);
+
+    // Test date must be in same month, or it will not work
+    // This is why selectDate was introduced to replace this!
+    let today = moment();
+    let targetDate = moment().subtract(1, 'days');
+
+    if (today.month() !== targetDate.month()) {
+      targetDate = moment().add(1, 'days');
+    }
+
+    this.actions.updateDate = function(date) {
+      assert.equal(arguments.length, 1, 'one argument is passed to action.');
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'), 'correct date is passed to action.');
+    };
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+
+    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    await datePicker.toggle();
+    await datePicker.select(targetDate);
+
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('interactWithDatepicker works in the past', async function(assert) {
+    assert.expect(3);
+
+    let targetDate = moment().subtract(15, 'months');
+
+    this.actions.updateDate = function(date) {
+      assert.equal(arguments.length, 1, 'one argument is passed to action.');
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'), 'correct date is passed to action.');
+    };
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+
+    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    await datePicker.toggle();
+    await datePicker.selectDate(targetDate);
+
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('interactWithDatepicker works in the future', async function(assert) {
+    assert.expect(3);
+
+    let targetDate = moment().add(4, 'months');
+
+    this.actions.updateDate = function(date) {
+      assert.equal(arguments.length, 1, 'one argument is passed to action.');
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'), 'correct date is passed to action.');
+    };
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+
+    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    await datePicker.toggle();
+    await datePicker.selectDate(targetDate);
+
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
 });

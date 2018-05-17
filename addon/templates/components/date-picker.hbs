@@ -51,7 +51,11 @@ as |dd| }}
             &gt;
           </button>
 
-          <div class="date-picker__header__title">
+          <div
+            class="date-picker__header__title"
+            data-test-date-picker-month={{moment-format currentMonth 'MM'}}
+            data-test-date-picker-year={{moment-format currentMonth 'YYYY'}}
+          >
 
             {{date-picker-month-year-select
               minDate=minDate

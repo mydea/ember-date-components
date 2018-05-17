@@ -1,4 +1,6 @@
-import { click, triggerKeyEvent, fillIn } from '@ember/test-helpers';
+import { click, triggerKeyEvent, fillIn, find } from '@ember/test-helpers';
+import moment from 'moment';
+import { deprecate } from '@ember/application/deprecations';
 
 function isJQueryObject(el) {
   return el && typeof el.length !== 'undefined';
@@ -23,7 +25,34 @@ export function interactWithDatePicker(element) {
     },
 
     select(date) {
+      deprecate('For the interactWithDatePicker helper, use .selectDate() instead of .select(), which is async and will handle dates in different months.', false, {
+        id: 'ember-date-components.interactWithDatePicker.select',
+        until: '2.0.0'
+      });
       return click(`.date-picker button[data-test="day-${date.month()}-${date.date()}"]`);
+    },
+
+    currentMonth() {
+      let month = find('[data-test-date-picker-month]').getAttribute('data-test-date-picker-month');
+      let year = find('[data-test-date-picker-year]').getAttribute('data-test-date-picker-year');
+      return moment(`${year}-${month}-01`);
+    },
+
+    async selectDate(date) {
+      let selector = `.date-picker button[data-test="day-${date.month()}-${date.date()}"]`;
+
+      if (!find(selector)) {
+        let dateMonth = date.clone().startOf('month');
+        // Try to auto-move towards the given date
+        while (this.currentMonth().isBefore(dateMonth, 'month')) {
+          await this.nextMonth();
+        }
+        while (this.currentMonth().isAfter(dateMonth, 'month')) {
+          await this.previousMonth();
+        }
+      }
+
+      return click(selector);
     },
 
     nextMonth() {

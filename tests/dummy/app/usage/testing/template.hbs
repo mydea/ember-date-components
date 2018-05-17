@@ -16,8 +16,8 @@ let datepicker = interactWithDatePicker(this.element);
 // Open/close the date picker
 await datepicker.toggle();
 
-// Try to select the provided date. If the date is not on the current page, this will do nothing
-await datepicker.select(moment());
+// Select the given date
+await datepicker.selectDate(moment());
 
 // Go to the next/previous month
 await datepicker.nextMonth();

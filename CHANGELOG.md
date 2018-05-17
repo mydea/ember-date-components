@@ -1,5 +1,9 @@
 # Changelog
 
+v1.1.3
+
+* Add `.selectDate()` method, which will replace the `.select()` method for the `interactWithDatePicker` helper. This is async and will handle dates in different months. `.select()` will continue to work for now, but is deprecated and will be removed in v2.0.0.
+
 v1.1.2
 
 * Fix bug with `interactWithDatePicker` when passing it a jQuery element (fixes #16)
