@@ -14,7 +14,7 @@
   },
   "repository": "https://github.com/mydea/ember-date-components",
   "engines": {
-    "node": ">= 4"
+    "node": ">= 6"
   },
   "author": "Francesco Novy <francesconovy@gmail.com>",
   "license": "MIT",
