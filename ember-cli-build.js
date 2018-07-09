@@ -13,7 +13,7 @@ module.exports = function(defaults) {
     },
     'ember-prism': {
       'theme': 'twilight',
-      'components': ['bash', 'handlebars', 'javascript', 'scss'],
+      'components': ['bash', 'handlebars', 'javascript', 'scss', 'markup-templating'],
       'plugins': ['line-highlight']
     },
     'ember-date-components': {
