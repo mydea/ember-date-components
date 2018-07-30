@@ -1,6 +1,7 @@
 import { click, triggerKeyEvent, fillIn, find } from '@ember/test-helpers';
 import moment from 'moment';
 import { deprecate } from '@ember/application/deprecations';
+import { assert } from '@ember/debug';
 
 function isJQueryObject(el) {
   return el && typeof el.length !== 'undefined';
@@ -17,10 +18,12 @@ export function interactWithDatePicker(element) {
     },
 
     toggle() {
+      assert('button for interactWithDatePicker exists', !!button);
       return click(button);
     },
 
     toggleTo() {
+      assert('buttonTo for interactWithDatePicker exists', !!buttonTo);
       return click(buttonTo);
     },
 
