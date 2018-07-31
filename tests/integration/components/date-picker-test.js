@@ -241,7 +241,12 @@ module('Integration | Component | date picker', function(hooks) {
   });
 
   test('Submitting disabled dates disables those dates on the date picker', async function(assert) {
-    let defaultDates = [moment(), moment().add(1, 'd')];
+    let date1 = moment();
+    // We use tomorrow as the second day, except for the case where tomorrow is in the next month
+    let date2 = moment().add(1, 'day').month() === date1.month()
+      ? moment().add(1, 'day')
+      : moment().subtract(1, 'day');
+    let defaultDates = [date1, date2];
     set(this, 'disabledDates', defaultDates);
     await render(hbs`{{date-picker disabledDates=disabledDates}}`);
 
