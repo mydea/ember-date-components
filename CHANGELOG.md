@@ -1,5 +1,11 @@
 # Changelog
 
+v1.1.5
+
+* Add basic assertions in interact-with-date-picker helper
+* Add missing test selectors to date-picker-inline
+* [INTERNAL] Update dependencies & fix code highlighting in dummy app
+
 v1.1.4
 
 * Update `ember-basic-dropdown` dependency to 1.0.0
