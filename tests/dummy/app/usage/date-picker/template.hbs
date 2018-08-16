@@ -45,7 +45,14 @@ as |selectedDates|}}
   {{#date-picker
     action=(action 'updateDate')
   as |selectedDates|}}
-    <button>Select me! Current value: {{moment-format selectedDates.firstObject 'L'}}</button>
+    <button>
+      Select me! Current value:
+      {{#if selectedDates.firstObject}}
+        {{moment-format selectedDates.firstObject 'L'}}
+      {{else}}
+        None
+      {{/if}}
+    </button>
   {{/date-picker}}
 
   <p>
