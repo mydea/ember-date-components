@@ -8,11 +8,12 @@
   </div>
 {{/if}}
 
-<div class='date-picker__days'>
+<div class='date-picker__days' data-test-date-picker-days>
   {{#each daysInMonth as |date|}}
     {{#if date}}
       <button
         data-test="day-{{date.month}}-{{date.day}}"
+        data-test-date-picker-day="{{date.month}}-{{date.day}}"
         disabled={{date.disabled}}
         class={{date-picker-day-classes 'date-picker__day' isDisabled=date.disabled isInRange=date.inRange isToday=(is-equal-day date.date today) isSelected=(is-equal-day date.date selectedDates)}}
         {{action 'selectDate' date.date}}>

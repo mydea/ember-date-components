@@ -15,6 +15,7 @@ as |dd| }}
           {{if range ' date-picker__button--range'}}
           {{if buttonFocused 'date-picker__button--focus'}}"
         data-test="date-picker-toggle-button"
+        data-test-date-picker-toggle-button
         disabled={{disabled}}
           {{action 'toggleOpen' dd}}
       >
@@ -28,6 +29,7 @@ as |dd| }}
             {{if range ' date-picker__button--range'}}
             {{if buttonToFocused ' date-picker__button--focus'}}"
           data-test="date-picker-toggle-button"
+          data-test-date-picker-toggle-button
           disabled={{disabled}}
             {{action 'toggleOpenTo' dd}}
         >
@@ -43,11 +45,18 @@ as |dd| }}
         <div class="date-picker__header">
 
           <button
-            class="date-picker__header__button date-picker__header__button--previous" {{action 'gotoPreviousMonth'}}>
+            class="date-picker__header__button date-picker__header__button--previous"
+            data-test-date-picker-goto-previous-month
+            {{action 'gotoPreviousMonth'}}
+          >
             &lt;
           </button>
 
-          <button class="date-picker__header__button date-picker__header__button--next" {{action 'gotoNextMonth'}}>
+          <button
+            class="date-picker__header__button date-picker__header__button--next"
+            data-test-date-picker-goto-next-month
+            {{action 'gotoNextMonth'}}
+          >
             &gt;
           </button>
 
