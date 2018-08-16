@@ -2,7 +2,7 @@ import { run, next } from '@ember/runloop';
 import { typeOf as getTypeOf } from '@ember/utils';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { render, find, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
@@ -206,6 +206,11 @@ module('Integration | Component | date picker', function(hooks) {
     await render(hbs`{{#date-picker value=defaultDate}}<button class='test1'>Button</button>{{/date-picker}}`);
 
     assert.dom('.test1').exists('Custom Button is displayed');
+
+    // Check if correct date is selected
+    await click('.test1');
+    assert.dom('.date-picker__day--selected').exists();
+    assert.dom('.date-picker__day--selected').hasAttribute('data-test-date-picker-day', `${date.month()}-${date.date()}`);
   });
 
   test('the yielded content receives the array of selected dates as values', async function(assert) {

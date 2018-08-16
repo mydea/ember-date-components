@@ -262,7 +262,10 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    set(this, 'selectedDates', []);
+
+    if (!get(this, 'selectedDates')) {
+      set(this, 'selectedDates', []);
+    }
   },
 
   // HOOKS END ----------------------------------------
