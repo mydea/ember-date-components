@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { interactWithDatePicker, setTimePickerValue } from 'ember-date-components/helpers/interact-with-date-picker';
+import { getDatePicker, setTimePickerValue } from 'ember-date-components/test-support/helpers/date-picker';
 import moment from 'moment';
 import { get, set } from '@ember/object';
 
@@ -85,14 +85,14 @@ module('Integration | Component | date time picker', function(hooks) {
 
   test('date picker is not disabled if no value is set', async function(assert) {
     await render(hbs`{{date-time-picker}}`);
-    let datePicker = interactWithDatePicker(this.element);
+    let datePicker = getDatePicker(this.element);
     assert.dom(datePicker.buttonElement).doesNotHaveAttribute('disabled');
   });
 
   test('date picker is disabled if disabled=true', async function(assert) {
     await render(hbs`{{date-time-picker disabled=true value=(now)}}`);
 
-    let datePicker = interactWithDatePicker(this.element);
+    let datePicker = getDatePicker(this.element);
     assert.dom(datePicker.buttonElement).hasAttribute('disabled');
   });
 
@@ -117,7 +117,7 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value action=(action 'update')}}`);
 
-    let datePicker = interactWithDatePicker(this.element);
+    let datePicker = getDatePicker(this.element);
     await datePicker.toggle();
     await datePicker.selectDate(moment('2017-05-06'));
   });
@@ -140,7 +140,7 @@ module('Integration | Component | date time picker', function(hooks) {
 
     await render(hbs`{{date-time-picker action=(action 'update')}}`);
 
-    let datePicker = interactWithDatePicker(this.element);
+    let datePicker = getDatePicker(this.element);
     await datePicker.toggle();
     await datePicker.selectDate(today);
   });
@@ -150,7 +150,7 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value}}`);
 
-    let datePicker = interactWithDatePicker(this.element);
+    let datePicker = getDatePicker(this.element);
     assert.equal(datePicker.buttonText(), today.format('L'));
   });
 });

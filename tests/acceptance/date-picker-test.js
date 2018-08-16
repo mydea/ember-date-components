@@ -1,7 +1,7 @@
-import { currentURL, find, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
+import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
 import moment from 'moment';
 
 module('Acceptance | date picker', function(hooks) {
@@ -14,7 +14,7 @@ module('Acceptance | date picker', function(hooks) {
     assert.dom('#date1-output').hasText('', 'date 1 is empty');
     assert.dom('#date2-output').hasText('01/01/2015', 'date 2 is correctly pre-filled');
 
-    let datePicker = interactWithDatePicker(find('#date-picker-1'));
+    let datePicker = getDatePicker('#date-picker-1');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(12));
 

@@ -2,10 +2,10 @@ import { run, next } from '@ember/runloop';
 import { typeOf as getTypeOf } from '@ember/utils';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, click } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import interactWithDatePicker from 'ember-date-components/helpers/interact-with-date-picker';
+import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
 import { get, set } from '@ember/object';
 
 module('Integration | Component | date picker', function(hooks) {
@@ -41,7 +41,7 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
 
@@ -59,7 +59,7 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker value=defaultDate action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
   });
@@ -95,7 +95,7 @@ module('Integration | Component | date picker', function(hooks) {
   test('calendar displays week starting on Monday', async function(assert) {
     await render(hbs`{{date-picker}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
     assert.dom('.date-picker .date-picker__weekday:first-child').hasText('Mo', 'first week day is Monday');
@@ -104,7 +104,7 @@ module('Integration | Component | date picker', function(hooks) {
   test('calendar displays week starting on Sunday', async function(assert) {
     await render(hbs`{{date-picker startWeekOnSunday=true}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
     assert.dom('.date-picker .date-picker__weekday:first-child').hasText('Su', 'first week day is Sunday');
@@ -136,7 +136,7 @@ module('Integration | Component | date picker', function(hooks) {
 
     await render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
 
@@ -159,7 +159,7 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggleTo();
     await datePicker.selectDate(moment().date(7));
   });
@@ -181,7 +181,7 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker range=true closeAction=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
 
@@ -194,7 +194,7 @@ module('Integration | Component | date picker', function(hooks) {
     set(this, 'renderInPlace', true);
     await render(hbs`{{date-picker renderInPlace=renderInPlace}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
     assert.dom('.ember-basic-dropdown-trigger').hasClass('ember-basic-dropdown-trigger--in-place', 'The trigger has a special `--in-place` class');
@@ -255,39 +255,14 @@ module('Integration | Component | date picker', function(hooks) {
     set(this, 'disabledDates', defaultDates);
     await render(hbs`{{date-picker disabledDates=disabledDates}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
     assert.dom(`button[data-test="day-${defaultDates[0].month()}-${defaultDates[0].date()}"]`).hasAttribute('disabled');
     assert.dom(`button[data-test="day-${defaultDates[1].month()}-${defaultDates[1].date()}"]`).hasAttribute('disabled');
   });
 
-  test('interactWithDatepicker.select works (deprecated)', async function(assert) {
-    assert.expect(3);
-
-    // Test date must be in same month, or it will not work
-    // This is why selectDate was introduced to replace this!
-    let today = moment();
-    let targetDate = moment().subtract(1, 'days');
-
-    if (today.month() !== targetDate.month()) {
-      targetDate = moment().add(1, 'days');
-    }
-
-    this.actions.updateDate = function(date) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'), 'correct date is passed to action.');
-    };
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
-
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
-    await datePicker.toggle();
-    await datePicker.select(targetDate);
-
-    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
-  });
-
-  test('interactWithDatepicker works in the past', async function(assert) {
+  test('getDatePicker works in the past', async function(assert) {
     assert.expect(3);
 
     let targetDate = moment().subtract(15, 'months');
@@ -298,14 +273,14 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(targetDate);
 
     assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
   });
 
-  test('interactWithDatepicker works in the future', async function(assert) {
+  test('getDatePicker works in the future', async function(assert) {
     assert.expect(3);
 
     let targetDate = moment().add(4, 'months');
@@ -316,7 +291,7 @@ module('Integration | Component | date picker', function(hooks) {
     };
     await render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-    let datePicker = interactWithDatePicker(find('.date-picker__wrapper'));
+    let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(targetDate);
 

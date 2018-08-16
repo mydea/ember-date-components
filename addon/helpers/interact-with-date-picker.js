@@ -12,6 +12,11 @@ export function interactWithDatePicker(element) {
   let domElement = jqueryMode ? element.get(0) : element;
   let [button, buttonTo] = domElement.querySelectorAll('[data-test="date-picker-toggle-button"]');
 
+  deprecate('Importing ember-date-components/helpers/interact-with-date-picker has been deprecated in favor of ember-date-components/test-support/date-picker', false, {
+    id: 'ember-date-components.helpers.interactWithDatePicker',
+    until: '2.0.0'
+  });
+
   return {
     buttonText() {
       return button.innerText.trim();
