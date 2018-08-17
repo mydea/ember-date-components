@@ -1,5 +1,13 @@
 # Changelog
 
+v1.2.0
+
+* Fix initialization of selectedDates (Fixes #20)
+* Add new test helper: `ember-date-components/test-support/helpers/date-picker`
+* Deprecate old test helper at `ember-date-components/helpers/interact-with-date-picker`
+* Ensure ember-basic-dropdown setup is correctly invoked (Fixes #17)
+* Update ember-cli-htmlbars@3.0.0
+
 v1.1.5
 
 * Add basic assertions in interact-with-date-picker helper
