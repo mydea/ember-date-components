@@ -1,16 +1,32 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = {
   name: 'ember-date-components',
 
-  included(app) {
-    this._super.included(app);
+  included() {
+    this._super.included.apply(this, arguments);
 
-    let options = app.options['ember-date-components'] || {};
+    // Get the host app, even in nested addons/engines
+    let target = this._findHost();
+
+    let options = target.options['ember-date-components'] || {};
     let includeCSS = typeof options.includeCSS !== 'undefined' ? options.includeCSS : true;
 
     if (includeCSS) {
-      app.import('vendor/ember-date-components.css');
+      target.import('vendor/ember-date-components.css');
+    }
+
+    // If the host app has ember-cli-sass installed, add the app folder to the sass include paths
+    let hasEmberCliSass = !!target.project.addons.find((a) => a.name === 'ember-cli-sass');
+    if (hasEmberCliSass) {
+      target.options.sassOptions = target.options.sassOptions || {};
+      target.options.sassOptions.includePaths = target.options.sassOptions.includePaths || [];
+
+      target.options.sassOptions.includePaths.push(
+        path.join(__dirname, 'app', 'styles')
+      );
     }
   },
 
