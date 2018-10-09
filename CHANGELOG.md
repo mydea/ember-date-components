@@ -1,5 +1,9 @@
 # Changelog
 
+v1.2.1
+
+* Ensure the sass partial can be included from your app
+
 v1.2.0
 
 * Fix initialization of selectedDates (Fixes #20)
