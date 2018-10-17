@@ -6,6 +6,7 @@ import layout from '../templates/components/time-picker';
 import moment from 'moment';
 import parseTime from 'ember-date-components/utils/parse-time';
 import buildTimeRange from 'ember-date-components/utils/build-time-range';
+import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
 
 /**
  * An input field to choose a time in a day.
@@ -62,7 +63,7 @@ export default Component.extend({
    * @public
    */
   amPm: computed(function() {
-    return moment().startOf('day').format('LLL').toLowerCase().indexOf('am') > -1;
+    return shouldUseAmPm();
   }),
 
   /**

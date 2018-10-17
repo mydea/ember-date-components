@@ -1,5 +1,9 @@
 # Changelog
 
+v1.2.3
+
+* Add `amPm` option to `date-time-picker` component
+
 v1.2.2
 
 * Add `buttonDateFormat` option to `date-time-picker` component

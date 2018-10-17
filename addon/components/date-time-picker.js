@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-time-picker';
+import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
 
 /**
  * A date & time picker combo.
@@ -54,6 +55,20 @@ export default Component.extend({
    * @public
    */
   buttonDateFormat: 'L',
+
+  /**
+   * If the display format should use am/pm or the 24:00 format.
+   * By default, this will be determined by checking the localized date formatting of moment.js.
+   * However, if you don't use moment.js-locales, this will always return true (because the default locale, 'en', uses am/pm).
+   * In such a case, you can just overwrite this.
+   *
+   * @attribute amPm
+   * @type {Boolean}
+   * @public
+   */
+  amPm: computed(function() {
+    return shouldUseAmPm();
+  }),
 
   /**
    * An optional minimum date for this date picker.
