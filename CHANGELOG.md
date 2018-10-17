@@ -1,5 +1,9 @@
 # Changelog
 
+v1.2.2
+
+* Add `buttonDateFormat` option to `date-time-picker` component
+
 v1.2.1
 
 * Ensure the sass partial can be included from your app

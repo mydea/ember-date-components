@@ -45,6 +45,17 @@ export default Component.extend({
   timePickerClasses: '',
 
   /**
+   * The date format which should be used for the button.
+   * Defaults to localized 'L'.
+   *
+   * @attribute buttonDateFormat
+   * @type {String}
+   * @default 'L'
+   * @public
+   */
+  buttonDateFormat: 'L',
+
+  /**
    * An optional minimum date for this date picker.
    * No dates before this date will be selectable.
    *
