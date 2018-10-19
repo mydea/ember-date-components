@@ -39,7 +39,7 @@ export function getDatePicker(element) {
         await this.toggle();
       }
 
-      let selector = `[data-test-date-picker-day="${date.month()}-${date.date()}"]`;
+      let selector = `[data-test-date-picker-day="${date.year()}-${date.month()}-${date.date()}"]`;
 
       if (!find(selector)) {
         let dateMonth = date.clone().startOf('month');
