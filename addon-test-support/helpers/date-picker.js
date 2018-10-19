@@ -79,4 +79,12 @@ export async function setTimePickerValue(el, val) {
   await triggerKeyEvent(timeInput, 'keyup', 13); // Enter event
 }
 
+export async function selectDate(element, date) {
+  assert('date must be momentjs object', moment.isMoment(date));
+
+  let datePicker = await getDatePicker(element);
+  await datePicker.toggle();
+  await datePicker.selectDate(date);
+}
+
 export default getDatePicker;

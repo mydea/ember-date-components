@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+import { getDatePicker, selectDate } from 'ember-date-components/test-support/helpers/date-picker';
 import { get, set } from '@ember/object';
 
 module('Integration | Component | date picker', function(hooks) {
@@ -295,6 +295,48 @@ module('Integration | Component | date picker', function(hooks) {
     await datePicker.toggle();
     await datePicker.selectDate(targetDate);
 
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('selectDate helper works in the past', async function(assert) {
+    assert.expect(2);
+
+    let targetDate = moment().subtract(3, 'years');
+
+    this.actions.updateDate = function(date) {
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
+    };
+
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+    await selectDate('.date-picker__wrapper', targetDate);
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('selectDate helper works in the present', async function(assert) {
+    assert.expect(2);
+
+    let targetDate = moment();
+
+    this.actions.updateDate = function(date) {
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
+    };
+
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+    await selectDate('.date-picker__wrapper', targetDate);
+    assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('selectDate helper works in the future', async function(assert) {
+    assert.expect(2);
+
+    let targetDate = moment().add(3, 'years');
+
+    this.actions.updateDate = function(date) {
+      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
+    };
+
+    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+    await selectDate('.date-picker__wrapper', targetDate);
     assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
   });
 

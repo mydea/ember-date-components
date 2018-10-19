@@ -1,5 +1,9 @@
 # Changelog
 
+[unreleased]
+
+* Add `selectDate` test helper
+
 v1.2.3
 
 * Add `amPm` option to `date-time-picker` component
