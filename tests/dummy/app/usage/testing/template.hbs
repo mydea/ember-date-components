@@ -8,8 +8,11 @@
 
 {{#code-block
   language='javascript'
-}}import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+}}import { getDatePicker, selectDate } from 'ember-date-components/test-support/helpers/date-picker';
 
+await selectDate('.dom-selector-or-element', moment());
+
+// For more complex scenarios, you can get date picker element.
 // Give the containing DOM element of the date picker as argument
 // Alternatively, you can also pass in a selector string, e.g.: getDatePicker('.wrapper-for-date-picker')
 let datepicker = getDatePicker(this.element);

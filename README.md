@@ -29,8 +29,11 @@ The date picker can also display custom options, e.g. 'Last 7 days'.
 It also provides test helpers to easily interact with the date picker in integration & acceptance tests:
 
 ```js
-import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+import { getDatePicker, selectDate } from 'ember-date-components/test-support/helpers/date-picker';
 
+await selectDate('.datepicker', moment());
+
+// Or get a date picker object
 let datepicker = getDatePicker('.datepicker');
 datepicker.toggle();
 datepicker.select(moment());
