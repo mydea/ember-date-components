@@ -14,7 +14,6 @@ as |dd| }}
         class="date-picker__button {{buttonClasses}}
           {{if range ' date-picker__button--range'}}
           {{if buttonFocused 'date-picker__button--focus'}}"
-        data-test="date-picker-toggle-button"
         data-test-date-picker-toggle-button
         data-date-picker-toggle-button-instance={{elementId}}
         disabled={{disabled}}
@@ -29,7 +28,6 @@ as |dd| }}
           class="date-picker__button {{buttonClasses}}
             {{if range ' date-picker__button--range'}}
             {{if buttonToFocused ' date-picker__button--focus'}}"
-          data-test="date-picker-toggle-button"
           data-test-date-picker-toggle-button
           disabled={{disabled}}
           {{action 'toggleOpenTo' dd}}

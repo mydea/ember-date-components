@@ -19,8 +19,8 @@ module('Integration | Component | date picker', function(hooks) {
   test('it renders with no attribute set', async function(assert) {
     await render(hbs`{{date-picker}}`);
 
-    assert.dom('[data-test="date-picker-toggle-button"]').exists();
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText('Select Date...', 'Default placeholder is displayed in button.');
+    assert.dom('[data-test-date-picker-toggle-button]').exists();
+    assert.dom('[data-test-date-picker-toggle-button]').hasText('Select Date...', 'Default placeholder is displayed in button.');
   });
 
   test('default value works', async function(assert) {
@@ -28,8 +28,8 @@ module('Integration | Component | date picker', function(hooks) {
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
 
-    assert.dom('[data-test="date-picker-toggle-button"]').exists();
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
+    assert.dom('[data-test-date-picker-toggle-button]').exists();
+    assert.dom('[data-test-date-picker-toggle-button]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
   });
 
   test('action is sent on value change', async function(assert) {
@@ -69,14 +69,14 @@ module('Integration | Component | date picker', function(hooks) {
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
 
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
+    assert.dom('[data-test-date-picker-toggle-button]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
 
     run(() => {
       date = moment().add(1, 'day');
       set(this, 'defaultDate', date);
     });
 
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText(date.format('L'), 'value in date picker is updated.');
+    assert.dom('[data-test-date-picker-toggle-button]').hasText(date.format('L'), 'value in date picker is updated.');
   });
 
   test('date picker shows month of value if set', async function(assert) {
@@ -84,12 +84,12 @@ module('Integration | Component | date picker', function(hooks) {
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
 
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
+    assert.dom('[data-test-date-picker-toggle-button]').hasText(date.format('L'), 'Formatted value of default date is displayed in button.');
     run(() => {
       date = moment().add(1, 'day');
       set(this, 'defaultDate', date);
     });
-    assert.dom('[data-test="date-picker-toggle-button"]').hasText(date.format('L'), 'value in date picker is updated.');
+    assert.dom('[data-test-date-picker-toggle-button]').hasText(date.format('L'), 'value in date picker is updated.');
   });
 
   test('calendar displays week starting on Monday', async function(assert) {
@@ -258,8 +258,8 @@ module('Integration | Component | date picker', function(hooks) {
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
-    assert.dom(`button[data-test="day-${defaultDates[0].month()}-${defaultDates[0].date()}"]`).hasAttribute('disabled');
-    assert.dom(`button[data-test="day-${defaultDates[1].month()}-${defaultDates[1].date()}"]`).hasAttribute('disabled');
+    assert.dom(`button[data-test-date-picker-day="${defaultDates[0].year()}-${defaultDates[0].month()}-${defaultDates[0].date()}"]`).hasAttribute('disabled');
+    assert.dom(`button[data-test-date-picker-day="${defaultDates[1].year()}-${defaultDates[1].month()}-${defaultDates[1].date()}"]`).hasAttribute('disabled');
   });
 
   test('getDatePicker works in the past', async function(assert) {
