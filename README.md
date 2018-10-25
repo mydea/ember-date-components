@@ -24,19 +24,26 @@ An Ember add-on which provides pure Ember-based date picker components.
 {{time-picker action=(action 'updateTime')}}
 ```
 
+
+```hbs
+{{date-time-picker action=(action 'updateDate')}}
+```
+
 The date picker can also display custom options, e.g. 'Last 7 days'.
 
 It also provides test helpers to easily interact with the date picker in integration & acceptance tests:
 
 ```js
-import { getDatePicker, selectDate } from 'ember-date-components/test-support/helpers/date-picker';
+import { selectDate, getSelectedDate, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
+import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker';
 
-await selectDate('.datepicker', moment());
+await selectDate('.my-datepicker', moment());
+let momentInstance = await getSelectedDate('.my-datepicker');
 
-// Or get a date picker object
-let datepicker = getDatePicker('.datepicker');
-datepicker.toggle();
-datepicker.select(moment());
+await selectTime('.my-timepicker', moment());
+let momentInstance = await getSelectedTime('.my-timepicker');
+
+await selectDateTime('.my-date-time-picker', moment());
 ```
 
 For more detailed instructions and examples,
