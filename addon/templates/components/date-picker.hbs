@@ -16,8 +16,9 @@ as |dd| }}
           {{if buttonFocused 'date-picker__button--focus'}}"
         data-test="date-picker-toggle-button"
         data-test-date-picker-toggle-button
+        data-date-picker-toggle-button-instance={{elementId}}
         disabled={{disabled}}
-          {{action 'toggleOpen' dd}}
+        {{action 'toggleOpen' dd}}
       >
         {{buttonText}}
       </button>
@@ -31,7 +32,7 @@ as |dd| }}
           data-test="date-picker-toggle-button"
           data-test-date-picker-toggle-button
           disabled={{disabled}}
-            {{action 'toggleOpenTo' dd}}
+          {{action 'toggleOpenTo' dd}}
         >
           {{buttonToText}}
         </button>
@@ -40,7 +41,10 @@ as |dd| }}
   {{/dd.trigger}}
 
   {{#dd.content}}
-    <div class="date-picker{{if options ' date-picker--options'}}">
+    <div
+      data-date-picker-instance={{elementId}}
+      class="date-picker{{if options ' date-picker--options'}}"
+    >
       <div class="date-picker__calendar">
         <div class="date-picker__header">
 

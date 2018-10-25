@@ -3,6 +3,7 @@
 [unreleased]
 
 * Add `selectDate` test helper
+* Improve usability of date picker with keyboard
 
 v1.2.3
 

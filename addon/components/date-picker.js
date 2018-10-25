@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { A as array } from '@ember/array';
 import { typeOf as getTypeOf } from '@ember/utils';
-import { run } from '@ember/runloop';
+import { next, once } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/date-picker';
 import moment from 'moment';
@@ -589,6 +589,52 @@ export default Component.extend({
     if (forceOpenDropdown) {
       this._openDropdown();
     }
+
+    // Move focus to dropdown
+    this._focusDatePicker();
+  },
+
+  /**
+   * Move the focus to the date picker.
+   * This is called when `_open` is called, to ensure that the date picker can be used with the keyboard.
+   * This will also save the previously focused element, to ensure we can correctly return the focus later.
+   *
+   * @method _focusDatePicker
+   * @private
+   */
+  _originallyFocusedElement: null,
+  _focusDatePicker() {
+    let originallyFocusedElement = document.activeElement;
+    set(this, '_originallyFocusedElement', originallyFocusedElement);
+    let elementId = get(this, 'elementId');
+
+    next(() => {
+      let datePickerDropdown = document.querySelector(`[data-date-picker-instance="${elementId}"]`);
+
+      let selectedButton = datePickerDropdown && datePickerDropdown.querySelector('[data-date-picker-day].date-picker__day--selected');
+      let firstButton = datePickerDropdown && datePickerDropdown.querySelector('[data-date-picker-day]');
+
+      let buttonToFocus = selectedButton || firstButton;
+      if (buttonToFocus && document.contains(buttonToFocus)) {
+        buttonToFocus.focus();
+      }
+    });
+  },
+
+  /**
+   * Reset the focus to the previously focused element.
+   * This is called when the date picker is closed.
+   *
+   * @method _resetFocus
+   * @private
+   */
+  _resetFocus() {
+    let originallyFocusedElement = get(this, '_originallyFocusedElement');
+    set(this, '_originallyFocusedElement', null);
+
+    if (originallyFocusedElement && document.contains(originallyFocusedElement)) {
+      next(() => originallyFocusedElement.focus());
+    }
   },
 
   /**
@@ -602,11 +648,12 @@ export default Component.extend({
     set(this, 'isToStep', false);
 
     if (sendAction) {
-      run.once(this, this._sendCloseAction);
+      once(this, this._sendCloseAction);
     }
 
     if (forceCloseDropdown) {
       this._closeDropdown();
+      this._resetFocus();
     }
   },
 
