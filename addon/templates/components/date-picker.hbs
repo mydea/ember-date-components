@@ -16,6 +16,7 @@ as |dd| }}
           {{if buttonFocused 'date-picker__button--focus'}}"
         data-test-date-picker-toggle-button
         data-date-picker-toggle-button-instance={{elementId}}
+        data-test-date-picker-toggle-button-format={{buttonDateFormat}}
         disabled={{disabled}}
         {{action 'toggleOpen' dd}}
       >

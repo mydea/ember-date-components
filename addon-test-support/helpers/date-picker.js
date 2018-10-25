@@ -19,6 +19,10 @@ export function getDatePicker(element) {
       return button.innerText.trim();
     },
 
+    buttonToText() {
+      return buttonTo.innerText.trim();
+    },
+
     toggle() {
       assert('button for getDatePicker exists', !!button);
       return click(button);
@@ -90,6 +94,31 @@ export async function selectDate(element, date) {
   let datePicker = await getDatePicker(element);
   await datePicker.toggle();
   await datePicker.selectDate(date);
+}
+
+export async function getSelectedDate(element) {
+  let datePicker = await getDatePicker(element);
+  let button = datePicker.buttonElement;
+  let buttonTo = datePicker.buttonToElement;
+  let format = button.getAttribute('data-test-date-picker-toggle-button-format');
+
+  let value = button.innerText.trim();
+  let dateFrom = value ? moment(value, format) : null;
+
+  if (dateFrom && !dateFrom.isValid()) {
+    dateFrom = null;
+  }
+
+  if (buttonTo) {
+    let valueTo = buttonTo.innerText.trim();
+    let dateTo = valueTo ? moment(valueTo, format) : null;
+    if (dateTo && !dateTo.isValid()) {
+      dateTo = null;
+    }
+    return [dateFrom, dateTo];
+  }
+
+  return dateFrom;
 }
 
 export async function selectDateTime(element, date) {

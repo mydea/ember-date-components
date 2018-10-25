@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import { getDatePicker, selectDate } from 'ember-date-components/test-support/helpers/date-picker';
+import { getDatePicker, selectDate, getSelectedDate } from 'ember-date-components/test-support/helpers/date-picker';
 import { get, set } from '@ember/object';
 
 module('Integration | Component | date picker', function(hooks) {
@@ -338,6 +338,42 @@ module('Integration | Component | date picker', function(hooks) {
     await render(hbs`{{date-picker action=(action 'updateDate')}}`);
     await selectDate('.date-picker__wrapper', targetDate);
     assert.dom('.date-picker').doesNotExist('date picker is closed after selection.');
+  });
+
+  test('getSelectedDate helper works', async function(assert) {
+    this.date = moment().add(2, 'days').add(2, 'hours');
+
+    await render(hbs`{{date-picker value=date}}`);
+
+    let selectedDate = await getSelectedDate(this.element);
+    assert.ok(selectedDate.isSame(this.date, 'day'));
+  });
+
+  test('getSelectedDate helper works without a value', async function(assert) {
+    await render(hbs`{{date-picker}}`);
+
+    let selectedDate = await getSelectedDate(this.element);
+    assert.equal(selectedDate, null);
+  });
+
+  test('getSelectedDate helper works with a range', async function(assert) {
+    this.dates = [
+      moment().add(2, 'days').add(2, 'hours'),
+      moment().add(5, 'days').add(2, 'hours')
+    ];
+
+    await render(hbs`{{date-picker value=dates range=true}}`);
+
+    let selectedDates = await getSelectedDate(this.element);
+    assert.ok(selectedDates[0].isSame(this.dates[0], 'day'), 'date from is correct');
+    assert.ok(selectedDates[1].isSame(this.dates[1], 'day'), 'date to is correct');
+  });
+
+  test('getSelectedDate helper works with a range without values', async function(assert) {
+    await render(hbs`{{date-picker range=true}}`);
+
+    let selectedDates = await getSelectedDate(this.element);
+    assert.deepEqual(selectedDates, [null, null]);
   });
 
 });
