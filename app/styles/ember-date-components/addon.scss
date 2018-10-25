@@ -220,6 +220,7 @@ $date-picker-color-background: #eee !default;
   background: $date-picker-color-primary;
   color: white;
 }
+
 /* Month/Year Picker End */
 
 /* Time Picker Begin */
@@ -228,8 +229,10 @@ $date-picker-color-background: #eee !default;
   display: inline-block;
   position: relative;
   width: 7em;
+  box-sizing: border-box;
 }
 
+.time-picker__button,
 .time-picker__input {
   width: 100%;
 }

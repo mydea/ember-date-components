@@ -3,8 +3,9 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import { setTimePickerValue } from 'ember-date-components/test-support/helpers/date-picker';
+import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker';
 import { get, set } from '@ember/object';
+import { compareTimes } from 'dummy/tests/helpers/compare-times';
 
 module('Integration | Component | time picker', function(hooks) {
   setupRenderingTest(hooks);
@@ -18,8 +19,10 @@ module('Integration | Component | time picker', function(hooks) {
   test('it renders with no attribute set', async function(assert) {
     await render(hbs`{{time-picker}}`);
 
-    assert.dom('input').exists('input is shown by default');
+    assert.dom('button').exists('button is shown by default');
     assert.dom('.time-picker__dropdown').doesNotExist('Dropdown is not shown by default');
+    assert.equal(getSelectedTime(this.element), null, 'no time is selected by default');
+    assert.dom('button').hasText('Enter time...');
   });
 
   test('default value works', async function(assert) {
@@ -27,7 +30,8 @@ module('Integration | Component | time picker', function(hooks) {
     set(this, 'defaultTime', time);
     await render(hbs`{{time-picker value=defaultTime amPm=false}}`);
 
-    assert.dom('input').hasValue(time.format('HH:mm'), 'Correct date is shown');
+    assert.dom('button').hasText(time.format('HH:mm'), 'Correct date is shown');
+    assert.ok(compareTimes(getSelectedTime(this.element), time), 'getSelectedTime returns correct moment instance');
   });
 
   test('amPm setting works', async function(assert) {
@@ -35,7 +39,7 @@ module('Integration | Component | time picker', function(hooks) {
     set(this, 'defaultTime', time);
     await render(hbs`{{time-picker value=defaultTime amPm=true}}`);
 
-    assert.dom('input').hasValue(time.format('hh:mm a'), 'Correct date is shown');
+    assert.dom('button').hasText(time.format('hh:mm a'), 'Correct date is shown');
   });
 
   test('action is sent on value change', async function(assert) {
@@ -47,7 +51,7 @@ module('Integration | Component | time picker', function(hooks) {
     };
     await render(hbs`{{time-picker action=(action 'uptimeTime')}}`);
 
-    await setTimePickerValue(this.element, '14:30');
+    await selectTime(this.element, '14:30');
     assert.dom('.time-picker__dropdown').doesNotExist('time picker dropdown is closed after selection.');
   });
 
@@ -62,7 +66,7 @@ module('Integration | Component | time picker', function(hooks) {
     };
     await render(hbs`{{time-picker value=defaultTime action=(action 'uptimeTime')}}`);
 
-    await setTimePickerValue(this.element, '05:30');
+    await selectTime(this.element, '05:30');
   });
 
   test('amPm is correctly evaluated for locale en', async function(assert) {
@@ -71,7 +75,7 @@ module('Integration | Component | time picker', function(hooks) {
     set(this, 'defaultTime', time);
     await render(hbs`{{time-picker value=defaultTime}}`);
 
-    assert.dom('input').hasValue(time.format('hh:mm a'), 'Correct date is shown');
+    assert.dom('button').hasText(time.format('hh:mm a'), 'Correct date is shown');
   });
 
   test('amPm is correctly evaluated for locale de', async function(assert) {
@@ -80,10 +84,10 @@ module('Integration | Component | time picker', function(hooks) {
     set(this, 'defaultTime', time);
     await render(hbs`{{time-picker value=defaultTime}}`);
 
-    assert.dom('input').hasValue(time.format('HH:mm'), 'Correct date is shown');
+    assert.dom('button').hasText(time.format('HH:mm'), 'Correct date is shown');
   });
 
-  test('`renderPlace` correctly rendered', async function(assert) {
+  test('`renderInPlace` correctly rendered', async function(assert) {
     set(this, 'renderInPlace', true);
     await render(hbs`{{time-picker renderInPlace=renderInPlace}}`);
 

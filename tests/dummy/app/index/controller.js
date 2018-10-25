@@ -1,8 +1,11 @@
-import { computed } from '@ember/object';
+import { computed, set } from '@ember/object';
 import Controller from '@ember/controller';
 import moment from 'moment';
 
 export default Controller.extend({
+
+  date: null,
+  time: null,
 
   date2: computed(function() {
     return {
@@ -18,13 +21,17 @@ export default Controller.extend({
   }),
 
   actions: {
-    updateDate() {
+    updateDate(date) {
+      set(this, 'date', date);
     },
-    updateDateRange() {
+    updateDateRange(dateRange) {
+      set(this, 'dateRange', dateRange);
     },
-    updateTime() {
+    updateTime(time) {
+      set(this, 'time', time);
     },
-    updateDateTime() {
+    updateDateTime(dateTime) {
+      set(this, 'dateTime', dateTime);
     }
   }
 });

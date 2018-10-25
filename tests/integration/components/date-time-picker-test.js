@@ -2,7 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { getDatePicker, setTimePickerValue } from 'ember-date-components/test-support/helpers/date-picker';
+import { getDatePicker, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
+import { selectTime } from 'ember-date-components/test-support/helpers/time-picker';
 import moment from 'moment';
 import { get, set } from '@ember/object';
 
@@ -16,7 +17,7 @@ module('Integration | Component | date time picker', function(hooks) {
 
   test('time picker is disabled if no value is set', async function(assert) {
     await render(hbs`{{date-time-picker}}`);
-    assert.dom('input').hasAttribute('disabled');
+    assert.dom('[data-time-picker-toggle-button]').isDisabled();
   });
 
   test('selecting a time works with a value pre-set', async function(assert) {
@@ -40,12 +41,12 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value action=(action 'update')}}`);
 
-    await setTimePickerValue(this.element, '14:30');
+    await selectTime(this.element, '14:30');
   });
 
   test('time picker is disabled if disabled=true', async function(assert) {
     await render(hbs`{{date-time-picker disabled=true value=(now)}}`);
-    assert.dom('input').hasAttribute('disabled');
+    assert.dom('[data-time-picker-toggle-button]').isDisabled();
   });
 
   test('time-picker value is pre-filled', async function(assert) {
@@ -54,7 +55,7 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value}}`);
 
-    assert.dom('input').hasValue('02:30 pm');
+    assert.dom('[data-time-picker-toggle-button]').hasText('02:30 pm');
   });
 
   test('ignoreZeroTime works', async function(assert) {
@@ -67,7 +68,7 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value}}`);
 
-    assert.dom('input').hasValue('', 'value is empty if time is 00:00');
+    assert.dom('[data-time-picker-toggle-button]').hasText('Enter time...', 'value is empty if time is 00:00');
   });
 
   test('ignoreZeroTime can be disabled', async function(assert) {
@@ -80,13 +81,13 @@ module('Integration | Component | date time picker', function(hooks) {
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value ignoreZeroTime=false}}`);
 
-    assert.dom('input').hasValue('12:00 am', 'value is 00:00 if ignoreZeroTime=false');
+    assert.dom('[data-time-picker-toggle-button]').hasText('12:00 am', 'value is 00:00 if ignoreZeroTime=false');
   });
 
   test('date picker is not disabled if no value is set', async function(assert) {
     await render(hbs`{{date-time-picker}}`);
     let datePicker = getDatePicker(this.element);
-    assert.dom(datePicker.buttonElement).doesNotHaveAttribute('disabled');
+    assert.dom(datePicker.buttonElement).isNotDisabled();
   });
 
   test('date picker is disabled if disabled=true', async function(assert) {
@@ -153,4 +154,22 @@ module('Integration | Component | date time picker', function(hooks) {
     let datePicker = getDatePicker(this.element);
     assert.equal(datePicker.buttonText(), today.format('L'));
   });
+
+  test('setDateTime test helpers works', async function(assert) {
+    assert.expect(3);
+
+    this.actions.update = (val) => {
+      assert.ok(true, 'update action is called');
+      set(this, 'date', val);
+    };
+
+    this.date = null;
+    await render(hbs`{{date-time-picker action=(action 'update') value=date}}`);
+
+    let targetDate = moment().add(2, 'day').hours(5).minutes(30);
+    await selectDateTime(this.element, targetDate);
+
+    assert.ok(this.date.format('YYYY-MM-DD HH:mm'), targetDate.format('YYYY-MM-DD HH:mm'), 'date is correctly updated');
+  });
+
 });

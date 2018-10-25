@@ -11,8 +11,8 @@
   </p>
 
   <p>
-    {{date-picker action=(action 'updateDate')}}
-    {{time-picker action=(action 'updateTime')}}
+    {{date-picker action=(action 'updateDate') value=date}}
+    {{time-picker action=(action 'updateTime') value=time}}
   </p>
 
   <p>
@@ -31,7 +31,7 @@
 </p>
 
 <h2>Date Picker Usage</h2>
-{{date-picker action=(action 'updateDate')}}
+{{date-picker action=(action 'updateDate') value=date}}
 {{#code-block language='handlebars'}}\{{date-picker action=(action 'updateDate')}}{{/code-block}}
 <p>
   {{#link-to 'usage.date-picker'}}
@@ -40,7 +40,7 @@
 </p>
 
 <h2>Date Range Picker Usage</h2>
-{{date-picker range=true action=(action 'updateDateRange')}}
+{{date-picker range=true action=(action 'updateDateRange') value=dateRange}}
 {{#code-block language='handlebars'}}\{{date-picker range=true action=(action 'updateDateRange')}}{{/code-block}}
 <p>
   {{#link-to 'usage.date-range-picker'}}
@@ -49,7 +49,7 @@
 </p>
 
 <h2>Time Picker Usage</h2>
-{{time-picker action=(action 'updateTime')}}
+{{time-picker action=(action 'updateTime') value=time}}
 {{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime')}}{{/code-block}}
 <p>
   {{#link-to 'usage.time-picker'}}
@@ -58,7 +58,7 @@
 </p>
 
 <h2>Date/Time Picker Usage</h2>
-{{date-time-picker action=(action 'updateDateTime')}}
+{{date-time-picker action=(action 'updateDateTime') value=dateTime}}
 {{#code-block language='handlebars'}}\{{date-time-picker action=(action 'updateDateTime')}}{{/code-block}}
 <p>
   {{#link-to 'usage.date-time-picker'}}
@@ -67,7 +67,7 @@
 </p>
 
 <h2>Custom Date Options</h2>
-{{date-picker range=true options=true action=(action 'updateDateRange')}}
+{{date-picker range=true options=true action=(action 'updateDateRange') value=dateRange}}
 {{#code-block language='handlebars'}}\{{date-picker range=true options=true action=(action 'updateDateRange')}}{{/code-block}}
 <p>
   {{#link-to 'usage.custom-options'}}

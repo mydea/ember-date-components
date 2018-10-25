@@ -1,6 +1,5 @@
 import Component from '@ember/component';
-import { run } from '@ember/runloop';
-import { isNone } from '@ember/utils';
+import { next } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
 import layout from '../templates/components/time-picker';
 import moment from 'moment';
@@ -163,6 +162,16 @@ export default Component.extend({
   verticalPosition: 'auto',
 
   /**
+   * Value passed to `ember-basic-dropdown`
+   *
+   * @attribute matchTriggerWidth
+   * @type {Boolean}
+   * @default true
+   * @public
+   */
+  matchTriggerWidth: true,
+
+  /**
    * Classes which should be added to the dropdown container.
    *
    * @attribute dropdownClasses
@@ -170,6 +179,16 @@ export default Component.extend({
    * @public
    */
   dropdownClasses: '',
+
+  /**
+   * Optional classes for the button.
+   *
+   * @attribute buttonClasses
+   * @type {String}
+   * @optional
+   * @public
+   */
+  buttonClasses: '',
 
   /**
    * If the dropdown is open.
@@ -184,11 +203,11 @@ export default Component.extend({
    * Which option is currently selected.
    * If -1, no option is selected.
    *
-   * @property selected
+   * @property selectedOptionIndex
    * @type {Number}
    * @protected
    */
-  selected: -1,
+  selectedOptionIndex: -1,
 
   /**
    * The general options for this component.
@@ -213,48 +232,6 @@ export default Component.extend({
       minTime: parseTime(minTime),
       maxTime: parseTime(maxTime)
     };
-  }),
-
-  /**
-   * The internal value.
-   * This is used to avoid two-way databinding.
-   *
-   * @property _value
-   * @type {Object|null}
-   * @private
-   */
-  _value: null,
-
-  /**
-   * The internal string representation of the value, e.g. the formatted value.
-   *
-   * @property stringValue
-   * @type {String}
-   * @protected
-   */
-  stringValue: null,
-
-  /**
-   * The value that is currently entered in the input field.
-   *
-   * @property inputValue
-   * @type {String}
-   * @protected
-   */
-  inputValue: null,
-
-  /**
-   * The value which is currently displayed.
-   * This is either inputValue, if it is not null, or else stringValue.
-   *
-   * @property displayValue
-   * @type {String}
-   * @protected
-   */
-  displayValue: computed('inputValue', 'stringValue', function() {
-    let inputValue = get(this, 'inputValue');
-    let value = get(this, 'stringValue');
-    return isNone(inputValue) ? value : inputValue;
   }),
 
   /**
@@ -315,6 +292,14 @@ export default Component.extend({
       return optionValue.toLowerCase().indexOf(val) > -1;
     });
   }),
+  /**
+   * The value that is currently entered in the input field.
+   *
+   * @property inputValue
+   * @type {String}
+   * @protected
+   */
+  inputValue: null,
 
   /**
    * The API of ember-basic-dropdown.
@@ -327,316 +312,175 @@ export default Component.extend({
   _dropdownApi: null,
 
   /**
-   * Open the dropdown.
+   * The value actual value to display in the button.
    *
-   * @method _open
-   * @private
+   * @property displayValue
+   * @type {String}
+   * @readOnly
+   * @protected
    */
-  _open() {
-    if (get(this, 'disabled')) {
-      return;
+  displayValue: computed('value', function() {
+    let value = get(this, 'value');
+    let format = get(this, 'format');
+
+    value = parseTime(value);
+    value = moment.isMoment(value) ? value.format(format) : value;
+    return value || null;
+  }),
+
+  actions: {
+
+    selectValue(value) {
+      this._updateValueForString(value);
+    },
+
+    selectCurrent() {
+      this._selectCurrent();
+    },
+
+    selectUp() {
+      this.decrementProperty('selectedOptionIndex');
+      if (get(this, 'selectedOptionIndex') < -1) {
+        set(this, 'selectedOptionIndex', -1);
+      }
+    },
+
+    selectDown() {
+      this.incrementProperty('selectedOptionIndex');
+      let optionsLength = get(this, 'filteredOptions.length');
+
+      if (get(this, 'selectedOptionIndex') > optionsLength) {
+        set(this, 'selectedOptionIndex', optionsLength - 1);
+      }
+    },
+
+    updateInputValue(value) {
+      set(this, 'inputValue', value);
+      set(this, 'selectedOptionIndex', -1);
+    },
+
+    onDropdownOpened(dropdownApi) {
+      set(this, 'isOpen', true);
+      set(this, '_dropdownApi', dropdownApi);
+
+      this._focusTimeInput();
+    },
+
+    onDropdownClosed() {
+      set(this, 'isOpen', false);
+      set(this, 'inputValue', null);
+      set(this, 'selectedOptionIndex', -1);
+    },
+
+    onTriggerKeyDown(dropdownApi, event) {
+      // If the input is focused, and the user starts typing a number or letter, we want to auto-open the dropdown
+      let { key } = event;
+      let regex = /^[\d\w]$/;
+      if (regex.test(key)) {
+        dropdownApi.actions.open();
+
+        // Add to the input, in order to not lose the typed characters
+        let inputValue = get(this, 'inputValue') || '';
+        set(this, 'inputValue', `${inputValue}${key}`);
+      }
+    },
+
+    closeDropdown() {
+      this._close();
     }
-    set(this, 'isOpen', true);
+
   },
 
-  /**
-   * Close the dropdown.
-   *
-   * @method _close
-   * @private
-   */
-  _close(forceCloseDropdown = true) {
-    set(this, 'isOpen', false);
-    this._reset();
-
-    if (forceCloseDropdown) {
-      this._closeDropdown();
-    }
-  },
-
-  _closeDropdown() {
+  _close() {
     let dropdownApi = get(this, '_dropdownApi');
     if (dropdownApi) {
       dropdownApi.actions.close();
     }
   },
 
-  /**
-   * Reset the temporary values.
-   *
-   * @method _reset
-   * @private
-   */
-  _reset() {
-    set(this, 'selected', -1);
-    set(this, 'inputValue', null);
+  _selectCurrent() {
+    let options = get(this, 'filteredOptions');
+    let selected = get(this, 'selectedOptionIndex');
 
-    // Set value correctly
-    this._initValue();
-  },
-
-  /**
-   * Check new value..
-   * If they have changed, send the action & set them on the component.
-   *
-   * @method _checkNewValue
-   * @param {Object} newValue A new moment.js object
-   * @private
-   */
-  _checkNewValue(newValue) {
-    if (newValue !== get(this, '_value')) {
-      set(this, '_value', newValue);
-      this._sendAction();
-    }
-  },
-
-  /**
-   * Check stringValue and generate the new value from it.
-   *
-   * @method _checkInput
-   * @private
-   */
-  _checkInput() {
-    let value = (get(this, 'stringValue') || '').toLowerCase();
-    let newValue = parseTime(value);
-    this._checkNewValue(newValue);
-  },
-
-  /**
-   * Check the inputValue as string and generate the new value from it.
-   *
-   * @method _checkStringInput
-   * @private
-   */
-  _checkStringInput() {
-    let inputValue = get(this, 'inputValue');
-    let newValue = parseTime(inputValue);
-
-    if (!newValue) {
-      set(this, 'stringValue', null);
-      this._checkNewValue();
+    // If nothing is selected, simply try to parse the entered string
+    if (selected === -1) {
+      let inputValue = get(this, 'inputValue');
+      this._updateValueForString(inputValue);
       return;
     }
 
-    let format = get(this, 'format');
-    let time = this._normalizeTime(newValue);
+    let selectedOption = options[selected];
 
-    let value = time.format(format);
+    // If, for whatever reason, the selected options doesn't exist
+    // abort - but this shouldn't actually happen
+    if (!selectedOption) {
+      return;
+    }
 
-    set(this, 'stringValue', value);
-    this._checkInput();
+    // Actually get the string value from the option
+    let value = get(selectedOption, 'value');
+    this._updateValueForString(value);
   },
 
-  /**
-   * Takes a moment.js object and normalizes it to the nearest step.
-   *
-   * @method _normalizeTime
-   * @param time
-   * @param step
-   * @returns {*}
-   * @private
-   */
-  _normalizeTime(time) {
-    let { minTime, maxTime, step } = get(this, 'options');
+  _updateValueForString(stringValue) {
+    let parsedValue = (stringValue || '').toLowerCase();
+    let newValue = parseTime(parsedValue);
+    this._sendNewValueAction(newValue);
 
-    let min = minTime ? minTime.valueOf() : null;
-    let max = maxTime ? maxTime.valueOf() : null;
-    step = !isNone(step) ? step : 30;
-    let val = time ? time.valueOf() : null;
-
-    // if time is before minTime, return minTime
-    if (!isNone(min) && val < min) {
-      return moment(min);
-    }
-
-    // if time is after maxTime, return maxTime
-    if (!isNone(max) && val > max) {
-      return moment(max);
-    }
-
-    // if time is not in step range, round it up/down
-    let stepMs = step * 60 * 1000;
-    let diff = val % stepMs;
-    if (diff !== 0) {
-      // If diff > 50%, round up, elese round down
-      if (diff * 2 > stepMs) {
-        return moment(val + stepMs - diff);
-      } else {
-        return moment(val - diff);
-      }
-    }
-
-    return time;
+    // Now close the input
+    this._close();
   },
 
-  /**
-   * Send the action.
-   * The action receives a moment.js object or null as parameter.
-   *
-   * @method _sendAction
-   * @private
-   */
-  _sendAction() {
-    let value = get(this, '_value') || null;
+  _sendNewValueAction(newValue) {
+    let value = get(this, 'value');
     let action = get(this, 'action');
+    let isDisabled = get(this, 'disabled');
 
-    if (action && !get(this, 'disabled')) {
-      action(value);
+    if (action && !isDisabled && value !== newValue) {
+      return action(newValue);
     }
-
-    this._close();
   },
 
   /**
-   * Initialise stringValue from value.
-   * This is called on reset and when the value changes from outside.
+   * Move the focus to the date picker.
+   * This is called when `_open` is called, to ensure that the date picker can be used with the keyboard.
+   * This will also save the previously focused element, to ensure we can correctly return the focus later.
    *
-   * @method _initValue
+   * @method _focusDatePicker
    * @private
    */
-  _initValue() {
-    let value = get(this, '_value');
-    let format = get(this, 'format');
-
-    value = parseTime(value);
-    value = moment.isMoment(value) ? value.format(format) : value;
-    set(this, 'stringValue', value || null);
-  },
-
-  _closeNext() {
-    if (get(this, 'isDestroyed') || !get(this, 'isOpen')) {
+  _originallyFocusedElement: null,
+  _focusTimeInput() {
+    if (get(this, 'isDestroyed')) {
       return;
     }
-    let inputValue = get(this, 'inputValue');
-    // If there is an input, this means it hasn't been processed yet
-    // --> Process it now!
-    if (inputValue) {
-      this._checkStringInput();
-    }
+    let originallyFocusedElement = document.activeElement;
+    set(this, '_originallyFocusedElement', originallyFocusedElement);
 
-    this._close();
+    let elementId = get(this, 'elementId');
+
+    next(() => {
+      let timeInput = document.querySelector(`[data-time-picker-input-instance="${elementId}"]`);
+      if (timeInput && timeInput !== document.activeElement) {
+        timeInput.focus();
+      }
+    });
   },
 
   /**
-   * Prepare data for the time input.
+   * Reset the focus to the previously focused element.
+   * This is called when the date picker is closed.
    *
-   * @method didReceiveAttrs
-   * @protected
-   * @override
+   * @method _resetFocus
+   * @private
    */
-  didReceiveAttrs() {
-    // Set selectStep to step
-    let step = get(this, 'step');
-    if (!get(this, 'selectStep')) {
-      set(this, 'selectStep', step);
-    }
+  _resetFocus() {
+    let originallyFocusedElement = get(this, '_originallyFocusedElement');
+    set(this, '_originallyFocusedElement', null);
 
-    // Set the internal value
-    set(this, '_value', get(this, 'value'));
-    this._initValue();
-  },
-
-  actions: {
-
-    open() {
-      let timer = get(this, '_closeNextTimer');
-      if (timer) {
-        run.cancel(timer);
-      }
-
-      this._open();
-    },
-
-    openAndClear() {
-      set(this, 'isOpen', true);
-      set(this, 'stringValue', null);
-    },
-
-    close() {
-      this._close();
-    },
-
-    closeNext() {
-      // Wait for all other events to finish
-      let closeNext = run.debounce(this, this._closeNext, 100);
-      set(this, '_closeNextTimer', closeNext);
-    },
-
-    selectUp() {
-      this.decrementProperty('selected');
-      if (get(this, 'selected') < -1) {
-        set(this, 'selected', -1);
-      }
-    },
-
-    selectDown() {
-      this.incrementProperty('selected');
-      let optionsLength = get(this, 'filteredOptions.length');
-
-      if (get(this, 'selected') > optionsLength) {
-        set(this, 'selected', optionsLength - 1);
-      }
-    },
-
-    selectCurrent() {
-      let options = get(this, 'filteredOptions');
-      let selected = get(this, 'selected');
-
-      // If nothing is selected, simply try to parse the entered string
-      if (selected === -1) {
-        this._checkStringInput();
-        return;
-      }
-
-      let selectedOption = options[selected];
-
-      // If, for whatever reason, the selected options doesn't exist
-      // Just parse the string - this should't happen, normally
-      if (!selectedOption) {
-        this._checkStringInput();
-        return;
-      }
-
-      // Actually set stringValue and check the input
-      let value = get(selectedOption, 'value');
-      set(this, 'stringValue', value);
-      this._checkInput();
-      this._close();
-    },
-
-    selectValue(value) {
-      set(this, 'stringValue', value);
-      this._checkInput();
-      this._close();
-    },
-
-    updateInputValue(val) {
-      // Always open the select box when someone starts to type
-      this._open();
-      set(this, 'inputValue', val);
-    },
-
-    openDropdown(dropdownApi) {
-      set(this, '_dropdownApi', dropdownApi);
-    },
-
-    closeDropdown() {
-      this._close(false);
-    },
-
-    onKeyDown(dropdownApi, event) {
-      // Also handle the enter event here, since ember-basic-dropdown seems to be interfering somewhere
-      let { keyCode } = event;
-      let enterKeyCode = 13;
-      let tabKeyCode = 9;
-      let spaceKeyCode = 32;
-      if (keyCode === enterKeyCode || keyCode === tabKeyCode) {
-        this.send('selectCurrent');
-        return false;
-      }
-      if (keyCode === spaceKeyCode) {
-        return false;
-      }
+    if (originallyFocusedElement && document.contains(originallyFocusedElement)) {
+      next(() => originallyFocusedElement.focus());
     }
   }
+
 });

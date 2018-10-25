@@ -219,8 +219,10 @@
   display: inline-block;
   position: relative;
   width: 7em;
+  box-sizing: border-box;
 }
 
+.time-picker__button,
 .time-picker__input {
   width: 100%;
 }

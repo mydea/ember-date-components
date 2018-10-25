@@ -1,42 +1,62 @@
 {{#basic-dropdown
   disabled=disabled
-  onOpen=(action 'openDropdown')
-  onClose=(action 'closeNext')
+  onOpen=(action 'onDropdownOpened')
+  onClose=(action 'onDropdownClosed')
   renderInPlace=renderInPlace
   horizontalPosition=horizontalPosition
   verticalPosition=verticalPosition
+  matchTriggerWidth=matchTriggerWidth
 as |dd| }}
 
   {{#dd.trigger
-    onKeyDown=(action 'onKeyDown')
+    onKeyDown=(action 'onTriggerKeyDown')
   }}
-    {{time-picker-input
-      disabled=disabled
-      value=(readonly displayValue)
-      class=(concat 'time-picker__input ' inputClasses)
-      id=(concat elementId '-input')
-      placeholder=placeholder
-      input-change=(action 'updateInputValue')
-      click=(action 'openAndClear')
-
-      escape=(action 'close')
-      enter=(action 'selectCurrent')
-      arrow-up=(action 'selectUp')
-      arrow-down=(action 'selectDown')
-    }}
+    <button
+      disabled={{disabled}}
+      class="time-picker__button {{buttonClasses}}"
+      data-time-picker-toggle-button={{elementId}}
+      data-time-picker-value="{{displayValue}}"
+      tabindex="-1"
+    >
+      {{#if displayValue}}
+        {{displayValue}}
+      {{else}}
+        {{placeholder}}
+      {{/if}}
+    </button>
   {{/dd.trigger}}
 
   {{#dd.content}}
-    <div class='time-picker__dropdown {{dropdownClasses}}'>
-      {{#each filteredOptions as |option i|}}
-        <div
-          class='time-picker__dropdown__item
-            {{if (is-equal selected i) 'time-picker__dropdown__item--selected'}}'
-          {{action 'selectValue' option.value}}
-        >
-          {{option.value}}
-        </div>
-      {{/each}}
+    <div
+      class='time-picker__dropdown {{dropdownClasses}}'
+      data-time-picker-instance={{elementId}}
+    >
+      {{time-picker-input
+        disabled=disabled
+        value=(readonly inputValue)
+        class=(concat 'time-picker__input ' inputClasses)
+        id=(concat elementId '-input')
+        placeholder=placeholder
+        input-change=(action 'updateInputValue')
+        escape=(action 'closeDropdown')
+        enter=(action 'selectCurrent')
+        tab=(action 'closeDropdown')
+        arrow-up=(action 'selectUp')
+        arrow-down=(action 'selectDown')
+        data-time-picker-input-instance=elementId
+      }}
+
+      <div>
+        {{#each filteredOptions as |option i|}}
+          <div
+            class='time-picker__dropdown__item
+            {{if (is-equal selectedOptionIndex i) 'time-picker__dropdown__item--selected'}}'
+            {{action 'selectValue' option.value}}
+          >
+            {{option.value}}
+          </div>
+        {{/each}}
+      </div>
     </div>
 
   {{/dd.content}}

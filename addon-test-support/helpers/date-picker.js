@@ -1,6 +1,8 @@
-import { click, triggerKeyEvent, fillIn, find } from '@ember/test-helpers';
+import { click, find } from '@ember/test-helpers';
 import moment from 'moment';
 import { assert } from '@ember/debug';
+import { deprecate } from '@ember/application/deprecations';
+import { selectTime } from './time-picker';
 
 export function getDatePicker(element) {
   if (typeof element === 'string') {
@@ -73,18 +75,27 @@ export function getDatePicker(element) {
   };
 }
 
-export async function setTimePickerValue(el, val) {
-  let timeInput = el.querySelector('input');
-  await fillIn(timeInput, val);
-  await triggerKeyEvent(timeInput, 'keyup', 13); // Enter event
+export async function setTimePickerValue() {
+  deprecate('`setTimePickerValue` test helper has been deprecated in favor of `import { selectTime } from "ember-date-components/test-support/helpers/time-picker"`, please use it instead.', false, {
+    id: 'ember-date-components.test-support.helpers.date-picker',
+    until: '3.0.0'
+  });
+
+  return selectTime(...arguments);
 }
 
 export async function selectDate(element, date) {
-  assert('date must be momentjs object', moment.isMoment(date));
+  assert('date must be moment.js object', moment.isMoment(date));
 
   let datePicker = await getDatePicker(element);
   await datePicker.toggle();
   await datePicker.selectDate(date);
+}
+
+export async function selectDateTime(element, date) {
+  assert('date must be moment.js object', moment.isMoment(date));
+  await selectDate(element, date);
+  await selectTime(element, date);
 }
 
 export default getDatePicker;
