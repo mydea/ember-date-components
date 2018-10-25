@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import { setTimePickerValue } from 'ember-date-components/helpers/interact-with-date-picker';
+import { setTimePickerValue } from 'ember-date-components/test-support/helpers/date-picker';
 import { get, set } from '@ember/object';
 
 module('Integration | Component | time picker', function(hooks) {
