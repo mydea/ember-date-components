@@ -6,7 +6,10 @@
   verticalPosition=verticalPosition
 as |dd| }}
 
-  {{#dd.trigger class='date-picker__trigger'}}
+  {{#dd.trigger
+    class='date-picker__trigger'
+    tabindex=-1
+  }}
     {{#if hasBlock}}
       {{yield _dates}}
     {{else}}

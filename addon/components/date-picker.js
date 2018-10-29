@@ -606,6 +606,10 @@ export default Component.extend({
   _focusDatePicker() {
     let originallyFocusedElement = document.activeElement;
     set(this, '_originallyFocusedElement', originallyFocusedElement);
+
+    this._focusButtonInDatePicker();
+  },
+  _focusButtonInDatePicker() {
     let elementId = get(this, 'elementId');
 
     next(() => {
@@ -780,6 +784,7 @@ export default Component.extend({
     }
     set(this, 'isToStep', false);
     this._openDropdown();
+    this._focusButtonInDatePicker();
   },
 
   /**
@@ -796,6 +801,7 @@ export default Component.extend({
     }
     set(this, 'isToStep', true);
     this._openDropdown();
+    this._focusButtonInDatePicker();
   },
 
   /**
