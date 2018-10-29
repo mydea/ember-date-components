@@ -886,18 +886,8 @@ export default Component.extend({
       }
     },
 
-    gotoNextMonth() {
-      let month = get(this, 'currentMonth');
-      set(this, 'currentMonth', month.clone().add(1, 'month'));
-    },
-
-    gotoPreviousMonth() {
-      let month = get(this, 'currentMonth');
-      set(this, 'currentMonth', month.clone().subtract(1, 'month'));
-    },
-
     gotoMonth(month) {
-      set(this, 'currentMonth', month.clone().startOf('month'));
+      set(this, 'currentMonth', month);
     },
 
     selectDate(date) {
@@ -919,11 +909,11 @@ export default Component.extend({
       this._close();
     },
 
-    closeDropdown() {
+    onDropdownClosed() {
       this._close(true, false);
     },
 
-    openDropdown(dropdownApi) {
+    onDropdownOpened(dropdownApi) {
       set(this, '_dropdownApi', dropdownApi);
     }
   }

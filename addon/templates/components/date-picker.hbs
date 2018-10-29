@@ -1,6 +1,6 @@
 {{#basic-dropdown
-  onOpen=(action 'openDropdown')
-  onClose=(action 'closeDropdown')
+  onOpen=(action 'onDropdownOpened')
+  onClose=(action 'onDropdownClosed')
   renderInPlace=renderInPlace
   horizontalPosition=horizontalPosition
   verticalPosition=verticalPosition
@@ -45,43 +45,17 @@ as |dd| }}
       class="date-picker{{if options ' date-picker--options'}}"
     >
       <div class="date-picker__calendar">
-        <div class="date-picker__header">
 
-          <button
-            class="date-picker__header__button date-picker__header__button--previous"
-            data-test-date-picker-goto-previous-month
-            {{action 'gotoPreviousMonth'}}
-          >
-            &lt;
-          </button>
-
-          <button
-            class="date-picker__header__button date-picker__header__button--next"
-            data-test-date-picker-goto-next-month
-            {{action 'gotoNextMonth'}}
-          >
-            &gt;
-          </button>
-
-          <div
-            class="date-picker__header__title"
-            data-test-date-picker-month={{moment-format currentMonth 'MM'}}
-            data-test-date-picker-year={{moment-format currentMonth 'YYYY'}}
-          >
-
-            {{date-picker-month-year-select
-              minDate=minDate
-              maxDate=maxDate
-              currentMonth=currentMonth
-              disableMonthPicker=disableMonthPicker
-              disableYearPicker=disableYearPicker
-              availableYearOffset=availableYearOffset
-              gotoMonth=(action 'gotoMonth')
-            }}
-
-          </div>
-
-        </div>
+        {{date-picker-navigation
+          currentMonth=currentMonth
+          minDate=minDate
+          maxDate=maxDate
+          disableMonthPicker=disableMonthPicker
+          disableYearPicker=disableYearPicker
+          availableYearOffset=availableYearOffset
+          class='date-picker__header'
+          updateMonth=(action 'gotoMonth')
+        }}
 
         {{date-picker-month
           disabledDates=disabledDates
