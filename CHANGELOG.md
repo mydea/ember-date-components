@@ -1,5 +1,9 @@
 # Changelog
 
+v2.0.1
+
+* Add `time-picker__trigger` class to time picker ember-basic-dropdown trigger for styling
+
 v2.0.0
 
 * Add `selectDate` test helper
