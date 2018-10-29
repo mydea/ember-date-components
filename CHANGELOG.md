@@ -1,11 +1,15 @@
 # Changelog
 
-[unreleased]
+v2.0.0
 
 * Add `selectDate` test helper
 * Improve usability of date-picker with keyboard
 * Refactor time-picker to be more keyboard friendly
-* Introduce new test helpers: `import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker'` and `import { selectDate, getSelectedDate, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker'`
+* Introduce new test helpers for date picker: `import { selectDate, getSelectedDate, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker'` 
+* Introduce new test helpers for time picker: `import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker'` 
+* Remove old test selectors (e.g. `data-test="day..."`)
+* Remove deprecated `interactWithDatePicker` test helper
+* Make sure `selectDate` test helper takes year into account
 
 v1.2.3
 
