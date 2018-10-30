@@ -92,7 +92,9 @@ export async function selectDate(element, date) {
   assert('date must be moment.js object', moment.isMoment(date));
 
   let datePicker = await getDatePicker(element);
-  await datePicker.toggle();
+  if (!datePicker.isOpen()) {
+    await datePicker.toggle();
+  }
   await datePicker.selectDate(date);
 }
 
