@@ -619,7 +619,7 @@ export default Component.extend({
       let firstButton = datePickerDropdown && datePickerDropdown.querySelector('[data-date-picker-day]');
 
       let buttonToFocus = selectedButton || firstButton;
-      if (buttonToFocus && document.contains(buttonToFocus)) {
+      if (buttonToFocus && document.body.contains(buttonToFocus)) {
         buttonToFocus.focus();
       }
     });
@@ -636,7 +636,7 @@ export default Component.extend({
     let originallyFocusedElement = get(this, '_originallyFocusedElement');
     set(this, '_originallyFocusedElement', null);
 
-    if (originallyFocusedElement && document.contains(originallyFocusedElement)) {
+    if (originallyFocusedElement && document.body.contains(originallyFocusedElement)) {
       next(() => originallyFocusedElement.focus());
     }
   },

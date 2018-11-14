@@ -478,7 +478,7 @@ export default Component.extend({
     let originallyFocusedElement = get(this, '_originallyFocusedElement');
     set(this, '_originallyFocusedElement', null);
 
-    if (originallyFocusedElement && document.contains(originallyFocusedElement)) {
+    if (originallyFocusedElement && document.body.contains(originallyFocusedElement)) {
       next(() => originallyFocusedElement.focus());
     }
   }
