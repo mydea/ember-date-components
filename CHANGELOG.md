@@ -1,5 +1,12 @@
 # Changelog
 
+v2.0.3
+
+* Improve focus styling of date-picker
+* [BUGFIX IE11] Use `document.body.contains()` instead of `document.contains()` - as IE11 does not support that
+* [BUGFIX] Make sure it works without array prototype extensions
+* [INTERNAL] Update dependencies
+
 v2.0.2
 
 * Fix `date-picker-inline` navigation
