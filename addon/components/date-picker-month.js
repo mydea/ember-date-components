@@ -304,7 +304,7 @@ export default Component.extend({
    */
   _dayNotAvailable(day) {
     let disabledDates = get(this, 'disabledDates') || [];
-    return !!disabledDates.find((date) => date.isSame(day, 'day'));
+    return !!array(disabledDates).find((date) => date.isSame(day, 'day'));
   },
 
   /**
