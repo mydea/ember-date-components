@@ -1,5 +1,6 @@
-{{#unless monthPickerDisabled}}
-
+{{#if monthPickerDisabled}}
+  {{moment-format currentMonth 'MMMM'}}
+{{else}}
   {{#basic-dropdown
     horizontalPosition='right'
   as |monthDropdown|}}
@@ -22,15 +23,11 @@
       </div>
     {{/monthDropdown.content}}
   {{/basic-dropdown}}
+{{/if}}
 
+{{#if yearPickerDisabled}}
+  {{moment-format currentMonth 'YYYY'}}
 {{else}}
-
-  {{moment-format currentMonth 'MMMM'}}
-
-{{/unless}}
-
-{{#unless yearPickerDisabled}}
-
   {{#basic-dropdown
   as |yearDropdown|}}
     {{#yearDropdown.trigger
@@ -54,8 +51,4 @@
     {{/yearDropdown.content}}
   {{/basic-dropdown}}
 
-{{else}}
-
-  {{moment-format currentMonth 'YYYY'}}
-
-{{/unless}}
+{{/if}}

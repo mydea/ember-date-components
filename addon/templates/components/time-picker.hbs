@@ -48,6 +48,7 @@ as |dd| }}
       }}
 
       <div>
+        {{! template-lint-disable no-invalid-interactive }}
         {{#each filteredOptions as |option i|}}
           <div
             class='time-picker__dropdown__item
@@ -57,6 +58,7 @@ as |dd| }}
             {{option.value}}
           </div>
         {{/each}}
+        {{! template-lint-enable no-invalid-interactive }}
       </div>
     </div>
 
