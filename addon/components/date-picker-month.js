@@ -210,8 +210,10 @@ export default Component.extend({
       if (!day) {
         return;
       }
+      /* eslint-disable ember/no-side-effects */
       set(day, 'disabled', this._dayIsDisabled(day.date));
       set(day, 'inRange', this._dayIsInRange(day.date));
+      /* eslint-enable ember/no-side-effects */
     });
     return days;
   }),
