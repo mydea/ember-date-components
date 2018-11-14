@@ -3,7 +3,7 @@
 const path = require('path');
 
 module.exports = {
-  name: 'ember-date-components',
+  name: require('./package').name,
 
   included() {
     this._super.included.apply(this, arguments);
