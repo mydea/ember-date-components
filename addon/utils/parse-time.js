@@ -98,7 +98,6 @@ export function parseTime(value) {
     } else if (amPm === 'pm') {
       hours += 12;
     }
-
   }
 
   // Minutes cannot be greater than 59
@@ -112,7 +111,11 @@ export function parseTime(value) {
     minutes = 59;
   }
 
-  return moment(0).hour(hours).minutes(minutes).seconds(0).milliseconds(0);
+  return moment(0)
+    .hour(hours)
+    .minutes(minutes)
+    .seconds(0)
+    .milliseconds(0);
 }
 
 export default parseTime;

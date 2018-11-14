@@ -329,7 +329,6 @@ export default Component.extend({
   }),
 
   actions: {
-
     selectValue(value) {
       this._updateValueForString(value);
     },
@@ -388,7 +387,6 @@ export default Component.extend({
     closeDropdown() {
       this._close();
     }
-
   },
 
   _close() {
@@ -460,7 +458,9 @@ export default Component.extend({
     let elementId = get(this, 'elementId');
 
     next(() => {
-      let timeInput = document.querySelector(`[data-time-picker-input-instance="${elementId}"]`);
+      let timeInput = document.querySelector(
+        `[data-time-picker-input-instance="${elementId}"]`
+      );
       if (timeInput && timeInput !== document.activeElement) {
         timeInput.focus();
       }
@@ -478,9 +478,11 @@ export default Component.extend({
     let originallyFocusedElement = get(this, '_originallyFocusedElement');
     set(this, '_originallyFocusedElement', null);
 
-    if (originallyFocusedElement && document.body.contains(originallyFocusedElement)) {
+    if (
+      originallyFocusedElement &&
+      document.body.contains(originallyFocusedElement)
+    ) {
       next(() => originallyFocusedElement.focus());
     }
   }
-
 });

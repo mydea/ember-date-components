@@ -12,7 +12,10 @@ module('Integration | Component | date-picker-inline', function(hooks) {
     let targetDate = moment('2018-01-10');
 
     this.update = function(newDate) {
-      assert.ok(targetDate.isSame(newDate, 'day'), 'action is called with correct date');
+      assert.ok(
+        targetDate.isSame(newDate, 'day'),
+        'action is called with correct date'
+      );
     };
 
     await render(hbs`{{date-picker-inline action=(action update)}}`);

@@ -18,7 +18,10 @@ module('Unit | Helper | date picker day classes', function() {
       isInRange: true
     };
     let result = datePickerDayClasses([baseClass], options);
-    assert.equal(result, 'base base--today base--selected base--disabled base--in-range');
+    assert.equal(
+      result,
+      'base base--today base--selected base--disabled base--in-range'
+    );
   });
 
   test('skipped settings default to false', function(assert) {

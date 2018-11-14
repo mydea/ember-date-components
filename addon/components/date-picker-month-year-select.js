@@ -25,7 +25,10 @@ export default Component.extend({
 
     let months = [];
     for (let i = 0; i < 12; i++) {
-      let date = moment().year(year).month(i).startOf('month');
+      let date = moment()
+        .year(year)
+        .month(i)
+        .startOf('month');
       if (minDate && date.diff(minDate) < 0) {
         continue;
       }
@@ -50,7 +53,10 @@ export default Component.extend({
     let availableYearOffset = get(this, 'availableYearOffset');
     let dates = [];
     for (let i = availableYearOffset; i > 0; i--) {
-      let date = currentMonth.clone().subtract(i, 'years').startOf('month');
+      let date = currentMonth
+        .clone()
+        .subtract(i, 'years')
+        .startOf('month');
       if (minDate && date.diff(minDate) < 0) {
         continue;
       }
@@ -61,7 +67,10 @@ export default Component.extend({
     }
     dates.push(currentMonth.clone());
     for (let i = 1; i <= availableYearOffset; i++) {
-      let date = currentMonth.clone().add(i, 'years').startOf('month');
+      let date = currentMonth
+        .clone()
+        .add(i, 'years')
+        .startOf('month');
       if (minDate && date.diff(minDate, 'years') < 0) {
         continue;
       }
@@ -74,16 +83,27 @@ export default Component.extend({
     return dates;
   }),
 
-  monthPickerDisabled: computed('disableMonthPicker', 'availableMonths.length', function() {
-    return get(this, 'disableMonthPicker') || !get(this, 'availableMonths.length');
-  }),
+  monthPickerDisabled: computed(
+    'disableMonthPicker',
+    'availableMonths.length',
+    function() {
+      return (
+        get(this, 'disableMonthPicker') || !get(this, 'availableMonths.length')
+      );
+    }
+  ),
 
-  yearPickerDisabled: computed('disableYearPicker', 'availableYears.length', function() {
-    return get(this, 'disableYearPicker') || !get(this, 'availableYears.length');
-  }),
+  yearPickerDisabled: computed(
+    'disableYearPicker',
+    'availableYears.length',
+    function() {
+      return (
+        get(this, 'disableYearPicker') || !get(this, 'availableYears.length')
+      );
+    }
+  ),
 
   actions: {
-
     gotoMonth(month, dropdownApi) {
       let action = get(this, 'gotoMonth');
       action(month);
@@ -92,6 +112,5 @@ export default Component.extend({
         dropdownApi.actions.close();
       }
     }
-
   }
 });

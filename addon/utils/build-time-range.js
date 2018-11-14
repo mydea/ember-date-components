@@ -28,7 +28,12 @@ export function buildTimeRange({ minTime, maxTime, step }) {
   let lastValue = min;
   let steps = array([]);
 
-  while (lastValue.date() === max.date() && (lastValue.hours() < max.hours() || (lastValue.hours() === max.hours() && lastValue.minutes() <= max.minutes()))) {
+  while (
+    lastValue.date() === max.date() &&
+    (lastValue.hours() < max.hours() ||
+      (lastValue.hours() === max.hours() &&
+        lastValue.minutes() <= max.minutes()))
+  ) {
     steps.push(lastValue);
     let newTime = lastValue.clone().add(step, 'minutes');
     lastValue = newTime;

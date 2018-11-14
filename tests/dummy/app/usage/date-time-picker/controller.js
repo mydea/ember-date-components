@@ -4,7 +4,6 @@ import { computed } from '@ember/object';
 
 /* eslint-disable no-console */
 export default Controller.extend({
-
   date1: computed(function() {
     return {
       value: null

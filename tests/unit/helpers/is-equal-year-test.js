@@ -16,7 +16,10 @@ module('Unit | Helper | is equal year', function() {
     assert.ok(result);
 
     d1 = moment('2016-10-10');
-    d2 = moment('2016-10-10').add(23, 'hours').add(59, 'minutes').add(59, 'seconds');
+    d2 = moment('2016-10-10')
+      .add(23, 'hours')
+      .add(59, 'minutes')
+      .add(59, 'seconds');
     result = isEqualYear([d1, d2]);
     assert.ok(result);
   });

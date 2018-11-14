@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 import moment from 'moment';
 
 export default Controller.extend({
-
   date1: null,
 
   date2: computed(function() {

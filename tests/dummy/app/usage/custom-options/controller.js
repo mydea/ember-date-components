@@ -4,15 +4,20 @@ import { computed } from '@ember/object';
 
 /* eslint-disable no-console */
 export default Controller.extend({
-
   myOptions: computed(function() {
-    return ['clear',
+    return [
+      'clear',
       'today',
       'thisWeek',
       {
         action: 'selectDateRange',
         label: 'Last 3 days',
-        actionValue: [moment().startOf('day').subtract(3, 'days'), moment().startOf('day')]
+        actionValue: [
+          moment()
+            .startOf('day')
+            .subtract(3, 'days'),
+          moment().startOf('day')
+        ]
       }
     ];
   }),

@@ -15,7 +15,11 @@ import { once } from '@ember/runloop';
 export default TextField.extend({
   classNames: [],
 
-  attributeBindings: ['disabled', 'data-time-picker-input-instance', 'tabindex'],
+  attributeBindings: [
+    'disabled',
+    'data-time-picker-input-instance',
+    'tabindex'
+  ],
 
   type: 'text',
 

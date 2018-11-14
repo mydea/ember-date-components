@@ -8,13 +8,18 @@ export async function selectTime(element, val) {
     element = find(element);
   }
 
-  assert('selectTime is passed a DOM node or a matching selector string', !!element);
+  assert(
+    'selectTime is passed a DOM node or a matching selector string',
+    !!element
+  );
 
   let timePickerButton = element.hasAttribute('data-time-picker-toggle-button')
     ? element
     : element.querySelector('[data-time-picker-toggle-button]');
 
-  let elementId = timePickerButton.getAttribute('data-time-picker-toggle-button');
+  let elementId = timePickerButton.getAttribute(
+    'data-time-picker-toggle-button'
+  );
 
   await click(timePickerButton);
 
@@ -32,7 +37,10 @@ export function getSelectedTime(element) {
     element = find(element);
   }
 
-  assert('getSelectedTime is passed a DOM node or a matching selector string', !!element);
+  assert(
+    'getSelectedTime is passed a DOM node or a matching selector string',
+    !!element
+  );
 
   let timePickerButton = element.hasAttribute('data-time-picker-toggle-button')
     ? element

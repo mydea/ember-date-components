@@ -13,7 +13,6 @@ import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
  * @public
  */
 export default Component.extend({
-
   layout,
   classNames: ['date-time-picker'],
 

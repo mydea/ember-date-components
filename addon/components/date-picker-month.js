@@ -163,7 +163,9 @@ export default Component.extend({
     let days = array();
 
     // start with days from previous month to fill up first week
-    let firstWeekday = startWeekOnSunday ? currentMonth.day() + 1 : currentMonth.isoWeekday();
+    let firstWeekday = startWeekOnSunday
+      ? currentMonth.day() + 1
+      : currentMonth.isoWeekday();
     for (let i = firstWeekday; i > 1; i--) {
       days.push(null);
     }
@@ -185,7 +187,9 @@ export default Component.extend({
 
     // end with days from next month to fill up last week
     let endOfMonth = currentMonth.clone().endOf('month');
-    let lastWeekday = startWeekOnSunday ? endOfMonth.day() + 1 : endOfMonth.isoWeekday();
+    let lastWeekday = startWeekOnSunday
+      ? endOfMonth.day() + 1
+      : endOfMonth.isoWeekday();
     for (let i = 7; i > lastWeekday; i--) {
       days.push(null);
     }
@@ -203,20 +207,27 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  daysInMonth: computed('_daysInMonth', 'disabledDates.[]', '_minDate', '_maxDate', 'selectedDates.[]', function() {
-    let days = get(this, '_daysInMonth');
+  daysInMonth: computed(
+    '_daysInMonth',
+    'disabledDates.[]',
+    '_minDate',
+    '_maxDate',
+    'selectedDates.[]',
+    function() {
+      let days = get(this, '_daysInMonth');
 
-    days.forEach((day) => {
-      if (!day) {
-        return;
-      }
-      /* eslint-disable ember/no-side-effects */
-      set(day, 'disabled', this._dayIsDisabled(day.date));
-      set(day, 'inRange', this._dayIsInRange(day.date));
-      /* eslint-enable ember/no-side-effects */
-    });
-    return days;
-  }),
+      days.forEach((day) => {
+        if (!day) {
+          return;
+        }
+        /* eslint-disable ember/no-side-effects */
+        set(day, 'disabled', this._dayIsDisabled(day.date));
+        set(day, 'inRange', this._dayIsInRange(day.date));
+        /* eslint-enable ember/no-side-effects */
+      });
+      return days;
+    }
+  ),
 
   /**
    * The localized weekdays.
@@ -325,8 +336,14 @@ export default Component.extend({
       return false;
     }
 
-    let selectedDateVal = selectedDates[0].clone().startOf('day').valueOf();
-    let selectedUntilVal = selectedDates[1].clone().startOf('day').valueOf();
+    let selectedDateVal = selectedDates[0]
+      .clone()
+      .startOf('day')
+      .valueOf();
+    let selectedUntilVal = selectedDates[1]
+      .clone()
+      .startOf('day')
+      .valueOf();
     let dayVal = day.valueOf();
 
     if (selectedDateVal > selectedUntilVal) {

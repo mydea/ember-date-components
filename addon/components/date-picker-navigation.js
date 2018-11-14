@@ -88,5 +88,4 @@ export default Component.extend({
       this._sendAction(month.clone().startOf('month'));
     }
   }
-
 });
