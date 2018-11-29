@@ -12,6 +12,7 @@
   {{#each daysInMonth as |date|}}
     {{#if date}}
       <button
+        type="button"
         data-test-date-picker-day="{{date.year}}-{{date.month}}-{{date.day}}"
         data-date-picker-day="{{date.year}}-{{date.month}}-{{date.day}}"
         disabled={{date.disabled}}

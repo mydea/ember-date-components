@@ -13,6 +13,7 @@
       <div class="date-picker__header__select__content">
         {{#each availableMonths as |month|}}
           <button
+            type="button"
             class="date-picker__header__select__item
                             {{if (is-equal-month month currentMonth) 'date-picker__header__select__item--current'}}"
             {{action 'gotoMonth' month monthDropdown}}
@@ -40,6 +41,7 @@
       <div class="date-picker__header__select__content">
         {{#each availableYears as |year|}}
           <button
+            type="button"
             class="date-picker__header__select__item
                               {{if (is-equal-year year currentMonth) 'date-picker__header__select__item--current'}}"
             {{action 'gotoMonth' year yearDropdown}}
