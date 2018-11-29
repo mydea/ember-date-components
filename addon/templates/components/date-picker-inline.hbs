@@ -24,7 +24,11 @@
   {{#if options}}
     <div class="date-picker__options">
       {{#each _options as |option|}}
-        <button {{action option.action option.actionValue}} class="date-picker__options__button {{option.classes}}">
+        <button
+          type="button"
+          class="date-picker__options__button {{option.classes}}"
+          {{action option.action option.actionValue}}
+        >
           {{option.label}}
         </button>
       {{/each}}

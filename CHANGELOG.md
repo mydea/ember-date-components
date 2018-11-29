@@ -1,5 +1,9 @@
 # Changelog
 
+[unreleased] 
+
+* [BUGFIX] Do not trigger form submission when selecting time [#31](https://github.com/mydea/ember-date-components/issues/31)
+
 v2.0.3
 
 * Improve focus styling of date-picker
