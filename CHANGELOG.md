@@ -1,8 +1,8 @@
 # Changelog
 
-[unreleased] 
+v2.0.4 
 
-* [BUGFIX] Do not trigger form submission when selecting time [#31](https://github.com/mydea/ember-date-components/issues/31)
+* [BUGFIX] Do not trigger form submission when selecting time [#31](https://github.com/mydea/ember-date-components/issues/31) - by adding role=button to all buttons
 
 v2.0.3
 
