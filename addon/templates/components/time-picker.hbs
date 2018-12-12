@@ -54,7 +54,7 @@ as |dd| }}
           <div
             class='time-picker__dropdown__item
             {{if (is-equal selectedOptionIndex i) 'time-picker__dropdown__item--selected'}}'
-            {{action 'selectValue' option.value}}
+            onclick={{action 'selectValue' option.value}}
           >
             {{option.value}}
           </div>
