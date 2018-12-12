@@ -16,7 +16,7 @@
             type="button"
             class="date-picker__header__select__item
                             {{if (is-equal-month month currentMonth) 'date-picker__header__select__item--current'}}"
-            {{action 'gotoMonth' month monthDropdown}}
+            onclick={{action 'gotoMonth' month monthDropdown}}
           >
             {{moment-format month 'MMMM'}}
           </button>
@@ -44,7 +44,7 @@
             type="button"
             class="date-picker__header__select__item
                               {{if (is-equal-year year currentMonth) 'date-picker__header__select__item--current'}}"
-            {{action 'gotoMonth' year yearDropdown}}
+            onclick={{action 'gotoMonth' year yearDropdown}}
           >
             {{moment-format year 'YYYY'}}
           </button>
