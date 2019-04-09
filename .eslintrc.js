@@ -19,6 +19,7 @@ module.exports = {
     // node files
     {
       files: [
+        '.eslintrc.js',
         '.template-lintrc.js',
         '.eslintrc.js',
         'ember-cli-build.js',
