@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
 import { computed, set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
 import layout from '../templates/components/time-picker';
 import moment from 'moment';
 import parseTime from 'ember-date-components/utils/parse-time';
@@ -61,9 +62,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  amPm: computed(function() {
-    return shouldUseAmPm();
-  }),
+  amPm: null,
 
   /**
    * The minimum time which can be selected.
@@ -386,6 +385,17 @@ export default Component.extend({
 
     closeDropdown() {
       this._close();
+    }
+  },
+
+  init() {
+    this._super(...arguments);
+    this._setupDefaults();
+  },
+
+  _setupDefaults() {
+    if (isNone(get(this, 'amPm'))) {
+      set(this, 'amPm', shouldUseAmPm());
     }
   },
 
