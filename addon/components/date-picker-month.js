@@ -355,7 +355,7 @@ export default Component.extend({
 
   actions: {
     selectDate(date) {
-      let action = get(this, 'attrs.selectDate');
+      let action = get(this, 'selectDate');
       if (action) {
         action(date);
       }

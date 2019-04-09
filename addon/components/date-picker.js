@@ -598,7 +598,7 @@ export default Component.extend({
    * @private
    */
   _sendAction() {
-    let action = get(this, 'attrs.action');
+    let action = get(this, 'action');
     let vals = get(this, '_dates');
     let isRange = get(this, 'range');
 
@@ -703,7 +703,7 @@ export default Component.extend({
   },
 
   _sendCloseAction() {
-    let action = get(this, 'attrs.closeAction');
+    let action = get(this, 'closeAction');
     let vals = get(this, '_dates');
     let isRange = get(this, 'range');
 
