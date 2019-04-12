@@ -217,21 +217,28 @@ export default Component.extend({
    * @type {amPm, step, minTime, maxTime}
    * @protected
    */
-  options: computed(function() {
-    let amPm = get(this, 'amPm');
-    let minTime = get(this, 'minTime');
-    let maxTime = get(this, 'maxTime');
-    let step = get(this, 'step');
-    let selectStep = get(this, 'selectStep');
+  options: computed(
+    'step',
+    'amPm',
+    'minTime',
+    'maxTime',
+    'selectStep',
+    function() {
+      let amPm = get(this, 'amPm');
+      let minTime = get(this, 'minTime');
+      let maxTime = get(this, 'maxTime');
+      let step = get(this, 'step');
+      let selectStep = get(this, 'selectStep');
 
-    return {
-      amPm,
-      step,
-      selectStep,
-      minTime: parseTime(minTime),
-      maxTime: parseTime(maxTime)
-    };
-  }),
+      return {
+        amPm,
+        step,
+        selectStep,
+        minTime: parseTime(minTime),
+        maxTime: parseTime(maxTime)
+      };
+    }
+  ),
 
   /**
    * The format which should be used.
