@@ -27,7 +27,7 @@
     "ember-cli-inject-live-reload": "^2.0.1",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-release-tag": "^0.1.5",
-    "ember-cli-sass": "^8.0.1",
+    "ember-cli-sass": "^10.0.1",
     "ember-cli-uglify": "^3.0.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.0",
