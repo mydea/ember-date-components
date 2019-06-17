@@ -1,8 +1,13 @@
 # Changelog
 
-v2.0.5
+v2.0.6
 
 - Add `selectDateRange()` test helper on date-picker test helper object
+
+v2.0.5
+
+- Stop using `attrs` in component
+- Avoid overwriting computed properties
 
 v2.0.4
 
