@@ -73,6 +73,16 @@ export function getDatePicker(element) {
       return click(selector);
     },
 
+    async selectDateRange(dateFrom, dateTo) {
+      // Auto-open if not open
+      if (!this.isOpen()) {
+        await this.toggle();
+      }
+
+      await this.selectDate(dateFrom);
+      await this.selectDate(dateTo);
+    },
+
     nextMonth() {
       return click('[data-test-date-picker-goto-next-month]');
     },
@@ -108,10 +118,15 @@ export async function selectDate(element, date) {
   assert('date must be moment.js object', moment.isMoment(date));
 
   let datePicker = await getDatePicker(element);
-  if (!datePicker.isOpen()) {
-    await datePicker.toggle();
-  }
   await datePicker.selectDate(date);
+}
+
+export async function selectDateRange(element, dateFrom, dateTo) {
+  assert('dateFrom must be moment.js object', moment.isMoment(dateFrom));
+  assert('dateTo must be moment.js object', moment.isMoment(dateTo));
+
+  let datePicker = await getDatePicker(element);
+  await datePicker.selectDateRange(dateFrom, dateTo);
 }
 
 export async function getSelectedDate(element) {
@@ -143,6 +158,7 @@ export async function getSelectedDate(element) {
 
 export async function selectDateTime(element, date) {
   assert('date must be moment.js object', moment.isMoment(date));
+
   await selectDate(element, date);
   await selectTime(element, date);
 }

@@ -8,6 +8,7 @@ import moment from 'moment';
 import {
   getDatePicker,
   selectDate,
+  selectDateRange,
   getSelectedDate
 } from 'ember-date-components/test-support/helpers/date-picker';
 import { get, set } from '@ember/object';
@@ -536,5 +537,27 @@ module('Integration | Component | date picker', function(hooks) {
 
     let selectedDates = await getSelectedDate(this.element);
     assert.deepEqual(selectedDates, [null, null]);
+  });
+
+  test('selectDateRange test helper works', async function(assert) {
+    let fromDate = moment('2018-01-05');
+    let toDate = moment('2018-02-02');
+
+    this.actions.update = (dateRange) => {
+      set(this, 'dateRange', dateRange);
+    };
+
+    this.dateRange = null;
+    await render(
+      hbs`{{date-picker range=true action=(action 'update') value=dateRange}}`
+    );
+
+    await selectDateRange(this.element, fromDate, toDate);
+
+    assert.ok(
+      fromDate.isSame(this.dateRange[0], 'day'),
+      'from date is correct'
+    );
+    assert.ok(toDate.isSame(this.dateRange[1], 'day'), 'to date is correct');
   });
 });

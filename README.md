@@ -34,7 +34,7 @@ The date picker can also display custom options, e.g. 'Last 7 days'.
 It also provides test helpers to easily interact with the date picker in integration & acceptance tests:
 
 ```js
-import { selectDate, getSelectedDate, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
+import { selectDate, selectDateRange, getSelectedDate, selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
 import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker';
 
 await selectDate('.my-datepicker', moment());
@@ -44,6 +44,8 @@ await selectTime('.my-timepicker', moment());
 let momentInstance = await getSelectedTime('.my-timepicker');
 
 await selectDateTime('.my-date-time-picker', moment());
+
+await selectDateRange('.my-datepicker', dateFrom, dateTo);
 ```
 
 For more detailed instructions and examples,

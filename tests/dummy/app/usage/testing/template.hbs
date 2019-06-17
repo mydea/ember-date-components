@@ -15,7 +15,6 @@
 await selectDate('.dom-selector-or-element', moment());
 
 // Get the currently selected date as a moment instance
-// For a range date picker, this will be an array with two elements
 let date = await getSelectedDate('.dom-selector-or-element');
 
 // For more complex scenarios, you can get a date picker element.
@@ -55,3 +54,14 @@ let time = await getSelectedTime('.dom-selector-or-element');{{/code-block}}
 }}import { selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
 
 await selectDateTime('.dom-selector-or-element', moment());{{/code-block}}
+
+<h2>Date Range Picker</h2>
+
+{{#code-block
+  language='javascript'
+}}import { selectDateRange, getSelectedDate, getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+
+await selectDateRange('.dom-selector-or-element', dateFrom, dateTo);
+
+// Note each of the dates could also be null
+let [dateFrom, dateTo] = await getSelectedDate(.dom-selector-or-element');{{/code-block}}
