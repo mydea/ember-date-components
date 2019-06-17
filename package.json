@@ -52,7 +52,7 @@
     "loader.js": "^4.7.0",
     "precise-commits": "^1.0.2",
     "prettier": "^1.15.2",
-    "qunit-dom": "^0.8.0",
+    "qunit-dom": "^0.9.0",
     "sass": "^1.14.3"
   },
   "dependencies": {
