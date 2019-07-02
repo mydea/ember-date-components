@@ -3097,7 +3097,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.2.0, ember-cli-babel@^7.4.3, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.0:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.2.0, ember-cli-babel@^7.4.3, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.0, ember-cli-babel@^7.7.3:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.8.0.tgz#e596500eca0f5a7c9aaee755f803d1542f578acf"
   integrity sha512-xUBgJQ81fqd7k/KIiGU+pjpoXhrmmRf9pUrqLenNSU5N+yeNFT5a1+w0b+p1F7oBphfXVwuxApdZxrmAHOdA3Q==
@@ -3551,13 +3551,13 @@ ember-moment@^7.5.0:
     ember-macro-helpers "^2.1.0"
 
 ember-page-title@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.0.1.tgz#7e1b744f47ad9bc5aadbdb47bcecce0e1170221d"
-  integrity sha512-xUlKRuerTQRLrnBVWsPv7a2Rmz3M4I2Irqj21bI7Q7UZfxEFQBjmksZ7TAe21anC2VdUdTXrd25QWRaRrHpduw==
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.0.2.tgz#ab5a60c16318ba7f5e66cd41f580c9831ce3b612"
+  integrity sha512-v5K8tfPxdLmZRRdUP0L9ed+ufC1tw+tAhlHslt5MchDwHh192OH1JhDROp6Wci8/Np9kaSCICxS27nXEgXxxsg==
   dependencies:
-    ember-cli-babel "^6.6.0"
+    ember-cli-babel "^7.7.3"
     ember-cli-head "^0.4.0"
-    ember-cli-htmlbars "^2.0.1"
+    ember-cli-htmlbars "^3.0.1"
     ember-copy "^1.0.0"
 
 ember-popper@^0.9.0:
