@@ -23,7 +23,7 @@
     "ember-cli-app-version": "^3.1.0",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-github-pages": "^0.2.0",
-    "ember-cli-htmlbars-inline-precompile": "^2.0.0",
+    "ember-cli-htmlbars-inline-precompile": "^3.0.1",
     "ember-cli-inject-live-reload": "^2.0.1",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-release-tag": "^0.1.5",
