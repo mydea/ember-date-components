@@ -7614,9 +7614,9 @@ sane@^4.0.0, sane@^4.0.2:
     walker "~1.0.5"
 
 sass@^1.14.3:
-  version "1.22.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.2.tgz#ed9abee7a3e409fe2ccfdc1b66c64c7c841e0c62"
-  integrity sha512-enuQuy/CbfrZLA2vOy9tB7CK7pP5bZllnMbr5nPGWCFelwt0EMUVGC11gsv9rybkWc8pp/NKVY/c5+AKyjbnXg==
+  version "1.23.3"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.23.3.tgz#f07503b9e8d2bcf06ef69e8beea5d085589b1620"
+  integrity sha512-1DKRZxJMOh4Bme16AbWTyYeJAjTlrvw2+fWshHHaepeJfGq2soFZTnt0YhWit+bohtDu4LdyPoEj6VFD4APHog==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
