@@ -229,13 +229,14 @@ $date-picker-color-background: #eee !default;
 .time-picker__wrapper {
   display: inline-block;
   position: relative;
-  width: 7em;
+  min-width: 7em;
   box-sizing: border-box;
 }
 
 .time-picker__button,
 .time-picker__input {
   width: 100%;
+  white-space: nowrap;
 }
 
 .time-picker__dropdown {
