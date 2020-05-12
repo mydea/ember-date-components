@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { A as array } from '@ember/array';
-import { computed, set, get } from '@ember/object';
+import { computed, set } from '@ember/object';
 import layout from '../templates/components/date-picker-month';
 import moment from 'moment';
 
@@ -126,7 +126,7 @@ export default Component.extend({
    * @private
    */
   currentMonth: computed('month', function() {
-    let date = get(this, 'month');
+    let date = this.month;
     return date ? date.clone().startOf('month') : moment().startOf('month');
   }),
 
@@ -156,9 +156,8 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  _daysInMonth: computed('currentMonth', function() {
-    let currentMonth = get(this, 'currentMonth');
-    let startWeekOnSunday = get(this, 'startWeekOnSunday');
+  _daysInMonth: computed('currentMonth', 'startWeekOnSunday', function() {
+    let { currentMonth, startWeekOnSunday } = this;
     let daysInMonth = currentMonth.daysInMonth();
     let days = array();
 
@@ -214,7 +213,7 @@ export default Component.extend({
     '_maxDate',
     'selectedDates.[]',
     function() {
-      let days = get(this, '_daysInMonth');
+      let days = this._daysInMonth;
 
       days.forEach((day) => {
         if (!day) {
@@ -237,9 +236,9 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  weekdays: computed(function() {
+  weekdays: computed('startWeekOnSunday', function() {
     let weekdays = moment.weekdaysMin();
-    let startWeekOnSunday = get(this, 'startWeekOnSunday');
+    let { startWeekOnSunday } = this;
 
     if (!startWeekOnSunday) {
       weekdays.push(weekdays.shift());
@@ -266,8 +265,7 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    let minDate = get(this, 'minDate');
-    let maxDate = get(this, 'maxDate');
+    let { minDate, maxDate } = this;
 
     set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
     set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
@@ -276,7 +274,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if (!get(this, 'selectedDates')) {
+    if (!this.selectedDates) {
       set(this, 'selectedDates', []);
     }
   },
@@ -295,8 +293,7 @@ export default Component.extend({
    * @private
    */
   _dayIsDisabled(day) {
-    let _minDate = get(this, '_minDate');
-    let _maxDate = get(this, '_maxDate');
+    let { _minDate, _maxDate } = this;
     if (_minDate && _minDate.valueOf() > day.valueOf()) {
       return true;
     } else if (_maxDate && _maxDate.valueOf() < day.valueOf()) {
@@ -316,7 +313,7 @@ export default Component.extend({
    * @private
    */
   _dayNotAvailable(day) {
-    let disabledDates = get(this, 'disabledDates') || [];
+    let disabledDates = this.disabledDates || [];
     return !!array(disabledDates).find((date) => date.isSame(day, 'day'));
   },
 
@@ -330,7 +327,7 @@ export default Component.extend({
    * @private
    */
   _dayIsInRange(day) {
-    let selectedDates = get(this, 'selectedDates');
+    let { selectedDates } = this;
 
     if (!selectedDates || !selectedDates.length || selectedDates.length < 2) {
       return false;
@@ -355,7 +352,7 @@ export default Component.extend({
 
   actions: {
     selectDate(date) {
-      let action = get(this, 'selectDate');
+      let action = this.selectDate;
       if (action) {
         action(date);
       }

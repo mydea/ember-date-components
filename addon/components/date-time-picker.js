@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed, set, get } from '@ember/object';
+import { computed, set } from '@ember/object';
 import layout from '../templates/components/date-time-picker';
 import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
 
@@ -218,7 +218,7 @@ export default Component.extend({
    * @protected
    */
   timePickerDisabled: computed('disabled', 'value', function() {
-    return get(this, 'disabled') || !get(this, 'value');
+    return this.disabled || !this.value;
   }),
 
   /**
@@ -232,8 +232,8 @@ export default Component.extend({
    * @protected
    */
   timePickerValue: computed('ignoreZeroTime', 'value', function() {
-    let value = get(this, 'value');
-    if (!get(this, 'ignoreZeroTime') || !value) {
+    let { value } = this;
+    if (!this.ignoreZeroTime || !value) {
       return value;
     }
 
@@ -251,19 +251,18 @@ export default Component.extend({
    * @private
    */
   _sendAction() {
-    let value = get(this, '_value');
-    let action = get(this, 'action');
+    let { _value: value, action } = this;
 
     return action(value);
   },
 
   didReceiveAttrs() {
-    set(this, '_value', get(this, 'value'));
+    set(this, '_value', this.value);
   },
 
   actions: {
     updateDate(val) {
-      let oldDate = get(this, '_value');
+      let oldDate = this._value;
       if (oldDate && val) {
         val.hours(oldDate.hours());
         val.minutes(oldDate.minutes());
@@ -276,7 +275,7 @@ export default Component.extend({
     },
 
     updateTime(val) {
-      let oldDate = get(this, '_value');
+      let oldDate = this._value;
 
       if (oldDate && val) {
         val.year(oldDate.year());

@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import TextField from '@ember/component/text-field';
 import { once } from '@ember/runloop';
 
@@ -61,33 +60,32 @@ export default TextField.extend({
 
   inputChange() {
     this._elementValueDidChange();
-    let value = get(this, 'value');
-    let action = get(this, 'input-change');
+    let { value, 'input-change': action } = this;
     return action(value, this);
   },
 
   _tab(event) {
-    let action = get(this, 'tab');
+    let action = this.tab;
     return action(this, event);
   },
 
   _arrowUp(event) {
-    let action = get(this, 'arrow-up');
+    let { 'arrow-up': action } = this;
     return action(this, event);
   },
 
   _arrowDown(event) {
-    let action = get(this, 'arrow-down');
+    let { 'arrow-down': action } = this;
     return action(this, event);
   },
 
   _escape(event) {
-    let action = get(this, 'escape');
+    let action = this.escape;
     return action(this, event);
   },
 
   _enter(event) {
-    let action = get(this, 'enter');
+    let action = this.enter;
     return action(this, event);
   }
 });

@@ -11,7 +11,7 @@ import {
   selectDateRange,
   getSelectedDate
 } from 'ember-date-components/test-support/helpers/date-picker';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 
 module('Integration | Component | date picker', function(hooks) {
   setupRenderingTest(hooks);
@@ -83,7 +83,7 @@ module('Integration | Component | date picker', function(hooks) {
         'correct date is passed to action.'
       );
       assert.equal(
-        get(this, 'defaultDate'),
+        this.defaultDate,
         date,
         'original default date is not changed.'
       );

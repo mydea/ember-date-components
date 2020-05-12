@@ -8,7 +8,7 @@ import {
 } from 'ember-date-components/test-support/helpers/date-picker';
 import { selectTime } from 'ember-date-components/test-support/helpers/time-picker';
 import moment from 'moment';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 
 module('Integration | Component | date time picker', function(hooks) {
   setupRenderingTest(hooks);
@@ -39,7 +39,7 @@ module('Integration | Component | date time picker', function(hooks) {
       assert.equal(val.month(), today.month(), 'month remains the same');
       assert.equal(val.date(), today.date(), 'date remains the same');
 
-      assert.equal(get(this, 'value'), today, 'the value is not modified');
+      assert.equal(this.value, today, 'the value is not modified');
     };
 
     set(this, 'value', today);
@@ -130,7 +130,7 @@ module('Integration | Component | date time picker', function(hooks) {
       assert.equal(val.month(), 4, 'month is correct');
       assert.equal(val.date(), 6, 'date is correct');
 
-      assert.equal(get(this, 'value'), today, 'the value is not modified');
+      assert.equal(this.value, today, 'the value is not modified');
     };
 
     set(this, 'value', today);

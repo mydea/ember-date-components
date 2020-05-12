@@ -7,7 +7,7 @@ import {
   selectTime,
   getSelectedTime
 } from 'ember-date-components/test-support/helpers/time-picker';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import { compareTimes } from 'dummy/tests/helpers/compare-times';
 
 module('Integration | Component | time picker', function(hooks) {
@@ -90,7 +90,7 @@ module('Integration | Component | time picker', function(hooks) {
         'correct time is passed to action.'
       );
       assert.equal(
-        get(this, 'defaultTime'),
+        this.defaultTime,
         time,
         'original default time is not changed.'
       );
