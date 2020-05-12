@@ -165,8 +165,15 @@ export default Component.extend({
     let firstWeekday = startWeekOnSunday
       ? currentMonth.day() + 1
       : currentMonth.isoWeekday();
+
     for (let i = firstWeekday; i > 1; i--) {
-      days.push(null);
+      days.push({
+        dateString: currentMonth
+          .clone()
+          .subtract(i, 'days')
+          .format('YYYY-MM-DD'),
+        show: false
+      });
     }
 
     // create one day object for every day in the month
@@ -178,7 +185,8 @@ export default Component.extend({
         year: day.year(),
         month: day.month(),
         day: day.date(),
-        weekday: day.isoWeekday()
+        weekday: day.isoWeekday(),
+        show: true
       };
 
       days.push(dayObject);
@@ -190,7 +198,13 @@ export default Component.extend({
       ? endOfMonth.day() + 1
       : endOfMonth.isoWeekday();
     for (let i = 7; i > lastWeekday; i--) {
-      days.push(null);
+      days.push({
+        dateString: endOfMonth
+          .clone()
+          .add(i, 'days')
+          .format('YYYY-MM-DD'),
+        show: false
+      });
     }
 
     return days;
