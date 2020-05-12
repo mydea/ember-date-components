@@ -9,8 +9,8 @@
 {{/if}}
 
 <div class='date-picker__days' data-test-date-picker-days>
-  {{#each daysInMonth as |date|}}
-    {{#if date}}
+  {{#each daysInMonth key='dateString' as |date|}}
+    {{#if date.show}}
       <button
         type="button"
         data-test-date-picker-day="{{date.year}}-{{date.month}}-{{date.day}}"
