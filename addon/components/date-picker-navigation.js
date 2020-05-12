@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import layout from '../templates/components/date-picker-navigation';
-import { get } from '@ember/object';
 
 export default Component.extend({
   layout,
@@ -75,12 +74,12 @@ export default Component.extend({
 
   actions: {
     gotoNextMonth() {
-      let month = get(this, 'currentMonth');
+      let month = this.currentMonth;
       this._sendAction(month.clone().add(1, 'month'));
     },
 
     gotoPreviousMonth() {
-      let month = get(this, 'currentMonth');
+      let month = this.currentMonth;
       this._sendAction(month.clone().subtract(1, 'month'));
     },
 

@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
-import { computed, set, get } from '@ember/object';
+import { computed, set } from '@ember/object';
 import { isNone } from '@ember/utils';
 import layout from '../templates/components/time-picker';
 import moment from 'moment';
@@ -224,11 +224,7 @@ export default Component.extend({
     'maxTime',
     'selectStep',
     function() {
-      let amPm = get(this, 'amPm');
-      let minTime = get(this, 'minTime');
-      let maxTime = get(this, 'maxTime');
-      let step = get(this, 'step');
-      let selectStep = get(this, 'selectStep');
+      let { amPm, minTime, maxTime, step, selectStep } = this;
 
       return {
         amPm,
@@ -250,7 +246,7 @@ export default Component.extend({
    * @protected
    */
   format: computed('options.amPm', function() {
-    let { amPm } = get(this, 'options');
+    let { amPm } = this.options;
     return amPm ? 'hh:mm a' : 'HH:mm';
   }),
 
@@ -262,23 +258,27 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timeOptions: computed('options.{minTime,maxTime,selectStep}', function() {
-    let { minTime, maxTime, selectStep } = get(this, 'options');
-    let format = get(this, 'format');
+  timeOptions: computed(
+    'format',
+    'options.{maxTime,minTime,selectStep}',
+    function() {
+      let { minTime, maxTime, selectStep } = this.options;
+      let { format } = this;
 
-    let steps = buildTimeRange({
-      minTime,
-      maxTime,
-      step: selectStep
-    });
+      let steps = buildTimeRange({
+        minTime,
+        maxTime,
+        step: selectStep
+      });
 
-    return steps.map((time) => {
-      return {
-        value: time.format(format),
-        time
-      };
-    });
-  }),
+      return steps.map((time) => {
+        return {
+          value: time.format(format),
+          time
+        };
+      });
+    }
+  ),
 
   /**
    * The options for the dropdown which are currently visible.
@@ -290,11 +290,11 @@ export default Component.extend({
    * @protected
    */
   filteredOptions: computed('timeOptions.[]', 'inputValue', function() {
-    let val = (get(this, 'inputValue') || '').toLowerCase();
-    let options = get(this, 'timeOptions');
+    let val = (this.inputValue || '').toLowerCase();
+    let options = this.timeOptions;
 
     return options.filter((option) => {
-      let optionValue = get(option, 'value');
+      let optionValue = option.value;
       return optionValue.toLowerCase().indexOf(val) > -1;
     });
   }),
@@ -325,9 +325,8 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  displayValue: computed('value', function() {
-    let value = get(this, 'value');
-    let format = get(this, 'format');
+  displayValue: computed('format', 'value', function() {
+    let { value, format } = this;
 
     value = parseTime(value);
     value = moment.isMoment(value) ? value.format(format) : value;
@@ -345,16 +344,16 @@ export default Component.extend({
 
     selectUp() {
       this.decrementProperty('selectedOptionIndex');
-      if (get(this, 'selectedOptionIndex') < -1) {
+      if (this.selectedOptionIndex < -1) {
         set(this, 'selectedOptionIndex', -1);
       }
     },
 
     selectDown() {
       this.incrementProperty('selectedOptionIndex');
-      let optionsLength = get(this, 'filteredOptions.length');
+      let optionsLength = this.filteredOptions.length;
 
-      if (get(this, 'selectedOptionIndex') > optionsLength) {
+      if (this.selectedOptionIndex > optionsLength) {
         set(this, 'selectedOptionIndex', optionsLength - 1);
       }
     },
@@ -385,7 +384,7 @@ export default Component.extend({
         dropdownApi.actions.open();
 
         // Add to the input, in order to not lose the typed characters
-        let inputValue = get(this, 'inputValue') || '';
+        let inputValue = this.inputValue || '';
         set(this, 'inputValue', `${inputValue}${key}`);
       }
     },
@@ -401,25 +400,25 @@ export default Component.extend({
   },
 
   _setupDefaults() {
-    if (isNone(get(this, 'amPm'))) {
+    if (isNone(this.amPm)) {
       set(this, 'amPm', shouldUseAmPm());
     }
   },
 
   _close() {
-    let dropdownApi = get(this, '_dropdownApi');
+    let dropdownApi = this._dropdownApi;
     if (dropdownApi) {
       dropdownApi.actions.close();
     }
   },
 
   _selectCurrent() {
-    let options = get(this, 'filteredOptions');
-    let selected = get(this, 'selectedOptionIndex');
+    let options = this.filteredOptions;
+    let selected = this.selectedOptionIndex;
 
     // If nothing is selected, simply try to parse the entered string
     if (selected === -1) {
-      let inputValue = get(this, 'inputValue');
+      let { inputValue } = this;
       this._updateValueForString(inputValue);
       return;
     }
@@ -433,7 +432,7 @@ export default Component.extend({
     }
 
     // Actually get the string value from the option
-    let value = get(selectedOption, 'value');
+    let { value } = selectedOption;
     this._updateValueForString(value);
   },
 
@@ -447,9 +446,7 @@ export default Component.extend({
   },
 
   _sendNewValueAction(newValue) {
-    let value = get(this, 'value');
-    let action = get(this, 'action');
-    let isDisabled = get(this, 'disabled');
+    let { value, action, disabled: isDisabled } = this;
 
     if (action && !isDisabled && value !== newValue) {
       return action(newValue);
@@ -466,13 +463,13 @@ export default Component.extend({
    */
   _originallyFocusedElement: null,
   _focusTimeInput() {
-    if (get(this, 'isDestroyed')) {
+    if (this.isDestroyed) {
       return;
     }
     let originallyFocusedElement = document.activeElement;
     set(this, '_originallyFocusedElement', originallyFocusedElement);
 
-    let elementId = get(this, 'elementId');
+    let { elementId } = this;
 
     next(() => {
       let timeInput = document.querySelector(
@@ -492,7 +489,7 @@ export default Component.extend({
    * @private
    */
   _resetFocus() {
-    let originallyFocusedElement = get(this, '_originallyFocusedElement');
+    let originallyFocusedElement = this._originallyFocusedElement;
     set(this, '_originallyFocusedElement', null);
 
     if (
