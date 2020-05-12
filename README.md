@@ -5,6 +5,12 @@
 
 An Ember add-on which provides pure Ember-based date picker components.
 
+## Compatibility
+
+* Ember.js v3.12 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
 ## Installation
 
 * `ember install ember-moment` - This is a dependency that you will need to install manually
