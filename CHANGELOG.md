@@ -1,5 +1,12 @@
 # Changelog
 
+v2.1.0
+
+- [BUGFIX] Ensure months are correctly re-rendered in newer Ember versions
+- [BUGFIX] Fix button styles to be `min-width` instead of `width` to allow growing
+- [INTERNAL] Update all dependencies
+- [INTERNAL] Mov to Github Actions for CI
+
 v2.0.6
 
 - Add `selectDateRange()` test helper on date-picker test helper object
