@@ -230,7 +230,7 @@ export default Component.extend({
       let days = this._daysInMonth;
 
       days.forEach((day) => {
-        if (!day) {
+        if (!day.show) {
           return;
         }
         /* eslint-disable ember/no-side-effects */
