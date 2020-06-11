@@ -227,18 +227,15 @@ export default Component.extend({
     '_maxDate',
     'selectedDates.[]',
     function() {
-      let days = this._daysInMonth;
-
-      days.forEach((day) => {
+      return this._daysInMonth.map((day) => {
         if (!day.show) {
-          return;
+          return day;
         }
-        /* eslint-disable ember/no-side-effects */
+
         set(day, 'disabled', this._dayIsDisabled(day.date));
         set(day, 'inRange', this._dayIsInRange(day.date));
-        /* eslint-enable ember/no-side-effects */
+        return day;
       });
-      return days;
     }
   ),
 
