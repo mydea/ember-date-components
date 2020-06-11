@@ -395,6 +395,32 @@ module('Integration | Component | date picker', function(hooks) {
       .hasAttribute('disabled');
   });
 
+  test('should disable dates with min&max attributes', async function(assert) {
+    const min = moment().subtract(5, 'days');
+    const max = moment().add(10, 'days');
+    const today = moment();
+    const daysInMonth = today.daysInMonth();
+
+    set(this, 'min', min);
+    set(this, 'max', max);
+
+    assert.expect(daysInMonth);
+
+    await render(hbs`{{date-picker minDate=min maxDate=max}}`);
+    let datePicker = getDatePicker('.date-picker__wrapper');
+    await datePicker.toggle();
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const iterationDay = today.clone().set('date', i);
+      const daySelector = `${iterationDay.year()}-${iterationDay.month()}-${iterationDay.date()}`;
+      if (iterationDay.isBefore(min) || iterationDay.isAfter(max)) {
+        assert.dom(`[data-test-date-picker-day="${daySelector}"]`).isDisabled();
+      } else {
+        assert.dom(`[data-test-date-picker-day="${daySelector}"]`).isEnabled();
+      }
+    }
+  });
+
   test('getDatePicker works in the past', async function(assert) {
     assert.expect(3);
 
