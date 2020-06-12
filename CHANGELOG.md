@@ -1,5 +1,9 @@
 # Changelog
 
+v2.1.2
+
+- [INTERNAL] Fix linting issues & ensure tests run for PRs
+
 v2.1.1
 
 - [BUGFIX] Ensure min & max options work [#138] - thanks @dmaok
