@@ -1,5 +1,9 @@
 # Changelog
 
+v2.1.1
+
+- [BUGFIX] Ensure min & max options work [#138] - thanks @dmaok
+
 v2.1.0
 
 - [BUGFIX] Ensure months are correctly re-rendered in newer Ember versions
