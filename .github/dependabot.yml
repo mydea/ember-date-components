@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "04:00"
+  assignees:
+  - mydea
+  commit-message:
+    prefix: chore
+    prefix-development: chore
+    include: scope
