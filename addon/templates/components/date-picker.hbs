@@ -1,23 +1,19 @@
-{{#basic-dropdown
-  onOpen=(action 'onDropdownOpened')
-  onClose=(action 'onDropdownClosed')
-  renderInPlace=renderInPlace
-  horizontalPosition=horizontalPosition
-  verticalPosition=verticalPosition
-as |dd| }}
-
-  {{#dd.trigger
-    class='date-picker__trigger'
-    tabindex=-1
-  }}
+<BasicDropdown
+  @onOpen={{action 'onDropdownOpened'}}
+  @onClose={{action 'onDropdownClosed'}}
+  @renderInPlace={{renderInPlace}}
+  @horizontalPosition={{horizontalPosition}}
+  @verticalPosition={{verticalPosition}} as |dd|
+>
+  <dd.Trigger class='date-picker__trigger' tabindex='-1'>
     {{#if hasBlock}}
       {{yield _dates}}
     {{else}}
       <button
-        type="button"
+        type='button'
         class="date-picker__button {{buttonClasses}}
-          {{if range ' date-picker__button--range'}}
-          {{if buttonFocused 'date-picker__button--focus'}}"
+         {{if range ' date-picker__button--range'}}
+         {{if buttonFocused 'date-picker__button--focus'}}"
         data-test-date-picker-toggle-button
         data-date-picker-toggle-button-instance={{elementId}}
         data-test-date-picker-toggle-button-format={{buttonDateFormat}}
@@ -30,10 +26,10 @@ as |dd| }}
       {{#if range}}
         {{dateRangeSeparator}}
         <button
-          type="button"
+          type='button'
           class="date-picker__button {{buttonClasses}}
-            {{if range ' date-picker__button--range'}}
-            {{if buttonToFocused ' date-picker__button--focus'}}"
+           {{if range ' date-picker__button--range'}}
+           {{if buttonToFocused ' date-picker__button--focus'}}"
           data-test-date-picker-toggle-button
           disabled={{disabled}}
           {{action 'toggleOpenTo' dd}}
@@ -42,16 +38,16 @@ as |dd| }}
         </button>
       {{/if}}
     {{/if}}
-  {{/dd.trigger}}
+  </dd.Trigger>
 
-  {{#dd.content}}
+  <dd.Content>
     <div
       data-date-picker-instance={{elementId}}
       class="date-picker{{if options ' date-picker--options'}}"
     >
-      <div class="date-picker__calendar">
-
-        {{date-picker-navigation
+      <div class='date-picker__calendar'>
+        {{
+          date-picker-navigation
           currentMonth=currentMonth
           minDate=minDate
           maxDate=maxDate
@@ -62,7 +58,8 @@ as |dd| }}
           updateMonth=(action 'gotoMonth')
         }}
 
-        {{date-picker-month
+        {{
+          date-picker-month
           disabledDates=disabledDates
           month=currentMonth
           selectedDates=selectedDates
@@ -74,10 +71,10 @@ as |dd| }}
       </div>
 
       {{#if options}}
-        <div class="date-picker__options">
+        <div class='date-picker__options'>
           {{#each _options as |option|}}
             <button
-              type="button"
+              type='button'
               class="date-picker__options__button {{option.classes}}"
               {{action option.action option.actionValue}}
             >
@@ -87,5 +84,5 @@ as |dd| }}
         </div>
       {{/if}}
     </div>
-  {{/dd.content}}
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>

@@ -1,56 +1,62 @@
 {{#if monthPickerDisabled}}
   {{moment-format currentMonth 'MMMM'}}
 {{else}}
-  {{#basic-dropdown
-    horizontalPosition='right'
-  as |monthDropdown|}}
-    {{#monthDropdown.trigger
+  <BasicDropdown @horizontalPosition='right' as |monthDropdown|>
+    <monthDropdown.Trigger
       class='date-picker__header__month date-picker__header__select'
-    }}
+    >
       {{moment-format currentMonth 'MMMM'}}
-    {{/monthDropdown.trigger}}
-    {{#monthDropdown.content}}
-      <div class="date-picker__header__select__content">
+    </monthDropdown.Trigger>
+
+    <monthDropdown.Content>
+      <div class='date-picker__header__select__content'>
         {{#each availableMonths as |month|}}
           <button
-            type="button"
+            type='button'
             class="date-picker__header__select__item
-                            {{if (is-equal-month month currentMonth) 'date-picker__header__select__item--current'}}"
+            {{
+              if
+              (is-equal-month month currentMonth)
+              'date-picker__header__select__item--current'
+            }}"
             {{action 'gotoMonth' month monthDropdown}}
           >
             {{moment-format month 'MMMM'}}
           </button>
         {{/each}}
       </div>
-    {{/monthDropdown.content}}
-  {{/basic-dropdown}}
+    </monthDropdown.Content>
+  </BasicDropdown>
 {{/if}}
 
 {{#if yearPickerDisabled}}
   {{moment-format currentMonth 'YYYY'}}
 {{else}}
-  {{#basic-dropdown
-  as |yearDropdown|}}
-    {{#yearDropdown.trigger
+  <BasicDropdown as |yearDropdown|>
+    <yearDropdown.Trigger
+      @horizontalPosition='auto'
       class='date-picker__header__year date-picker__header__select'
-      horizontalPosition='auto'
-    }}
+    >
       {{moment-format currentMonth 'YYYY'}}
-    {{/yearDropdown.trigger}}
-    {{#yearDropdown.content}}
-      <div class="date-picker__header__select__content">
+    </yearDropdown.Trigger>
+    
+    <yearDropdown.Content>
+      <div class='date-picker__header__select__content'>
         {{#each availableYears as |year|}}
           <button
-            type="button"
+            type='button'
             class="date-picker__header__select__item
-                              {{if (is-equal-year year currentMonth) 'date-picker__header__select__item--current'}}"
+            {{
+              if
+              (is-equal-year year currentMonth)
+              'date-picker__header__select__item--current'
+            }}"
             {{action 'gotoMonth' year yearDropdown}}
           >
             {{moment-format year 'YYYY'}}
           </button>
         {{/each}}
       </div>
-    {{/yearDropdown.content}}
-  {{/basic-dropdown}}
-
+    </yearDropdown.Content>
+  </BasicDropdown>
 {{/if}}
