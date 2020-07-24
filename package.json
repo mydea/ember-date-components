@@ -60,7 +60,7 @@
     "precise-commits": "~1.0.2",
     "prettier": "~1.15.2",
     "qunit-dom": "~1.2.0",
-    "sass": "~1.14.3"
+    "sass": "~1.26.10"
   },
   "dependencies": {
     "ember-basic-dropdown": "^3.0.6",
