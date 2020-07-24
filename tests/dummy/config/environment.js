@@ -23,7 +23,8 @@ module.exports = function(environment) {
     },
 
     moment: {
-      includeLocales: true
+      includeLocales: ['en', 'de'],
+      includeTimezone: 'all'
     }
   };
 

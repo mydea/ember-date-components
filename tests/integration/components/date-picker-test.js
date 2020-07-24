@@ -17,6 +17,8 @@ module('Integration | Component | date picker', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
+    moment.locale('en');
+
     this.actions = {};
     this.send = (actionName, ...args) =>
       this.actions[actionName].apply(this, args);
