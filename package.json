@@ -41,7 +41,7 @@
     "ember-maybe-import-regenerator": "~0.1.6",
     "ember-moment": "~8.0.0",
     "ember-page-title": "~5.0.0",
-    "ember-prism": "~0.6.1",
+    "ember-prism": "~0.7.0",
     "ember-qunit": "~4.6.0",
     "ember-resolver": "~8.0.0",
     "ember-source": "~3.18.0",
