@@ -14,8 +14,9 @@ module('Integration | Component | time picker', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    this.actions = {};
     moment.locale('en');
+
+    this.actions = {};
     this.send = (actionName, ...args) =>
       this.actions[actionName].apply(this, args);
   });
