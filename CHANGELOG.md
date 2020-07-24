@@ -1,5 +1,10 @@
 # Changelog
 
+v3.0.0
+
+- [INTERNAL] Update ember-basic-dropdown to 3.x
+- [BREAKING] Require ember-source 3.13+ (due to the ember-basic-dropdown update)
+
 v2.1.2
 
 - [INTERNAL] Fix linting issues & ensure tests run for PRs
