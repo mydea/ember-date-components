@@ -1,24 +1,23 @@
-{{#basic-dropdown
-  disabled=disabled
-  onOpen=(action 'onDropdownOpened')
-  onClose=(action 'onDropdownClosed')
-  renderInPlace=renderInPlace
-  horizontalPosition=horizontalPosition
-  verticalPosition=verticalPosition
-  matchTriggerWidth=matchTriggerWidth
-as |dd| }}
-
-  {{#dd.trigger
-    onKeyDown=(action 'onTriggerKeyDown')
+<BasicDropdown
+  @disabled={{disabled}}
+  @onOpen={{action 'onDropdownOpened'}}
+  @onClose={{action 'onDropdownClosed'}}
+  @renderInPlace={{renderInPlace}}
+  @horizontalPosition={{horizontalPosition}}
+  @verticalPosition={{verticalPosition}}
+  @matchTriggerWidth={{matchTriggerWidth}} as |dd|
+>
+  <dd.Trigger
+    @onKeyDown={{action 'onTriggerKeyDown'}}
     class='time-picker__trigger'
-  }}
+  >
     <button
-      type="button"
+      type='button'
       disabled={{disabled}}
       class="time-picker__button {{buttonClasses}}"
       data-time-picker-toggle-button={{elementId}}
       data-time-picker-value={{displayValue}}
-      tabindex="-1"
+      tabindex='-1'
     >
       {{#if displayValue}}
         {{displayValue}}
@@ -26,14 +25,15 @@ as |dd| }}
         {{placeholder}}
       {{/if}}
     </button>
-  {{/dd.trigger}}
+  </dd.Trigger>
 
-  {{#dd.content}}
+  <dd.Content>
     <div
-      class='time-picker__dropdown {{dropdownClasses}}'
+      class="time-picker__dropdown {{dropdownClasses}}"
       data-time-picker-instance={{elementId}}
     >
-      {{time-picker-input
+      {{
+        time-picker-input
         disabled=disabled
         value=(readonly inputValue)
         class=(concat 'time-picker__input ' inputClasses)
@@ -52,8 +52,12 @@ as |dd| }}
         {{! template-lint-disable no-invalid-interactive }}
         {{#each filteredOptions as |option i|}}
           <div
-            class='time-picker__dropdown__item
-            {{if (is-equal selectedOptionIndex i) 'time-picker__dropdown__item--selected'}}'
+            class="time-picker__dropdown__item
+            {{
+              if
+              (is-equal selectedOptionIndex i)
+              'time-picker__dropdown__item--selected'
+            }}"
             {{action 'selectValue' option.value}}
           >
             {{option.value}}
@@ -62,7 +66,5 @@ as |dd| }}
         {{! template-lint-enable no-invalid-interactive }}
       </div>
     </div>
-
-  {{/dd.content}}
-
-{{/basic-dropdown}}
+  </dd.Content>
+</BasicDropdown>
