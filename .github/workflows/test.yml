@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -21,6 +22,7 @@ jobs:
           yarn lint:hbs
 
   test-matrix:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
