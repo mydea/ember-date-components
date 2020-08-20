@@ -13,7 +13,7 @@ export default Component.extend({
   disableMonthPicker: false,
   availableYearOffset: 10,
 
-  availableMonths: computed('currentMonth', 'minDate', 'maxDate', function() {
+  availableMonths: computed('currentMonth', 'minDate', 'maxDate', function () {
     let { currentMonth, minDate, maxDate } = this;
     let year = currentMonth.year();
 
@@ -22,10 +22,7 @@ export default Component.extend({
 
     let months = [];
     for (let i = 0; i < 12; i++) {
-      let date = moment()
-        .year(year)
-        .month(i)
-        .startOf('month');
+      let date = moment().year(year).month(i).startOf('month');
       if (minDate && date.diff(minDate) < 0) {
         continue;
       }
@@ -43,7 +40,7 @@ export default Component.extend({
     'currentMonth',
     'maxDate',
     'minDate',
-    function() {
+    function () {
       let { currentMonth, minDate, maxDate, availableYearOffset } = this;
 
       minDate = minDate ? minDate.clone().startOf('year') : null;
@@ -51,10 +48,7 @@ export default Component.extend({
 
       let dates = [];
       for (let i = availableYearOffset; i > 0; i--) {
-        let date = currentMonth
-          .clone()
-          .subtract(i, 'years')
-          .startOf('month');
+        let date = currentMonth.clone().subtract(i, 'years').startOf('month');
         if (minDate && date.diff(minDate) < 0) {
           continue;
         }
@@ -65,10 +59,7 @@ export default Component.extend({
       }
       dates.push(currentMonth.clone());
       for (let i = 1; i <= availableYearOffset; i++) {
-        let date = currentMonth
-          .clone()
-          .add(i, 'years')
-          .startOf('month');
+        let date = currentMonth.clone().add(i, 'years').startOf('month');
         if (minDate && date.diff(minDate, 'years') < 0) {
           continue;
         }
@@ -85,7 +76,7 @@ export default Component.extend({
   monthPickerDisabled: computed(
     'disableMonthPicker',
     'availableMonths.length',
-    function() {
+    function () {
       return this.disableMonthPicker || !this.availableMonths.length;
     }
   ),
@@ -93,7 +84,7 @@ export default Component.extend({
   yearPickerDisabled: computed(
     'disableYearPicker',
     'availableYears.length',
-    function() {
+    function () {
       return this.disableYearPicker || !this.availableYears.length;
     }
   ),
@@ -106,6 +97,6 @@ export default Component.extend({
       if (dropdownApi) {
         dropdownApi.actions.close();
       }
-    }
-  }
+    },
+  },
 });

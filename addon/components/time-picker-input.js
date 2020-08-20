@@ -17,7 +17,7 @@ export default TextField.extend({
   attributeBindings: [
     'disabled',
     'data-time-picker-input-instance',
-    'tabindex'
+    'tabindex',
   ],
 
   type: 'text',
@@ -87,5 +87,5 @@ export default TextField.extend({
   _enter(event) {
     let action = this.enter;
     return action(this, event);
-  }
+  },
 });

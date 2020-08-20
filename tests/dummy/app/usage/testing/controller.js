@@ -4,7 +4,7 @@ import { computed } from '@ember/object';
 
 /* eslint-disable no-console */
 export default Controller.extend({
-  myOptions: computed(function() {
+  myOptions: computed(function () {
     return [
       'clear',
       'today',
@@ -13,12 +13,10 @@ export default Controller.extend({
         action: 'selectDateRange',
         label: 'Last 3 days',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(3, 'days'),
-          moment().startOf('day')
-        ]
-      }
+          moment().startOf('day').subtract(3, 'days'),
+          moment().startOf('day'),
+        ],
+      },
     ];
   }),
 
@@ -28,6 +26,6 @@ export default Controller.extend({
     },
     updateDate(val) {
       console.log(val);
-    }
-  }
+    },
+  },
 });

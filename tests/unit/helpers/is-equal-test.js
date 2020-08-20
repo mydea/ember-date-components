@@ -1,8 +1,8 @@
 import { isEqual } from 'dummy/helpers/is-equal';
 import { module, test } from 'qunit';
 
-module('Unit | Helper | is equal', function() {
-  test('it works', function(assert) {
+module('Unit | Helper | is equal', function () {
+  test('it works', function (assert) {
     let result = isEqual([null, null]);
     assert.ok(result, 'it works for null & null');
 

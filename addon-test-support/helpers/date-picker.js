@@ -97,7 +97,7 @@ export function getDatePicker(element) {
 
     element,
     buttonElement: button,
-    buttonToElement: buttonTo
+    buttonToElement: buttonTo,
   };
 }
 
@@ -107,7 +107,7 @@ export async function setTimePickerValue() {
     false,
     {
       id: 'ember-date-components.test-support.helpers.date-picker',
-      until: '3.0.0'
+      until: '3.0.0',
     }
   );
 

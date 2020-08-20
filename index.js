@@ -39,5 +39,5 @@ module.exports = {
       (a) => a.name === 'ember-basic-dropdown'
     );
     return emberBasicDropdown.contentFor(type, config);
-  }
+  },
 };

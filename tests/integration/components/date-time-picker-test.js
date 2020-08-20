@@ -4,32 +4,32 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   getDatePicker,
-  selectDateTime
+  selectDateTime,
 } from 'ember-date-components/test-support/helpers/date-picker';
 import { selectTime } from 'ember-date-components/test-support/helpers/time-picker';
 import moment from 'moment';
 import { set } from '@ember/object';
 
-module('Integration | Component | date time picker', function(hooks) {
+module('Integration | Component | date time picker', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.actions = {};
     this.send = (actionName, ...args) =>
       this.actions[actionName].apply(this, args);
   });
 
-  test('time picker is disabled if no value is set', async function(assert) {
+  test('time picker is disabled if no value is set', async function (assert) {
     await render(hbs`{{date-time-picker}}`);
     assert.dom('[data-time-picker-toggle-button]').isDisabled();
   });
 
-  test('selecting a time works with a value pre-set', async function(assert) {
+  test('selecting a time works with a value pre-set', async function (assert) {
     assert.expect(8);
 
     let today = moment();
 
-    this.actions.update = function(val) {
+    this.actions.update = function (val) {
       assert.equal(val.hours(), 14, 'hours are correct');
       assert.equal(val.minutes(), 30, 'minutes are correct');
       assert.equal(val.seconds(), 0, 'seconds are correct');
@@ -50,17 +50,13 @@ module('Integration | Component | date time picker', function(hooks) {
     await selectTime(this.element, '14:30');
   });
 
-  test('time picker is disabled if disabled=true', async function(assert) {
+  test('time picker is disabled if disabled=true', async function (assert) {
     await render(hbs`{{date-time-picker disabled=true value=(now)}}`);
     assert.dom('[data-time-picker-toggle-button]').isDisabled();
   });
 
-  test('time-picker value is pre-filled', async function(assert) {
-    let today = moment()
-      .hours(14)
-      .minutes(30)
-      .seconds(0)
-      .milliseconds(0);
+  test('time-picker value is pre-filled', async function (assert) {
+    let today = moment().hours(14).minutes(30).seconds(0).milliseconds(0);
 
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value}}`);
@@ -68,7 +64,7 @@ module('Integration | Component | date time picker', function(hooks) {
     assert.dom('[data-time-picker-toggle-button]').hasText('02:30 pm');
   });
 
-  test('ignoreZeroTime works', async function(assert) {
+  test('ignoreZeroTime works', async function (assert) {
     let today = moment();
     today.hours(0);
     today.minutes(0);
@@ -83,7 +79,7 @@ module('Integration | Component | date time picker', function(hooks) {
       .hasText('Enter time...', 'value is empty if time is 00:00');
   });
 
-  test('ignoreZeroTime can be disabled', async function(assert) {
+  test('ignoreZeroTime can be disabled', async function (assert) {
     let today = moment();
     today.hours(0);
     today.minutes(0);
@@ -98,25 +94,25 @@ module('Integration | Component | date time picker', function(hooks) {
       .hasText('12:00 am', 'value is 00:00 if ignoreZeroTime=false');
   });
 
-  test('date picker is not disabled if no value is set', async function(assert) {
+  test('date picker is not disabled if no value is set', async function (assert) {
     await render(hbs`{{date-time-picker}}`);
     let datePicker = getDatePicker(this.element);
     assert.dom(datePicker.buttonElement).isNotDisabled();
   });
 
-  test('date picker is disabled if disabled=true', async function(assert) {
+  test('date picker is disabled if disabled=true', async function (assert) {
     await render(hbs`{{date-time-picker disabled=true value=(now)}}`);
 
     let datePicker = getDatePicker(this.element);
     assert.dom(datePicker.buttonElement).hasAttribute('disabled');
   });
 
-  test('selecting a date works without a value pre-set', async function(assert) {
+  test('selecting a date works without a value pre-set', async function (assert) {
     assert.expect(8);
 
     let today = moment('2017-05-13');
 
-    this.actions.update = function(val) {
+    this.actions.update = function (val) {
       assert.equal(val.hours(), today.hours(), 'hours remain the same');
       assert.equal(val.minutes(), today.minutes(), 'minutes remain the same');
       assert.equal(val.seconds(), today.seconds(), 'seconds remain the same');
@@ -143,12 +139,12 @@ module('Integration | Component | date time picker', function(hooks) {
     await datePicker.selectDate(moment('2017-05-06'));
   });
 
-  test('selecting a date works with a value pre-set', async function(assert) {
+  test('selecting a date works with a value pre-set', async function (assert) {
     assert.expect(7);
 
     let today = moment();
 
-    this.actions.update = function(val) {
+    this.actions.update = function (val) {
       assert.equal(val.hours(), 0, 'hours defaults to 0');
       assert.equal(val.minutes(), 0, 'minutes defaults to 0');
       assert.equal(val.seconds(), 0, 'seconds defaults to 0');
@@ -166,7 +162,7 @@ module('Integration | Component | date time picker', function(hooks) {
     await datePicker.selectDate(today);
   });
 
-  test('date-picker value is pre-filled', async function(assert) {
+  test('date-picker value is pre-filled', async function (assert) {
     let today = moment('2017-05-13');
     set(this, 'value', today);
     await render(hbs`{{date-time-picker value=value}}`);
@@ -175,7 +171,7 @@ module('Integration | Component | date time picker', function(hooks) {
     assert.equal(datePicker.buttonText(), today.format('L'));
   });
 
-  test('setDateTime test helpers works', async function(assert) {
+  test('setDateTime test helpers works', async function (assert) {
     assert.expect(3);
 
     this.actions.update = (val) => {
@@ -186,10 +182,7 @@ module('Integration | Component | date time picker', function(hooks) {
     this.date = null;
     await render(hbs`{{date-time-picker action=(action 'update') value=date}}`);
 
-    let targetDate = moment()
-      .add(2, 'day')
-      .hours(5)
-      .minutes(30);
+    let targetDate = moment().add(2, 'day').hours(5).minutes(30);
     await selectDateTime(this.element, targetDate);
 
     assert.ok(

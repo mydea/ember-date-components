@@ -1,4 +1,4 @@
 export {
   default,
-  isEqualTime
+  isEqualTime,
 } from 'ember-date-components/helpers/is-equal-time';

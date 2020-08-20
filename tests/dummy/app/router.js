@@ -6,8 +6,8 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
-Router.map(function() {
-  this.route('usage', function() {
+Router.map(function () {
+  this.route('usage', function () {
     this.route('date-picker');
     this.route('date-time-picker');
     this.route('date-range-picker');
@@ -15,7 +15,7 @@ Router.map(function() {
     this.route('custom-options');
     this.route('testing');
   });
-  this.route('examples', function() {
+  this.route('examples', function () {
     this.route('date-picker');
   });
 });

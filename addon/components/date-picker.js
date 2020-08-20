@@ -290,7 +290,7 @@ export default Component.extend({
     'buttonDateFormat',
     'placeholder',
     'range',
-    function() {
+    function () {
       let isRange = this.range;
       let vals = this._dates || array([]);
       let dateFormat = this.buttonDateFormat;
@@ -327,7 +327,7 @@ export default Component.extend({
     'buttonDateFormat',
     'placeholder',
     'range',
-    function() {
+    function () {
       let vals = this._dates || array([]);
       let dateFormat = this.buttonDateFormat;
 
@@ -349,7 +349,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonFocused: computed('range', 'isOpen', 'isToStep', function() {
+  buttonFocused: computed('range', 'isOpen', 'isToStep', function () {
     let { range: isRange, isOpen, isToStep } = this;
 
     return isRange ? isOpen && !isToStep : isOpen;
@@ -363,7 +363,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonToFocused: computed('range', 'isOpen', 'isToStep', function() {
+  buttonToFocused: computed('range', 'isOpen', 'isToStep', function () {
     let { range: isRange, isOpen, isToStep } = this;
 
     return isRange ? isOpen && isToStep : false;
@@ -379,7 +379,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  selectedDates: computed('_dates.[]', function() {
+  selectedDates: computed('_dates.[]', function () {
     let arr = [];
     let [dateFrom, dateTo] = this._dates;
     if (dateFrom) {
@@ -406,7 +406,7 @@ export default Component.extend({
     '_optionsMap',
     'options.[]',
     'range',
-    function() {
+    function () {
       let { options, range: isRange, _optionsMap: optionsMap } = this;
 
       if (!options) {
@@ -434,79 +434,66 @@ export default Component.extend({
    * @type {Object}
    * @private
    */
-  _optionsMap: computed(function() {
+  _optionsMap: computed(function () {
     return {
       clear: {
         action: 'clearDate',
-        label: 'Clear'
+        label: 'Clear',
       },
       today: {
         action: 'selectToday',
-        label: 'Today'
+        label: 'Today',
       },
       last7Days: {
         action: 'selectDateRange',
         label: 'Last 7 days',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(6, 'days'),
-          moment().startOf('day')
-        ]
+          moment().startOf('day').subtract(6, 'days'),
+          moment().startOf('day'),
+        ],
       },
       last30Days: {
         action: 'selectDateRange',
         label: 'Last 30 days',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(29, 'days'),
-          moment().startOf('day')
-        ]
+          moment().startOf('day').subtract(29, 'days'),
+          moment().startOf('day'),
+        ],
       },
       lastYear: {
         action: 'selectDateRange',
         label: 'Last year',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(1, 'year')
-            .add(1, 'day'),
-          moment().startOf('day')
-        ]
+          moment().startOf('day').subtract(1, 'year').add(1, 'day'),
+          moment().startOf('day'),
+        ],
       },
       last3Months: {
         action: 'selectDateRange',
         label: 'Last 3 months',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(3, 'months')
-            .add(1, 'day'),
-          moment().startOf('day')
-        ]
+          moment().startOf('day').subtract(3, 'months').add(1, 'day'),
+          moment().startOf('day'),
+        ],
       },
       last6Months: {
         action: 'selectDateRange',
         label: 'Last 6 months',
         actionValue: [
-          moment()
-            .startOf('day')
-            .subtract(6, 'months')
-            .add(1, 'day'),
-          moment().startOf('day')
-        ]
+          moment().startOf('day').subtract(6, 'months').add(1, 'day'),
+          moment().startOf('day'),
+        ],
       },
       thisWeek: {
         action: 'selectDateRange',
         label: 'This week',
-        actionValue: [moment().startOf('isoweek'), moment().startOf('day')]
+        actionValue: [moment().startOf('isoweek'), moment().startOf('day')],
       },
       thisMonth: {
         action: 'selectDateRange',
         label: 'This month',
-        actionValue: [moment().startOf('month'), moment().startOf('day')]
-      }
+        actionValue: [moment().startOf('month'), moment().startOf('day')],
+      },
     };
   }),
 
@@ -533,7 +520,7 @@ export default Component.extend({
     'today',
     'last7Days',
     'last30Days',
-    'last3Months'
+    'last3Months',
   ]),
 
   /**
@@ -792,7 +779,7 @@ export default Component.extend({
       date = date.endOf('day');
     }
 
-    if (date && (dateFrom && date.valueOf() < dateFrom.valueOf())) {
+    if (date && dateFrom && date.valueOf() < dateFrom.valueOf()) {
       vals = array([date, dateFrom]);
     } else {
       vals = array([dateFrom, date]);
@@ -969,8 +956,8 @@ export default Component.extend({
 
     onDropdownOpened(dropdownApi) {
       set(this, '_dropdownApi', dropdownApi);
-    }
-  }
+    },
+  },
 
   // ACTIONS END ----------------------------------------
 });

@@ -4,10 +4,10 @@ import { setupApplicationTest } from 'ember-qunit';
 import { getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
 import moment from 'moment';
 
-module('Acceptance | date picker', function(hooks) {
+module('Acceptance | date picker', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('visiting /date-picker', async function(assert) {
+  test('visiting /date-picker', async function (assert) {
     await visit('/examples/date-picker');
 
     assert.equal(currentURL(), '/examples/date-picker');
@@ -20,11 +20,8 @@ module('Acceptance | date picker', function(hooks) {
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(12));
 
-    assert.dom('#date1-output').hasText(
-      moment()
-        .date(12)
-        .format('L'),
-      'date 1 is correctly updated.'
-    );
+    assert
+      .dom('#date1-output')
+      .hasText(moment().date(12).format('L'), 'date 1 is correctly updated.');
   });
 });
