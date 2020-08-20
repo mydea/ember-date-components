@@ -5333,10 +5333,10 @@ ember-on-helper@^0.1.0:
   dependencies:
     ember-cli-babel "^7.7.3"
 
-ember-page-title@~5.0.0:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.0.2.tgz#ab5a60c16318ba7f5e66cd41f580c9831ce3b612"
-  integrity sha512-v5K8tfPxdLmZRRdUP0L9ed+ufC1tw+tAhlHslt5MchDwHh192OH1JhDROp6Wci8/Np9kaSCICxS27nXEgXxxsg==
+ember-page-title@~5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.2.3.tgz#63b039d70d4a5d7db9c00de5b2108823fb90bb9d"
+  integrity sha512-2ErWCJsTawaKJy7fzZqIsrUTNaNtDgEboiiL4OcqEg2A3gKmuuaDFSWz0w9njFRxWISvfPfRw1df0kpYAr98ng==
   dependencies:
     ember-cli-babel "^7.7.3"
     ember-cli-head "^0.4.0"
