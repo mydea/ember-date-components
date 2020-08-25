@@ -36,6 +36,16 @@ export default Component.extend({
   datePickerClasses: '',
 
   /**
+   * The placeholder for the date button, if no date is selected.
+   *
+   * @attribute datePlaceholder
+   * @type {String}
+   * @default 'Select Date...'
+   * @public
+   */
+  datePlaceholder: 'Select Date...',
+
+  /**
    * Classes which should be added to the time input.
    *
    * @attribute timePickerClasses
@@ -43,6 +53,24 @@ export default Component.extend({
    * @public
    */
   timePickerClasses: '',
+
+  /**
+   * Classes which should be added to the time button.
+   *
+   * @attribute timePickerButtonClasses
+   * @type {String}
+   * @public
+   */
+  timePickerButtonClasses: '',
+
+  /**
+   * The placeholder for the time button.
+   *
+   * @attribute timePlaceholder
+   * @type {String}
+   * @public
+   */
+  timePlaceholder: 'Enter time...',
 
   /**
    * The date format which should be used for the button.

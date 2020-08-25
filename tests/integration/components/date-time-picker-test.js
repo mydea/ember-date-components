@@ -175,6 +175,36 @@ module('Integration | Component | date time picker', function(hooks) {
     assert.equal(datePicker.buttonText(), today.format('L'));
   });
 
+  test('date-picker placeholder is shown', async function(assert) {
+    let placeholder = 'date-picker-placeholder';
+    set(this, 'placeholder', placeholder);
+    await render(hbs`{{date-time-picker datePlaceholder=placeholder}}`);
+
+    assert
+      .dom('[data-test-date-picker-toggle-button]')
+      .hasText(placeholder, 'Custom placeholder is displayed in date button.');
+  });
+
+  test('time-picker placeholder is shown', async function(assert) {
+    let placeholder = 'time-picker-placeholder';
+    set(this, 'placeholder', placeholder);
+    await render(hbs`{{date-time-picker timePlaceholder=placeholder}}`);
+
+    assert
+      .dom('[data-time-picker-toggle-button]')
+      .hasText(placeholder, 'Custom placeholder is displayed in time button.');
+  });
+
+  test('time-picker button classes work', async function(assert) {
+    let classes = 'time-button-class';
+    set(this, 'classes', classes);
+    await render(hbs`{{date-time-picker timePickerButtonClasses=classes}}`);
+
+    assert
+      .dom('[data-time-picker-toggle-button]')
+      .hasClass(classes, 'Custom time button classes.');
+  });
+
   test('setDateTime test helpers works', async function(assert) {
     assert.expect(3);
 
