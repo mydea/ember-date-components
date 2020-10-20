@@ -1,7 +1,7 @@
 'use strict';
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
     sassOptions: {},
     'ember-bootstrap': {
@@ -9,7 +9,7 @@ module.exports = function(defaults) {
       bootstrapVersion: 3,
       importBootstrapFont: true,
       importBootstrapCSS: false,
-      whitelist: ['bs-dropdown']
+      whitelist: ['bs-dropdown'],
     },
     'ember-prism': {
       theme: 'twilight',
@@ -18,14 +18,14 @@ module.exports = function(defaults) {
         'handlebars',
         'javascript',
         'scss',
-        'markup-templating'
+        'markup-templating',
       ],
-      plugins: ['line-highlight']
+      plugins: ['line-highlight'],
     },
     'ember-date-components': {
-      includeCSS: true
+      includeCSS: true,
     },
-    hinting: false
+    hinting: false,
   });
 
   return app.toTree();

@@ -223,7 +223,7 @@ export default Component.extend({
     'minTime',
     'maxTime',
     'selectStep',
-    function() {
+    function () {
       let { amPm, minTime, maxTime, step, selectStep } = this;
 
       return {
@@ -231,7 +231,7 @@ export default Component.extend({
         step,
         selectStep,
         minTime: parseTime(minTime),
-        maxTime: parseTime(maxTime)
+        maxTime: parseTime(maxTime),
       };
     }
   ),
@@ -245,7 +245,7 @@ export default Component.extend({
    * @type {String}
    * @protected
    */
-  format: computed('options.amPm', function() {
+  format: computed('options.amPm', function () {
     let { amPm } = this.options;
     return amPm ? 'hh:mm a' : 'HH:mm';
   }),
@@ -261,20 +261,20 @@ export default Component.extend({
   timeOptions: computed(
     'format',
     'options.{maxTime,minTime,selectStep}',
-    function() {
+    function () {
       let { minTime, maxTime, selectStep } = this.options;
       let { format } = this;
 
       let steps = buildTimeRange({
         minTime,
         maxTime,
-        step: selectStep
+        step: selectStep,
       });
 
       return steps.map((time) => {
         return {
           value: time.format(format),
-          time
+          time,
         };
       });
     }
@@ -289,7 +289,7 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  filteredOptions: computed('timeOptions.[]', 'inputValue', function() {
+  filteredOptions: computed('timeOptions.[]', 'inputValue', function () {
     let val = (this.inputValue || '').toLowerCase();
     let options = this.timeOptions;
 
@@ -325,7 +325,7 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  displayValue: computed('format', 'value', function() {
+  displayValue: computed('format', 'value', function () {
     let { value, format } = this;
 
     value = parseTime(value);
@@ -391,7 +391,7 @@ export default Component.extend({
 
     closeDropdown() {
       this._close();
-    }
+    },
   },
 
   init() {
@@ -498,5 +498,5 @@ export default Component.extend({
     ) {
       next(() => originallyFocusedElement.focus());
     }
-  }
+  },
 });

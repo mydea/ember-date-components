@@ -5,7 +5,7 @@ import moment from 'moment';
 export default Controller.extend({
   date1: null,
 
-  date2: computed(function() {
+  date2: computed(function () {
     return moment('2015-01-01');
   }),
 
@@ -15,6 +15,6 @@ export default Controller.extend({
     },
     updateDate2(date) {
       this.set('date2', date);
-    }
-  }
+    },
+  },
 });

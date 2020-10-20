@@ -52,5 +52,5 @@ export function getSelectedTime(element) {
 
 export default {
   selectTime,
-  getSelectedTime
+  getSelectedTime,
 };

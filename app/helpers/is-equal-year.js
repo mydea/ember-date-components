@@ -1,4 +1,4 @@
 export {
   default,
-  isEqualYear
+  isEqualYear,
 } from 'ember-date-components/helpers/is-equal-year';

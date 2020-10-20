@@ -1,4 +1,4 @@
 export {
   default,
-  isEqualMonth
+  isEqualMonth,
 } from 'ember-date-components/helpers/is-equal-month';

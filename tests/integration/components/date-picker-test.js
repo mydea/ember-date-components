@@ -9,14 +9,14 @@ import {
   getDatePicker,
   selectDate,
   selectDateRange,
-  getSelectedDate
+  getSelectedDate,
 } from 'ember-date-components/test-support/helpers/date-picker';
 import { set } from '@ember/object';
 
-module('Integration | Component | date picker', function(hooks) {
+module('Integration | Component | date picker', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     moment.locale('en');
 
     this.actions = {};
@@ -24,7 +24,7 @@ module('Integration | Component | date picker', function(hooks) {
       this.actions[actionName].apply(this, args);
   });
 
-  test('it renders with no attribute set', async function(assert) {
+  test('it renders with no attribute set', async function (assert) {
     await render(hbs`{{date-picker}}`);
 
     assert.dom('[data-test-date-picker-toggle-button]').exists();
@@ -33,7 +33,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText('Select Date...', 'Default placeholder is displayed in button.');
   });
 
-  test('default value works', async function(assert) {
+  test('default value works', async function (assert) {
     let date = moment();
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
@@ -47,16 +47,14 @@ module('Integration | Component | date picker', function(hooks) {
       );
   });
 
-  test('action is sent on value change', async function(assert) {
+  test('action is sent on value change', async function (assert) {
     assert.expect(3);
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(
         date.format('YYYY-MM-DD'),
-        moment()
-          .date(7)
-          .format('YYYY-MM-DD'),
+        moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed to action.'
       );
     };
@@ -71,7 +69,7 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('default value is not muted after change of date', async function(assert) {
+  test('default value is not muted after change of date', async function (assert) {
     assert.expect(2);
 
     let date = moment();
@@ -79,9 +77,7 @@ module('Integration | Component | date picker', function(hooks) {
     this.actions.updateDate = (newDate) => {
       assert.equal(
         newDate.format('YYYY-MM-DD'),
-        moment()
-          .date(7)
-          .format('YYYY-MM-DD'),
+        moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed to action.'
       );
       assert.equal(
@@ -99,7 +95,7 @@ module('Integration | Component | date picker', function(hooks) {
     await datePicker.selectDate(moment().date(7));
   });
 
-  test('value updates if bound value changes', async function(assert) {
+  test('value updates if bound value changes', async function (assert) {
     let date = moment();
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
@@ -121,7 +117,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText(date.format('L'), 'value in date picker is updated.');
   });
 
-  test('date picker shows month of value if set', async function(assert) {
+  test('date picker shows month of value if set', async function (assert) {
     let date = moment().add(2, 'months');
     set(this, 'defaultDate', date);
     await render(hbs`{{date-picker value=defaultDate}}`);
@@ -141,7 +137,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText(date.format('L'), 'value in date picker is updated.');
   });
 
-  test('calendar displays week starting on Monday', async function(assert) {
+  test('calendar displays week starting on Monday', async function (assert) {
     await render(hbs`{{date-picker}}`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
@@ -152,7 +148,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText('Mo', 'first week day is Monday');
   });
 
-  test('calendar displays week starting on Sunday', async function(assert) {
+  test('calendar displays week starting on Sunday', async function (assert) {
     await render(hbs`{{date-picker startWeekOnSunday=true}}`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
@@ -163,11 +159,11 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText('Su', 'first week day is Sunday');
   });
 
-  test('date-range picker action works', async function(assert) {
+  test('date-range picker action works', async function (assert) {
     assert.expect(10);
 
     let counter = 0;
-    this.actions.updateDate = function(dates) {
+    this.actions.updateDate = function (dates) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(getTypeOf(dates), 'array', 'array is passed');
 
@@ -176,25 +172,19 @@ module('Integration | Component | date picker', function(hooks) {
       if (counter === 0) {
         assert.equal(
           from.format('YYYY-MM-DD'),
-          moment()
-            .date(7)
-            .format('YYYY-MM-DD'),
+          moment().date(7).format('YYYY-MM-DD'),
           'correct date is passed as from-date.'
         );
         assert.equal(to, null, 'to-date is null');
       } else {
         assert.equal(
           from.format('YYYY-MM-DD'),
-          moment()
-            .date(7)
-            .format('YYYY-MM-DD'),
+          moment().date(7).format('YYYY-MM-DD'),
           'correct date is passed as from-date.'
         );
         assert.equal(
           to.format('YYYY-MM-DD'),
-          moment()
-            .date(14)
-            .format('YYYY-MM-DD'),
+          moment().date(14).format('YYYY-MM-DD'),
           'correct date is passed as to-date.'
         );
 
@@ -222,10 +212,10 @@ module('Integration | Component | date picker', function(hooks) {
     await datePicker.selectDate(moment().date(14));
   });
 
-  test('date-range allows selection of to-value without from-value', async function(assert) {
+  test('date-range allows selection of to-value without from-value', async function (assert) {
     assert.expect(4);
 
-    this.actions.updateDate = function(dates) {
+    this.actions.updateDate = function (dates) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(getTypeOf(dates), 'array', 'array is passed');
 
@@ -233,9 +223,7 @@ module('Integration | Component | date picker', function(hooks) {
       assert.equal(from, null, 'from-date is null');
       assert.equal(
         to.format('YYYY-MM-DD'),
-        moment()
-          .date(7)
-          .format('YYYY-MM-DD'),
+        moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed as to-date.'
       );
     };
@@ -246,26 +234,22 @@ module('Integration | Component | date picker', function(hooks) {
     await datePicker.selectDate(moment().date(7));
   });
 
-  test('date-range picker closeAction works', async function(assert) {
+  test('date-range picker closeAction works', async function (assert) {
     assert.expect(6);
 
-    this.actions.updateDate = function(dates) {
+    this.actions.updateDate = function (dates) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(getTypeOf(dates), 'array', 'array is passed');
 
       let [from, to] = dates;
       assert.equal(
         from.format('YYYY-MM-DD'),
-        moment()
-          .date(7)
-          .format('YYYY-MM-DD'),
+        moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed as from-date.'
       );
       assert.equal(
         to.format('YYYY-MM-DD'),
-        moment()
-          .date(14)
-          .format('YYYY-MM-DD'),
+        moment().date(14).format('YYYY-MM-DD'),
         'correct date is passed as to-date.'
       );
 
@@ -292,7 +276,7 @@ module('Integration | Component | date picker', function(hooks) {
     await datePicker.selectDate(moment().date(14));
   });
 
-  test('`renderPlace` correctly rendered', async function(assert) {
+  test('`renderPlace` correctly rendered', async function (assert) {
     set(this, 'renderInPlace', true);
     await render(hbs`{{date-picker renderInPlace=renderInPlace}}`);
 
@@ -307,7 +291,7 @@ module('Integration | Component | date picker', function(hooks) {
       );
   });
 
-  test('yielding a button works', async function(assert) {
+  test('yielding a button works', async function (assert) {
     let date = moment();
     set(this, 'defaultDate', date);
     await render(
@@ -327,7 +311,7 @@ module('Integration | Component | date picker', function(hooks) {
       );
   });
 
-  test('the yielded content receives the array of selected dates as values', async function(assert) {
+  test('the yielded content receives the array of selected dates as values', async function (assert) {
     let date = moment();
     set(this, 'defaultDate', date);
     await render(hbs`{{#date-picker
@@ -346,7 +330,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText(date.format('YYYY-MM-DD'), 'correct date is yielded');
   });
 
-  test('the yielded content receives the array of selected dates as values (date-range)', async function(assert) {
+  test('the yielded content receives the array of selected dates as values (date-range)', async function (assert) {
     let date = moment();
     set(this, 'defaultDates', [date, null]);
     await render(hbs`{{#date-picker
@@ -369,13 +353,11 @@ module('Integration | Component | date picker', function(hooks) {
       .hasText('', 'correct date is yielded');
   });
 
-  test('Submitting disabled dates disables those dates on the date picker', async function(assert) {
+  test('Submitting disabled dates disables those dates on the date picker', async function (assert) {
     let date1 = moment();
     // We use tomorrow as the second day, except for the case where tomorrow is in the next month
     let date2 =
-      moment()
-        .add(1, 'day')
-        .month() === date1.month()
+      moment().add(1, 'day').month() === date1.month()
         ? moment().add(1, 'day')
         : moment().subtract(1, 'day');
     let defaultDates = [date1, date2];
@@ -397,7 +379,7 @@ module('Integration | Component | date picker', function(hooks) {
       .hasAttribute('disabled');
   });
 
-  test('should disable dates with min&max attributes', async function(assert) {
+  test('should disable dates with min&max attributes', async function (assert) {
     let min = moment().subtract(5, 'days');
     let max = moment().add(10, 'days');
     let today = moment();
@@ -423,12 +405,12 @@ module('Integration | Component | date picker', function(hooks) {
     }
   });
 
-  test('getDatePicker works in the past', async function(assert) {
+  test('getDatePicker works in the past', async function (assert) {
     assert.expect(3);
 
     let targetDate = moment().subtract(3, 'years');
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(
         date.format('YYYY-MM-DD'),
@@ -447,12 +429,12 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('getDatePicker works in the future', async function(assert) {
+  test('getDatePicker works in the future', async function (assert) {
     assert.expect(3);
 
     let targetDate = moment().add(3, 'years');
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(
         date.format('YYYY-MM-DD'),
@@ -471,12 +453,12 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('selectDate helper works in the past', async function(assert) {
+  test('selectDate helper works in the past', async function (assert) {
     assert.expect(2);
 
     let targetDate = moment().subtract(3, 'years');
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
     };
 
@@ -487,12 +469,12 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('selectDate helper works in the present', async function(assert) {
+  test('selectDate helper works in the present', async function (assert) {
     assert.expect(2);
 
     let targetDate = moment();
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
     };
 
@@ -503,12 +485,12 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('selectDate helper works in the future', async function(assert) {
+  test('selectDate helper works in the future', async function (assert) {
     assert.expect(2);
 
     let targetDate = moment().add(3, 'years');
 
-    this.actions.updateDate = function(date) {
+    this.actions.updateDate = function (date) {
       assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
     };
 
@@ -519,10 +501,8 @@ module('Integration | Component | date picker', function(hooks) {
       .doesNotExist('date picker is closed after selection.');
   });
 
-  test('getSelectedDate helper works', async function(assert) {
-    this.date = moment()
-      .add(2, 'days')
-      .add(2, 'hours');
+  test('getSelectedDate helper works', async function (assert) {
+    this.date = moment().add(2, 'days').add(2, 'hours');
 
     await render(hbs`{{date-picker value=date}}`);
 
@@ -530,21 +510,17 @@ module('Integration | Component | date picker', function(hooks) {
     assert.ok(selectedDate.isSame(this.date, 'day'));
   });
 
-  test('getSelectedDate helper works without a value', async function(assert) {
+  test('getSelectedDate helper works without a value', async function (assert) {
     await render(hbs`{{date-picker}}`);
 
     let selectedDate = await getSelectedDate(this.element);
     assert.equal(selectedDate, null);
   });
 
-  test('getSelectedDate helper works with a range', async function(assert) {
+  test('getSelectedDate helper works with a range', async function (assert) {
     this.dates = [
-      moment()
-        .add(2, 'days')
-        .add(2, 'hours'),
-      moment()
-        .add(5, 'days')
-        .add(2, 'hours')
+      moment().add(2, 'days').add(2, 'hours'),
+      moment().add(5, 'days').add(2, 'hours'),
     ];
 
     await render(hbs`{{date-picker value=dates range=true}}`);
@@ -560,14 +536,14 @@ module('Integration | Component | date picker', function(hooks) {
     );
   });
 
-  test('getSelectedDate helper works with a range without values', async function(assert) {
+  test('getSelectedDate helper works with a range without values', async function (assert) {
     await render(hbs`{{date-picker range=true}}`);
 
     let selectedDates = await getSelectedDate(this.element);
     assert.deepEqual(selectedDates, [null, null]);
   });
 
-  test('selectDateRange test helper works', async function(assert) {
+  test('selectDateRange test helper works', async function (assert) {
     let fromDate = moment('2018-01-05');
     let toDate = moment('2018-02-02');
 

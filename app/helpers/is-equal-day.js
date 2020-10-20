@@ -1,4 +1,4 @@
 export {
   default,
-  isEqualDay
+  isEqualDay,
 } from 'ember-date-components/helpers/is-equal-day';

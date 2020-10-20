@@ -125,7 +125,7 @@ export default Component.extend({
    * @type {Date}
    * @private
    */
-  currentMonth: computed('month', function() {
+  currentMonth: computed('month', function () {
     let date = this.month;
     return date ? date.clone().startOf('month') : moment().startOf('month');
   }),
@@ -156,7 +156,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  _daysInMonth: computed('currentMonth', 'startWeekOnSunday', function() {
+  _daysInMonth: computed('currentMonth', 'startWeekOnSunday', function () {
     let { currentMonth, startWeekOnSunday } = this;
     let daysInMonth = currentMonth.daysInMonth();
     let days = array();
@@ -172,7 +172,7 @@ export default Component.extend({
           .clone()
           .subtract(i, 'days')
           .format('YYYY-MM-DD'),
-        show: false
+        show: false,
       });
     }
 
@@ -186,7 +186,7 @@ export default Component.extend({
         month: day.month(),
         day: day.date(),
         weekday: day.isoWeekday(),
-        show: true
+        show: true,
       };
 
       days.push(dayObject);
@@ -199,11 +199,8 @@ export default Component.extend({
       : endOfMonth.isoWeekday();
     for (let i = 7; i > lastWeekday; i--) {
       days.push({
-        dateString: endOfMonth
-          .clone()
-          .add(i, 'days')
-          .format('YYYY-MM-DD'),
-        show: false
+        dateString: endOfMonth.clone().add(i, 'days').format('YYYY-MM-DD'),
+        show: false,
       });
     }
 
@@ -226,7 +223,7 @@ export default Component.extend({
     '_minDate',
     '_maxDate',
     'selectedDates.[]',
-    function() {
+    function () {
       return this._daysInMonth.map((day) => {
         if (!day.show) {
           return day;
@@ -250,7 +247,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  weekdays: computed('startWeekOnSunday', function() {
+  weekdays: computed('startWeekOnSunday', function () {
     let weekdays = moment.weekdaysMin();
     let { startWeekOnSunday } = this;
 
@@ -269,7 +266,7 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  today: computed(function() {
+  today: computed(function () {
     return moment().startOf('day');
   }),
 
@@ -347,14 +344,8 @@ export default Component.extend({
       return false;
     }
 
-    let selectedDateVal = selectedDates[0]
-      .clone()
-      .startOf('day')
-      .valueOf();
-    let selectedUntilVal = selectedDates[1]
-      .clone()
-      .startOf('day')
-      .valueOf();
+    let selectedDateVal = selectedDates[0].clone().startOf('day').valueOf();
+    let selectedUntilVal = selectedDates[1].clone().startOf('day').valueOf();
     let dayVal = day.valueOf();
 
     if (selectedDateVal > selectedUntilVal) {
@@ -370,6 +361,6 @@ export default Component.extend({
       if (action) {
         action(date);
       }
-    }
-  }
+    },
+  },
 });

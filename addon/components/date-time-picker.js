@@ -65,7 +65,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  amPm: computed(function() {
+  amPm: computed(function () {
     return shouldUseAmPm();
   }),
 
@@ -217,7 +217,7 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timePickerDisabled: computed('disabled', 'value', function() {
+  timePickerDisabled: computed('disabled', 'value', function () {
     return this.disabled || !this.value;
   }),
 
@@ -231,7 +231,7 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timePickerValue: computed('ignoreZeroTime', 'value', function() {
+  timePickerValue: computed('ignoreZeroTime', 'value', function () {
     let { value } = this;
     if (!this.ignoreZeroTime || !value) {
       return value;
@@ -285,6 +285,6 @@ export default Component.extend({
 
       set(this, '_value', val);
       this._sendAction();
-    }
-  }
+    },
+  },
 });
