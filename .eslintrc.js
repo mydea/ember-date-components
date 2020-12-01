@@ -28,6 +28,7 @@ module.exports = {
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
         '.template-lintrc.js',
         '.eslintrc.js',
         'ember-cli-build.js',
@@ -38,6 +39,12 @@ module.exports = {
         'lib/*/index.js',
         'index.js',
       ],
+      excludedFiles: [
+        'addon/**',
+        'addon-test-support/**',
+        'app/**',
+        'tests/dummy/app/**',
+      ],
       parserOptions: {
         sourceType: 'script',
       },
@@ -45,6 +52,8 @@ module.exports = {
         browser: false,
         node: true,
       },
+      plugins: ['node'],
+      extends: ['plugin:node/recommended'],
     },
   ],
 };
