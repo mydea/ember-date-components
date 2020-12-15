@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import {
@@ -130,6 +130,39 @@ module('Integration | Component | time picker', function (hooks) {
       .hasClass(
         'ember-basic-dropdown-trigger--in-place',
         'The trigger has a special `--in-place` class'
+      );
+  });
+
+  test('yielding a button works', async function (assert) {
+    set(this, 'value', null);
+    this.actions.updateTime = (time) => {
+      set(this, 'value', time);
+    };
+
+    await render(
+      hbs`
+        {{#time-picker value=value action=(action 'updateTime') as |displayTime|}}
+          <button class='test1'>
+            {{#if displayTime}}
+              The time is {{displayTime}}
+            {{else}}
+              Select Time
+            {{/if}}
+          </button>
+        {{/time-picker}}`
+    );
+
+    assert.dom('.test1').hasText('Select Time', 'Custom Button is displayed');
+
+    await click('.test1');
+    await fillIn('.time-picker__input', '09:30 am');
+    await triggerKeyEvent('.time-picker__input', 'keydown', 'Enter'); // Enter event
+
+    assert
+      .dom('.test1')
+      .hasText(
+        'The time is 09:30 am',
+        'Custom Button is displayed with selected time'
       );
   });
 });

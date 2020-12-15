@@ -11,20 +11,24 @@
     @onKeyDown={{action 'onTriggerKeyDown'}}
     class='time-picker__trigger'
   >
-    <button
-      type='button'
-      disabled={{disabled}}
-      class="time-picker__button {{buttonClasses}}"
-      data-time-picker-toggle-button={{elementId}}
-      data-time-picker-value={{displayValue}}
-      tabindex='-1'
-    >
-      {{#if displayValue}}
-        {{displayValue}}
-      {{else}}
-        {{placeholder}}
-      {{/if}}
-    </button>
+    {{#if hasBlock}}
+      {{yield displayValue}}
+    {{else}}
+      <button
+        type='button'
+        disabled={{disabled}}
+        class="time-picker__button {{buttonClasses}}"
+        data-time-picker-toggle-button={{elementId}}
+        data-time-picker-value={{displayValue}}
+        tabindex='-1'
+      >
+        {{#if displayValue}}
+          {{displayValue}}
+        {{else}}
+          {{placeholder}}
+        {{/if}}
+      </button>
+    {{/if}}
   </dd.Trigger>
 
   <dd.Content>
