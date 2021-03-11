@@ -106,7 +106,10 @@ export default Component.extend({
    * @type {Date}
    * @private
    */
-  _minDate: null,
+  _minDate: computed('minDate', function () {
+    let { minDate } = this;
+    return minDate ? minDate.clone().startOf('day') : null;
+  }),
 
   /**
    * Internally, the maxDate is copied, set to startOf('day') and saved here to save unnecessary processing.
@@ -115,7 +118,10 @@ export default Component.extend({
    * @type {Date}
    * @private
    */
-  _maxDate: null,
+  _maxDate: computed('maxDate', function () {
+    let { maxDate } = this;
+    return maxDate ? maxDate.clone().startOf('day') : null;
+  }),
 
   /**
    * This takes the given month and converts it to the beginning of the Date object.
@@ -273,14 +279,6 @@ export default Component.extend({
   // PROPERTIES END ----------------------------------------
 
   // HOOKS BEGIN ----------------------------------------
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    let { minDate, maxDate } = this;
-
-    set(this, '_minDate', minDate ? minDate.clone().startOf('day') : null);
-    set(this, '_maxDate', maxDate ? maxDate.clone().startOf('day') : null);
-  },
 
   init() {
     this._super(...arguments);

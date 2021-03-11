@@ -21,13 +21,17 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'ember/no-jquery': 'error',
+    'ember/no-classic-classes': 0,
+    'ember/no-classic-components': 0,
+    'ember/no-actions-hash': 0,
+    'ember/require-tagless-components': 0,
   },
   overrides: [
     // node files
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
         '.template-lintrc.js',
         '.eslintrc.js',
         'ember-cli-build.js',
@@ -38,6 +42,12 @@ module.exports = {
         'lib/*/index.js',
         'index.js',
       ],
+      excludedFiles: [
+        'addon/**',
+        'addon-test-support/**',
+        'app/**',
+        'tests/dummy/app/**',
+      ],
       parserOptions: {
         sourceType: 'script',
       },
@@ -45,6 +55,8 @@ module.exports = {
         browser: false,
         node: true,
       },
+      plugins: ['node'],
+      extends: ['plugin:node/recommended'],
     },
   ],
 };
