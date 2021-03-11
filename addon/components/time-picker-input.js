@@ -1,39 +1,14 @@
-import TextField from '@ember/component/text-field';
-import { once } from '@ember/runloop';
-import { attributeBindings } from '@ember-decorators/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
 /**
  * This is an extended {{input}} to send appropriate events for arrowUp/arrowDown.
  * It is also slightly changed to send an input-changed event when a key that is neither arrowUp/arrowDown, enter or escape
  * is pressed.
- *
- * @namespace EmberDateComponents
- * @class TimePickerInput
- * @extends Ember.TextField
- * @public
  */
-@attributeBindings('disabled', 'data-time-picker-input-instance', 'tabindex')
-@classic
-export default class TimePickerInput extends TextField {
-  type = 'text';
-  tabindex = -1;
-
-  /**
-   * If this is true, the time picker is disabled and the selected time cannot be changed.
-   *
-   * @attribute disabled
-   * @type {Boolean}
-   * @default false
-   * @public
-   */
-  disabled = false;
-
-  keyUp() {
-    // overwrite default implementation
-  }
-
-  keyDown(event) {
+export default class TimePickerInput extends Component {
+  @action
+  onKeyDown(event) {
     // Tab doesn't trigger keyUp, so we need to capture it in keyDown
     switch (event.key) {
       case 'Enter':
@@ -49,38 +24,30 @@ export default class TimePickerInput extends TextField {
     }
   }
 
-  input() {
-    once(this, this.inputChange);
-  }
+  @action
+  onInput(event) {
+    let { value } = event.target;
 
-  inputChange() {
-    this._elementValueDidChange();
-    let { value, 'input-change': action } = this;
-    return action(value, this);
+    this.args.onInput(value);
   }
 
   _tab(event) {
-    let action = this.tab;
-    return action(this, event);
+    this.args.onTab(event);
   }
 
   _arrowUp(event) {
-    let { 'arrow-up': action } = this;
-    return action(this, event);
+    this.args.onArrowUp(event);
   }
 
   _arrowDown(event) {
-    let { 'arrow-down': action } = this;
-    return action(this, event);
+    this.args.onArrowDown(event);
   }
 
   _escape(event) {
-    let action = this.escape;
-    return action(this, event);
+    this.args.onEscape(event);
   }
 
   _enter(event) {
-    let action = this.enter;
-    return action(this, event);
+    this.args.onEnter(event);
   }
 }

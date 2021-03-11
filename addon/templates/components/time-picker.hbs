@@ -14,7 +14,7 @@
     <button
       type='button'
       disabled={{disabled}}
-      class="time-picker__button {{buttonClasses}}"
+      class='time-picker__button {{buttonClasses}}'
       data-time-picker-toggle-button={{elementId}}
       data-time-picker-value={{displayValue}}
       tabindex='-1'
@@ -29,35 +29,34 @@
 
   <dd.Content>
     <div
-      class="time-picker__dropdown {{dropdownClasses}}"
+      class='time-picker__dropdown {{dropdownClasses}}'
       data-time-picker-instance={{elementId}}
     >
-      {{
-        time-picker-input
-        disabled=disabled
-        value=(readonly inputValue)
-        class=(concat 'time-picker__input ' inputClasses)
-        id=(concat elementId '-input')
-        placeholder=placeholder
-        input-change=(action 'updateInputValue')
-        escape=(action 'closeDropdown')
-        enter=(action 'selectCurrent')
-        tab=(action 'closeDropdown')
-        arrow-up=(action 'selectUp')
-        arrow-down=(action 'selectDown')
-        data-time-picker-input-instance=elementId
-      }}
+      <TimePickerInput
+        @value={{this.inputValue}}
+        @onInput={{this.updateInputValue}}
+        @onEscape={{this.closeDropdown}}
+        @onTab={{this.closeDropdown}}
+        @onArrowUp={{this.selectUp}}
+        @onArrowDown={{this.selectDown}}
+        @onEnter={{this.selectCurrent}}
+        class={{@inputClasses}}
+        disabled={{@disabled}}
+        id='{{this.elementId}}-input'
+        placeholder={{@placeholder}}
+        data-time-picker-input-instance={{this.elementId}}
+      />
 
       <div>
         {{! template-lint-disable no-invalid-interactive }}
         {{#each filteredOptions as |option i|}}
           <div
-            class="time-picker__dropdown__item
+            class='time-picker__dropdown__item
             {{
               if
               (is-equal selectedOptionIndex i)
               'time-picker__dropdown__item--selected'
-            }}"
+            }}'
             {{action 'selectValue' option.value}}
           >
             {{option.value}}
