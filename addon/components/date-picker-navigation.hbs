@@ -1,0 +1,35 @@
+<div class='date-picker__header'>
+  <button
+    type='button'
+    class='date-picker__header__button date-picker__header__button--previous'
+    data-test-date-picker-goto-previous-month
+    {{on 'click' this.gotoPreviousMonth}}
+  >
+    &lt;
+  </button>
+
+  <button
+    type='button'
+    class='date-picker__header__button date-picker__header__button--next'
+    data-test-date-picker-goto-next-month
+    {{on 'click' this.gotoNextMonth}}
+  >
+    &gt;
+  </button>
+
+  <div
+    class='date-picker__header__title'
+    data-test-date-picker-month={{moment-format @currentMonth 'MM'}}
+    data-test-date-picker-year={{moment-format @currentMonth 'YYYY'}}
+  >
+    <DatePickerMonthYearSelect
+      @minDate={{@minDate}}
+      @maxDate={{@maxDate}}
+      @currentMonth={{@currentMonth}}
+      @disableMonthPicker={{@disableMonthPicker}}
+      @disableYearPicker={{@disableYearPicker}}
+      @availableYearOffset={{this.availableYearOffset}}
+      @gotoMonth={{this.gotoMonth}}
+    />
+  </div>
+</div>

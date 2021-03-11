@@ -1,0 +1,64 @@
+<div>
+  {{#if @monthPickerDisabled}}
+    {{moment-format @currentMonth 'MMMM'}}
+  {{else}}
+    <BasicDropdown @horizontalPosition='right' as |monthDropdown|>
+      <monthDropdown.Trigger
+        class='date-picker__header__month date-picker__header__select'
+      >
+        {{moment-format @currentMonth 'MMMM'}}
+      </monthDropdown.Trigger>
+
+      <monthDropdown.Content>
+        <div class='date-picker__header__select__content'>
+          {{#each this.availableMonths as |month|}}
+            <button
+              type='button'
+              class='date-picker__header__select__item
+              {{
+                if
+                (is-equal-month month @currentMonth)
+                'date-picker__header__select__item--current'
+              }}'
+              {{on 'click' (fn this.gotoMonth month monthDropdown)}}
+            >
+              {{moment-format month 'MMMM'}}
+            </button>
+          {{/each}}
+        </div>
+      </monthDropdown.Content>
+    </BasicDropdown>
+  {{/if}}
+
+  {{#if @yearPickerDisabled}}
+    {{moment-format @currentMonth 'YYYY'}}
+  {{else}}
+    <BasicDropdown as |yearDropdown|>
+      <yearDropdown.Trigger
+        @horizontalPosition='auto'
+        class='date-picker__header__year date-picker__header__select'
+      >
+        {{moment-format @currentMonth 'YYYY'}}
+      </yearDropdown.Trigger>
+
+      <yearDropdown.Content>
+        <div class='date-picker__header__select__content'>
+          {{#each this.availableYears as |year|}}
+            <button
+              type='button'
+              class='date-picker__header__select__item
+              {{
+                if
+                (is-equal-year year @currentMonth)
+                'date-picker__header__select__item--current'
+              }}'
+              {{on 'click' (fn this.gotoMonth year yearDropdown)}}
+            >
+              {{moment-format year 'YYYY'}}
+            </button>
+          {{/each}}
+        </div>
+      </yearDropdown.Content>
+    </BasicDropdown>
+  {{/if}}
+</div>

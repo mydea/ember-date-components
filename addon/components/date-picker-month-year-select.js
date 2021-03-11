@@ -1,23 +1,20 @@
-import Component from '@ember/component';
-import { computed, action } from '@ember/object';
-import template from '../templates/components/date-picker-month-year-select';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import moment from 'moment';
-import { layout } from '@ember-decorators/component';
-import classic from 'ember-classic-decorator';
 
-@layout(template)
-@classic
+/**
+ * Arguments:
+ * - currentMonth
+ * - minDate
+ * - maxDate
+ * - disableMonthPicker
+ * - disableYearPicker
+ * - availableYearOffset
+ * - updateMonth
+ */
 export default class DatePickerMonthYearSelect extends Component {
-  minDate = null;
-  maxDate = null;
-  currentMonth = null;
-  disableYearPicker = false;
-  disableMonthPicker = false;
-  availableYearOffset = 10;
-
-  @computed('currentMonth', 'minDate', 'maxDate')
   get availableMonths() {
-    let { currentMonth, minDate, maxDate } = this;
+    let { currentMonth, minDate, maxDate } = this.args;
     let year = currentMonth.year();
 
     minDate = minDate ? minDate.clone().startOf('month') : null;
@@ -38,9 +35,8 @@ export default class DatePickerMonthYearSelect extends Component {
     return months;
   }
 
-  @computed('availableYearOffset', 'currentMonth', 'maxDate', 'minDate')
   get availableYears() {
-    let { currentMonth, minDate, maxDate, availableYearOffset } = this;
+    let { currentMonth, minDate, maxDate, availableYearOffset } = this.args;
 
     minDate = minDate ? minDate.clone().startOf('year') : null;
     maxDate = maxDate ? maxDate.clone().startOf('year') : null;
@@ -71,23 +67,18 @@ export default class DatePickerMonthYearSelect extends Component {
     return dates;
   }
 
-  @computed('disableMonthPicker', 'availableMonths.length')
   get monthPickerDisabled() {
-    return this.disableMonthPicker || !this.availableMonths.length;
+    return this.args.disableMonthPicker || !this.availableMonths.length;
   }
 
-  @computed('disableYearPicker', 'availableYears.length')
   get yearPickerDisabled() {
-    return this.disableYearPicker || !this.availableYears.length;
+    return this.args.disableYearPicker || !this.availableYears.length;
   }
 
   @action
-  triggerGotoMonth(month, dropdownApi) {
-    let action = this.gotoMonth;
-    action(month);
+  gotoMonth(month, dropdownApi) {
+    this.args.gotoMonth(month);
 
-    if (dropdownApi) {
-      dropdownApi.actions.close();
-    }
+    dropdownApi?.actions.close();
   }
 }

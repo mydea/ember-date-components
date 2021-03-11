@@ -12,9 +12,9 @@
     {{else}}
       <button
         type='button'
-        class="date-picker__button {{buttonClasses}}
+        class='date-picker__button {{buttonClasses}}
          {{if range ' date-picker__button--range'}}
-         {{if buttonFocused 'date-picker__button--focus'}}"
+         {{if buttonFocused 'date-picker__button--focus'}}'
         data-test-date-picker-toggle-button
         data-date-picker-toggle-button-instance={{elementId}}
         data-test-date-picker-toggle-button-format={{buttonDateFormat}}
@@ -28,9 +28,9 @@
         {{dateRangeSeparator}}
         <button
           type='button'
-          class="date-picker__button {{buttonClasses}}
+          class='date-picker__button {{buttonClasses}}
            {{if range ' date-picker__button--range'}}
-           {{if buttonToFocused ' date-picker__button--focus'}}"
+           {{if buttonToFocused ' date-picker__button--focus'}}'
           data-test-date-picker-toggle-button
           disabled={{disabled}}
           {{action 'toggleOpenTo' dd}}
@@ -44,23 +44,20 @@
   <dd.Content>
     <div
       data-date-picker-instance={{elementId}}
-      class="date-picker{{if options ' date-picker--options'}}"
+      class='date-picker{{if options ' date-picker--options'}}'
     >
       <div class='date-picker__calendar'>
-        {{
-          date-picker-navigation
-          currentMonth=currentMonth
-          minDate=minDate
-          maxDate=maxDate
-          disableMonthPicker=disableMonthPicker
-          disableYearPicker=disableYearPicker
-          availableYearOffset=availableYearOffset
-          class='date-picker__header'
-          updateMonth=(action 'gotoMonth')
-        }}
+        <DatePickerNavigation
+          @currentMonth={{this.currentMonth}}
+          @minDate={{this.minDate}}
+          @maxDate={{this.maxDate}}
+          @disableMonthPicker={{@disableMonthPicker}}
+          @disableYearPicker={{@disableYearPicker}}
+          @availableYearOffset={{@availableYearOffset}}
+          @updateMonth={{this.gotoMonth}}
+        />
 
-        {{
-          date-picker-month
+        {{date-picker-month
           disabledDates=disabledDates
           month=currentMonth
           selectedDates=selectedDates
@@ -76,7 +73,7 @@
           {{#each _options as |option|}}
             <button
               type='button'
-              class="date-picker__options__button {{option.classes}}"
+              class='date-picker__options__button {{option.classes}}'
               {{action option.action option.actionValue}}
             >
               {{option.label}}
