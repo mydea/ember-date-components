@@ -27,7 +27,7 @@ An Ember add-on which provides pure Ember-based date picker components.
 ```
 
 ```hbs
-{{time-picker action=(action 'updateTime')}}
+<TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
 ```
 
 

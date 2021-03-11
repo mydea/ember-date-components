@@ -12,7 +12,8 @@
 
   <p>
     {{date-picker action=(action 'updateDate') value=date}}
-    {{time-picker action=(action 'updateTime') value=time}}
+
+    <TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
   </p>
 
   <p>
@@ -49,8 +50,8 @@
 </p>
 
 <h2>Time Picker Usage</h2>
-{{time-picker action=(action 'updateTime') value=time}}
-{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime')}}{{/code-block}}
+ <TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
+{{#code-block language='handlebars'}}&lt;TimePicker @value=\{{this.time}} @onChange=\{{this.updateTime}} /&gt;{{/code-block}}
 <p>
   {{#link-to 'usage.time-picker'}}
     More about Time Picker usage

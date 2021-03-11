@@ -1,4 +1,4 @@
-<span class="date-time-picker__item date-time-picker__item--date">
+<span class='date-time-picker__item date-time-picker__item--date'>
   {{date-picker
     value=value
     buttonClasses=datePickerClasses
@@ -13,19 +13,19 @@
   }}
 </span>
 
-<span class="date-time-picker__item date-time-picker__item--time">
-  {{time-picker
-    value=timePickerValue
-    disabled=timePickerDisabled
-    minTime=minTime
-    maxTime=maxTime
-    step=step
-    selectStep=selectStep
-    amPm=shouldUseAmPm
-    inputClasses=timePickerClasses
-    renderInPlace=renderInPlace
-    horizontalPosition=horizontalPosition
-    verticalPosition=verticalPosition
-    action=(action 'updateTime')
-  }}
+<span class='date-time-picker__item date-time-picker__item--time'>
+  <TimePicker
+    @value={{this.timePickerValue}}
+    @disabled={{this.timePickerDisabled}}
+    @minTime={{this.minTime}}
+    @maxTime={{this.maxTime}}
+    @step={{this.step}}
+    @selectStep={{this.selectStep}}
+    @amPm={{this.shouldUseAmPm}}
+    @inputClasses={{this.timePickerClasses}}
+    @renderInPlace={{@renderInPlace}}
+    @horizontalPosition={{@horizontalPosition}}
+    @verticalPosition={{@verticalPosition}}
+    @onChange={{this.updateTime}}
+  />
 </span>

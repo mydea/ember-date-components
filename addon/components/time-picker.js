@@ -1,233 +1,72 @@
-import Component from '@ember/component';
-import { next } from '@ember/runloop';
-import { computed, set, action } from '@ember/object';
-import { isNone } from '@ember/utils';
-import template from '../templates/components/time-picker';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import moment from 'moment';
 import parseTime from 'ember-date-components/utils/parse-time';
 import buildTimeRange from 'ember-date-components/utils/build-time-range';
 import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
-import {
-  layout,
-  classNames,
-  classNameBindings,
-} from '@ember-decorators/component';
-import classic from 'ember-classic-decorator';
+import { guidFor } from '@ember/object/internals';
+import { tracked } from '@glimmer/tracking';
+import { assert } from '@ember/debug';
 
 /**
  * An input field to choose a time in a day.
  * The user can either enter a time directly, or choose from a list.
  *
- * @namespace EmberDateComponents.Component
- * @class TimePicker
- * @extends Ember.Component
- * @public
+ * Arguments:
+ * - value
+ * - disabled
+ * - onChange
+ * - placeholder
+ * - amPm
+ * - minTime
+ * - maxTime
+ * - step
+ * - selectStep
+ * - inputClasses
+ * - renderInPlace
+ * - horizontalPosition
+ * - verticalPosition
+ * - matchTriggerWidth
+ * - dropdownClasses
+ * - buttonClasses
  */
-@layout(template)
-@classNames('time-picker__wrapper')
-@classNameBindings('isOpen:time-picker__wrapper--open')
-@classic
 export default class TimePicker extends Component {
-  /**
-   * The current value of the time picker.
-   * Has to be a moment.js object or null.
-   *
-   * @attribute value
-   * @type {Date}
-   * @public
-   */
-  value = null;
+  guid = guidFor(this);
 
-  /**
-   * If this is true, the time picker is disabled and the selected time cannot be changed.
-   *
-   * @attribute disabled
-   * @type {Boolean}
-   * @default false
-   * @public
-   */
-  disabled = false;
+  @tracked inputValue = null;
+  @tracked isOpen = false;
+  @tracked selectedOptionIndex = -1;
 
-  /**
-   * The action to call when the time changes.
-   *
-   * @event action
-   * @param {Date} time The new time
-   * @public
-   */
-  action = null;
+  // Internal
+  _dropdownApi;
 
-  /**
-   * If the display format should use am/pm or the 24:00 format.
-   * By default, this will be determined by checking the localized date formatting of moment.js.
-   * However, if you don't use moment.js-locales, this will always return true (because the default locale, 'en', uses am/pm).
-   * In such a case, you can just overwrite this.
-   *
-   * @attribute amPm
-   * @type {Boolean}
-   * @public
-   */
-  amPm = null;
+  get minTime() {
+    return this.args.minTime || '00:00';
+  }
 
-  /**
-   * The minimum time which can be selected.
-   * This should be either a parseable string or a moment.js object.
-   *
-   * @attribute minTime
-   * @type {String|Object}
-   * @default '00:00'
-   * @public
-   */
-  minTime = '00:00';
+  get maxTime() {
+    return this.args.maxTime || '23:59';
+  }
 
-  /**
-   * The maximum time which can be selected.
-   * This should be either a parseable string or a moment.js object.
-   *
-   * @attribute minTime
-   * @type {String|Object}
-   * @default '23:59'
-   * @public
-   */
-  maxTime = '23:59';
+  get placeholder() {
+    return this.args.placeholder || 'Enter time...';
+  }
 
-  /**
-   * The placeholder for the time input.
-   *
-   * @attribute placeholder
-   * @type {String}
-   * @public
-   */
-  placeholder = 'Enter time...';
+  get step() {
+    return this.args.step || 30;
+  }
 
-  /**
-   * The step in minutes which can be selected.
-   * Entered times will be rounded to this accuracy.
-   * If you don't specify a selectStep separately, this value will also be used as selectStep.
-   *
-   * @attribute step
-   * @type {Number}
-   * @default 30
-   * @public
-   */
-  step = 30;
+  get amPm() {
+    return typeof this.args.amPm === 'boolean'
+      ? this.args.amPm
+      : shouldUseAmPm();
+  }
 
-  /**
-   * The step from which dates can be selected in the dropdown.
-   * If this is not explicitly set, step will be used for this value as well.
-   * However, if values like 22:14 should be allowed but not shown in the dropdown,
-   * this can be set to a different value.
-   *
-   * @attribute selectStep
-   * @type {Number}
-   * @default 30
-   * @public
-   */
-  selectStep = null;
-
-  /**
-   * Classes which should be added to the input.
-   *
-   * @attribute inputClasses
-   * @type {String}
-   * @public
-   */
-  inputClasses = '';
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * @attribute value
-   * @type {Boolean}
-   * @public
-   */
-  renderInPlace = false;
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are right|center|left
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  horizontalPosition = 'auto';
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * Available values are above|below
-   *
-   * @attribute value
-   * @type {String}
-   * @public
-   */
-  verticalPosition = 'auto';
-
-  /**
-   * Value passed to `ember-basic-dropdown`
-   *
-   * @attribute matchTriggerWidth
-   * @type {Boolean}
-   * @default true
-   * @public
-   */
-  matchTriggerWidth = true;
-
-  /**
-   * Classes which should be added to the dropdown container.
-   *
-   * @attribute dropdownClasses
-   * @type {String}
-   * @public
-   */
-  dropdownClasses = '';
-
-  /**
-   * Optional classes for the button.
-   *
-   * @attribute buttonClasses
-   * @type {String}
-   * @optional
-   * @public
-   */
-  buttonClasses = '';
-
-  /**
-   * If the dropdown is open.
-   *
-   * @property isOpen
-   * @type {Boolean}
-   * @protected
-   */
-  isOpen = false;
-
-  /**
-   * Which option is currently selected.
-   * If -1, no option is selected.
-   *
-   * @property selectedOptionIndex
-   * @type {Number}
-   * @protected
-   */
-  selectedOptionIndex = -1;
-
-  /**
-   * The general options for this component.
-   * These are built from the single attributes, but you could theoretically overwrite this if you need custom behaviour.
-   * The options should always be fetched via this object.
-   *
-   * @property options
-   * @type {amPm, step, minTime, maxTime}
-   * @protected
-   */
-  @computed('step', 'amPm', 'minTime', 'maxTime', 'selectStep')
   get options() {
     let { amPm, minTime, maxTime, step, selectStep } = this;
 
     return {
-      amPm,
+      amPm: Boolean(amPm),
       step,
       selectStep,
       minTime: parseTime(minTime),
@@ -235,30 +74,11 @@ export default class TimePicker extends Component {
     };
   }
 
-  /**
-   * The format which should be used.
-   * By default, this is computed via the amPm setting.
-   * You can overwrite this if necessary.
-   *
-   * @property format
-   * @type {String}
-   * @protected
-   */
-  @computed('options.amPm')
   get format() {
     let { amPm } = this.options;
     return amPm ? 'hh:mm a' : 'HH:mm';
   }
 
-  /**
-   * The options to chose from in the dropdown.
-   *
-   * @property timeOptions
-   * @type {Object[]}
-   * @readOnly
-   * @protected
-   */
-  @computed('format', 'options.{maxTime,minTime,selectStep}')
   get timeOptions() {
     let { minTime, maxTime, selectStep } = this.options;
     let { format } = this;
@@ -277,16 +97,6 @@ export default class TimePicker extends Component {
     });
   }
 
-  /**
-   * The options for the dropdown which are currently visible.
-   * This filters the timeOptions by the inputValue.
-   *
-   * @property filteredOptions
-   * @type {Object[]}
-   * @readOnly
-   * @protected
-   */
-  @computed('timeOptions.[]', 'inputValue')
   get filteredOptions() {
     let val = (this.inputValue || '').toLowerCase();
     let options = this.timeOptions;
@@ -297,40 +107,22 @@ export default class TimePicker extends Component {
     });
   }
 
-  /**
-   * The value that is currently entered in the input field.
-   *
-   * @property inputValue
-   * @type {String}
-   * @protected
-   */
-  inputValue = null;
-
-  /**
-   * The API of ember-basic-dropdown.
-   * This is used to manually open/close the dropdown.
-   *
-   * @property _dropdownApi
-   * @type {Object}
-   * @private
-   */
-  _dropdownApi = null;
-
-  /**
-   * The value actual value to display in the button.
-   *
-   * @property displayValue
-   * @type {String}
-   * @readOnly
-   * @protected
-   */
-  @computed('format', 'value')
   get displayValue() {
-    let { value, format } = this;
+    let { value } = this.args;
+    let { format } = this;
 
     value = parseTime(value);
     value = moment.isMoment(value) ? value.format(format) : value;
     return value || null;
+  }
+
+  constructor() {
+    super(...arguments);
+
+    assert(
+      '<TimePicker>: You have to specify @onChange',
+      typeof this.args.onChange === 'function'
+    );
   }
 
   @action
@@ -345,45 +137,39 @@ export default class TimePicker extends Component {
 
   @action
   selectUp() {
-    this.decrementProperty('selectedOptionIndex');
-    if (this.selectedOptionIndex < -1) {
-      set(this, 'selectedOptionIndex', -1);
-    }
+    this.selectedOptionIndex = Math.max(this.selectedOptionIndex - 1, -1);
   }
 
   @action
   selectDown() {
-    this.incrementProperty('selectedOptionIndex');
     let optionsLength = this.filteredOptions.length;
-
-    if (this.selectedOptionIndex > optionsLength) {
-      set(this, 'selectedOptionIndex', optionsLength - 1);
-    }
+    this.selectedOptionIndex = Math.min(
+      this.selectedOptionIndex + 1,
+      optionsLength - 1
+    );
   }
 
   @action
   updateInputValue(value) {
-    set(this, 'inputValue', value);
-    set(this, 'selectedOptionIndex', -1);
+    this.inputValue = value;
+    this.selectedOptionIndex = -1;
   }
 
   @action
   onDropdownOpened(dropdownApi) {
-    set(this, 'isOpen', true);
-    set(this, '_dropdownApi', dropdownApi);
-
-    this._focusTimeInput();
+    this.isOpen = true;
+    this._dropdownApi = dropdownApi;
   }
 
   @action
   onDropdownClosed() {
-    set(this, 'isOpen', false);
-    set(this, 'inputValue', null);
-    set(this, 'selectedOptionIndex', -1);
+    this.isOpen = false;
+    this.inputValue = null;
+    this.selectedOptionIndex = -1;
   }
 
   @action
-  onTriggerKeyDown(dropdownApi, event) {
+  onKeyDown(dropdownApi, event) {
     // If the input is focused, and the user starts typing a number or letter, we want to auto-open the dropdown
     let { key } = event;
     let regex = /^[\d\w]$/;
@@ -392,7 +178,7 @@ export default class TimePicker extends Component {
 
       // Add to the input, in order to not lose the typed characters
       let inputValue = this.inputValue || '';
-      set(this, 'inputValue', `${inputValue}${key}`);
+      this.inputValue = `${inputValue}${key}`;
     }
   }
 
@@ -401,22 +187,15 @@ export default class TimePicker extends Component {
     this._close();
   }
 
-  init() {
-    super.init(...arguments);
-    this._setupDefaults();
-  }
-
-  _setupDefaults() {
-    if (isNone(this.amPm)) {
-      set(this, 'amPm', shouldUseAmPm());
+  @action
+  onInsertInput(timeInput) {
+    if (timeInput !== document.activeElement) {
+      timeInput.focus();
     }
   }
 
   _close() {
-    let dropdownApi = this._dropdownApi;
-    if (dropdownApi) {
-      dropdownApi.actions.close();
-    }
+    this._dropdownApi?.actions.close();
   }
 
   _selectCurrent() {
@@ -453,58 +232,12 @@ export default class TimePicker extends Component {
   }
 
   _sendNewValueAction(newValue) {
-    let { value, action, disabled: isDisabled } = this;
-
-    if (action && !isDisabled && value !== newValue) {
-      return action(newValue);
-    }
-  }
-
-  /**
-   * Move the focus to the date picker.
-   * This is called when `_open` is called, to ensure that the date picker can be used with the keyboard.
-   * This will also save the previously focused element, to ensure we can correctly return the focus later.
-   *
-   * @method _focusDatePicker
-   * @private
-   */
-  _originallyFocusedElement = null;
-
-  _focusTimeInput() {
-    if (this.isDestroyed) {
+    if (this.args.disabled) {
       return;
     }
-    let originallyFocusedElement = document.activeElement;
-    set(this, '_originallyFocusedElement', originallyFocusedElement);
 
-    let { elementId } = this;
-
-    next(() => {
-      let timeInput = document.querySelector(
-        `[data-time-picker-input-instance="${elementId}"]`
-      );
-      if (timeInput && timeInput !== document.activeElement) {
-        timeInput.focus();
-      }
-    });
-  }
-
-  /**
-   * Reset the focus to the previously focused element.
-   * This is called when the date picker is closed.
-   *
-   * @method _resetFocus
-   * @private
-   */
-  _resetFocus() {
-    let originallyFocusedElement = this._originallyFocusedElement;
-    set(this, '_originallyFocusedElement', null);
-
-    if (
-      originallyFocusedElement &&
-      document.body.contains(originallyFocusedElement)
-    ) {
-      next(() => originallyFocusedElement.focus());
+    if (this.args.value !== newValue) {
+      this.args.onChange(newValue);
     }
   }
 }

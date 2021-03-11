@@ -1,0 +1,71 @@
+<div
+  class='time-picker__wrapper {{if this.isOpen 'time-picker__wrapper--open'}}'
+>
+  <BasicDropdown
+    @disabled={{@disabled}}
+    @onOpen={{this.onDropdownOpened}}
+    @onClose={{this.onDropdownClosed}}
+    @renderInPlace={{@renderInPlace}}
+    @horizontalPosition={{@horizontalPosition}}
+    @verticalPosition={{@verticalPosition}}
+    @matchTriggerWidth={{@matchTriggerWidth}} as |dd|
+  >
+    <dd.Trigger @onKeyDown={{this.onKeyDown}} class='time-picker__trigger'>
+      <button
+        type='button'
+        disabled={{@disabled}}
+        class='time-picker__button {{@buttonClasses}}'
+        data-time-picker-toggle-button={{this.guid}}
+        data-time-picker-value={{this.displayValue}}
+        tabindex='-1'
+      >
+        {{#if this.displayValue}}
+          {{this.displayValue}}
+        {{else}}
+          {{this.placeholder}}
+        {{/if}}
+      </button>
+    </dd.Trigger>
+
+    <dd.Content>
+      <div
+        class='time-picker__dropdown {{dropdownClasses}}'
+        data-time-picker-instance={{elementId}}
+      >
+        <TimePickerInput
+          @value={{this.inputValue}}
+          @onInput={{this.updateInputValue}}
+          @onEscape={{this.closeDropdown}}
+          @onTab={{this.closeDropdown}}
+          @onArrowUp={{this.selectUp}}
+          @onArrowDown={{this.selectDown}}
+          @onEnter={{this.selectCurrent}}
+          class={{@inputClasses}}
+          disabled={{@disabled}}
+          id='{{this.guid}}-input'
+          placeholder={{@placeholder}}
+          data-time-picker-input-instance={{this.guid}}
+          {{did-insert this.onInsertInput}}
+        />
+
+        <div>
+          {{! template-lint-disable no-invalid-interactive }}
+          {{#each filteredOptions as |option i|}}
+            <div
+              class='time-picker__dropdown__item
+              {{
+                if
+                (is-equal selectedOptionIndex i)
+                'time-picker__dropdown__item--selected'
+              }}'
+              {{on 'click' (fn this.selectValue option.value)}}
+            >
+              {{option.value}}
+            </div>
+          {{/each}}
+          {{! template-lint-enable no-invalid-interactive }}
+        </div>
+      </div>
+    </dd.Content>
+  </BasicDropdown>
+</div>
