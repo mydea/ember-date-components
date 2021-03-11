@@ -48,7 +48,7 @@
     "ember-prism": "~0.7.0",
     "ember-qunit": "~5.1.2",
     "ember-resolver": "~8.0.2",
-    "ember-source": "~3.25.1",
+    "ember-source": "~3.25.3",
     "ember-source-channel-url": "~3.0.0",
     "ember-template-lint": "~2.18.1",
     "ember-try": "~1.4.0",
@@ -66,8 +66,10 @@
   },
   "dependencies": {
     "ember-basic-dropdown": "^3.0.6",
+    "ember-classic-decorator": "^2.0.0",
     "ember-cli-babel": "^7.23.1",
-    "ember-cli-htmlbars": "^5.3.2"
+    "ember-cli-htmlbars": "^5.6.4",
+    "ember-decorators": "^6.1.1"
   },
   "keywords": [
     "ember-addon",

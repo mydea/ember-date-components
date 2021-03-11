@@ -1,6 +1,8 @@
 import DatePicker from './date-picker';
-import layout from '../templates/components/date-picker-inline';
+import template from '../templates/components/date-picker-inline';
+import { layout } from '@ember-decorators/component';
+import classic from 'ember-classic-decorator';
 
-export default DatePicker.extend({
-  layout,
-});
+@layout(template)
+@classic
+export default class DatePickerInline extends DatePicker {}

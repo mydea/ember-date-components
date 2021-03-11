@@ -1,12 +1,18 @@
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
-import { computed, set } from '@ember/object';
+import { computed, set, action } from '@ember/object';
 import { isNone } from '@ember/utils';
-import layout from '../templates/components/time-picker';
+import template from '../templates/components/time-picker';
 import moment from 'moment';
 import parseTime from 'ember-date-components/utils/parse-time';
 import buildTimeRange from 'ember-date-components/utils/build-time-range';
 import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
+import {
+  layout,
+  classNames,
+  classNameBindings,
+} from '@ember-decorators/component';
+import classic from 'ember-classic-decorator';
 
 /**
  * An input field to choose a time in a day.
@@ -17,12 +23,11 @@ import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
  * @extends Ember.Component
  * @public
  */
-export default Component.extend({
-  layout,
-
-  classNames: ['time-picker__wrapper'],
-  classNameBindings: ['isOpen:time-picker__wrapper--open'],
-
+@layout(template)
+@classNames('time-picker__wrapper')
+@classNameBindings('isOpen:time-picker__wrapper--open')
+@classic
+export default class TimePicker extends Component {
   /**
    * The current value of the time picker.
    * Has to be a moment.js object or null.
@@ -31,7 +36,7 @@ export default Component.extend({
    * @type {Date}
    * @public
    */
-  value: null,
+  value = null;
 
   /**
    * If this is true, the time picker is disabled and the selected time cannot be changed.
@@ -41,7 +46,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disabled: false,
+  disabled = false;
 
   /**
    * The action to call when the time changes.
@@ -50,7 +55,7 @@ export default Component.extend({
    * @param {Date} time The new time
    * @public
    */
-  action: null,
+  action = null;
 
   /**
    * If the display format should use am/pm or the 24:00 format.
@@ -62,7 +67,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  amPm: null,
+  amPm = null;
 
   /**
    * The minimum time which can be selected.
@@ -73,7 +78,7 @@ export default Component.extend({
    * @default '00:00'
    * @public
    */
-  minTime: '00:00',
+  minTime = '00:00';
 
   /**
    * The maximum time which can be selected.
@@ -84,7 +89,7 @@ export default Component.extend({
    * @default '23:59'
    * @public
    */
-  maxTime: '23:59',
+  maxTime = '23:59';
 
   /**
    * The placeholder for the time input.
@@ -93,7 +98,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  placeholder: 'Enter time...',
+  placeholder = 'Enter time...';
 
   /**
    * The step in minutes which can be selected.
@@ -105,7 +110,7 @@ export default Component.extend({
    * @default 30
    * @public
    */
-  step: 30,
+  step = 30;
 
   /**
    * The step from which dates can be selected in the dropdown.
@@ -118,7 +123,7 @@ export default Component.extend({
    * @default 30
    * @public
    */
-  selectStep: null,
+  selectStep = null;
 
   /**
    * Classes which should be added to the input.
@@ -127,7 +132,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  inputClasses: '',
+  inputClasses = '';
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -136,7 +141,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -147,7 +152,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  horizontalPosition: 'auto',
+  horizontalPosition = 'auto';
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -158,7 +163,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  verticalPosition: 'auto',
+  verticalPosition = 'auto';
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -168,7 +173,7 @@ export default Component.extend({
    * @default true
    * @public
    */
-  matchTriggerWidth: true,
+  matchTriggerWidth = true;
 
   /**
    * Classes which should be added to the dropdown container.
@@ -177,7 +182,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  dropdownClasses: '',
+  dropdownClasses = '';
 
   /**
    * Optional classes for the button.
@@ -187,7 +192,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  buttonClasses: '',
+  buttonClasses = '';
 
   /**
    * If the dropdown is open.
@@ -196,7 +201,7 @@ export default Component.extend({
    * @type {Boolean}
    * @protected
    */
-  isOpen: false,
+  isOpen = false;
 
   /**
    * Which option is currently selected.
@@ -206,7 +211,7 @@ export default Component.extend({
    * @type {Number}
    * @protected
    */
-  selectedOptionIndex: -1,
+  selectedOptionIndex = -1;
 
   /**
    * The general options for this component.
@@ -217,24 +222,18 @@ export default Component.extend({
    * @type {amPm, step, minTime, maxTime}
    * @protected
    */
-  options: computed(
-    'step',
-    'amPm',
-    'minTime',
-    'maxTime',
-    'selectStep',
-    function () {
-      let { amPm, minTime, maxTime, step, selectStep } = this;
+  @computed('step', 'amPm', 'minTime', 'maxTime', 'selectStep')
+  get options() {
+    let { amPm, minTime, maxTime, step, selectStep } = this;
 
-      return {
-        amPm,
-        step,
-        selectStep,
-        minTime: parseTime(minTime),
-        maxTime: parseTime(maxTime),
-      };
-    }
-  ),
+    return {
+      amPm,
+      step,
+      selectStep,
+      minTime: parseTime(minTime),
+      maxTime: parseTime(maxTime),
+    };
+  }
 
   /**
    * The format which should be used.
@@ -245,10 +244,11 @@ export default Component.extend({
    * @type {String}
    * @protected
    */
-  format: computed('options.amPm', function () {
+  @computed('options.amPm')
+  get format() {
     let { amPm } = this.options;
     return amPm ? 'hh:mm a' : 'HH:mm';
-  }),
+  }
 
   /**
    * The options to chose from in the dropdown.
@@ -258,27 +258,24 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timeOptions: computed(
-    'format',
-    'options.{maxTime,minTime,selectStep}',
-    function () {
-      let { minTime, maxTime, selectStep } = this.options;
-      let { format } = this;
+  @computed('format', 'options.{maxTime,minTime,selectStep}')
+  get timeOptions() {
+    let { minTime, maxTime, selectStep } = this.options;
+    let { format } = this;
 
-      let steps = buildTimeRange({
-        minTime,
-        maxTime,
-        step: selectStep,
-      });
+    let steps = buildTimeRange({
+      minTime,
+      maxTime,
+      step: selectStep,
+    });
 
-      return steps.map((time) => {
-        return {
-          value: time.format(format),
-          time,
-        };
-      });
-    }
-  ),
+    return steps.map((time) => {
+      return {
+        value: time.format(format),
+        time,
+      };
+    });
+  }
 
   /**
    * The options for the dropdown which are currently visible.
@@ -289,7 +286,8 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  filteredOptions: computed('timeOptions.[]', 'inputValue', function () {
+  @computed('timeOptions.[]', 'inputValue')
+  get filteredOptions() {
     let val = (this.inputValue || '').toLowerCase();
     let options = this.timeOptions;
 
@@ -297,7 +295,8 @@ export default Component.extend({
       let optionValue = option.value;
       return optionValue.toLowerCase().indexOf(val) > -1;
     });
-  }),
+  }
+
   /**
    * The value that is currently entered in the input field.
    *
@@ -305,7 +304,7 @@ export default Component.extend({
    * @type {String}
    * @protected
    */
-  inputValue: null,
+  inputValue = null;
 
   /**
    * The API of ember-basic-dropdown.
@@ -315,7 +314,7 @@ export default Component.extend({
    * @type {Object}
    * @private
    */
-  _dropdownApi: null,
+  _dropdownApi = null;
 
   /**
    * The value actual value to display in the button.
@@ -325,92 +324,100 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  displayValue: computed('format', 'value', function () {
+  @computed('format', 'value')
+  get displayValue() {
     let { value, format } = this;
 
     value = parseTime(value);
     value = moment.isMoment(value) ? value.format(format) : value;
     return value || null;
-  }),
+  }
 
-  actions: {
-    selectValue(value) {
-      this._updateValueForString(value);
-    },
+  @action
+  selectValue(value) {
+    this._updateValueForString(value);
+  }
 
-    selectCurrent() {
-      this._selectCurrent();
-    },
+  @action
+  selectCurrent() {
+    this._selectCurrent();
+  }
 
-    selectUp() {
-      this.decrementProperty('selectedOptionIndex');
-      if (this.selectedOptionIndex < -1) {
-        set(this, 'selectedOptionIndex', -1);
-      }
-    },
-
-    selectDown() {
-      this.incrementProperty('selectedOptionIndex');
-      let optionsLength = this.filteredOptions.length;
-
-      if (this.selectedOptionIndex > optionsLength) {
-        set(this, 'selectedOptionIndex', optionsLength - 1);
-      }
-    },
-
-    updateInputValue(value) {
-      set(this, 'inputValue', value);
+  @action
+  selectUp() {
+    this.decrementProperty('selectedOptionIndex');
+    if (this.selectedOptionIndex < -1) {
       set(this, 'selectedOptionIndex', -1);
-    },
+    }
+  }
 
-    onDropdownOpened(dropdownApi) {
-      set(this, 'isOpen', true);
-      set(this, '_dropdownApi', dropdownApi);
+  @action
+  selectDown() {
+    this.incrementProperty('selectedOptionIndex');
+    let optionsLength = this.filteredOptions.length;
 
-      this._focusTimeInput();
-    },
+    if (this.selectedOptionIndex > optionsLength) {
+      set(this, 'selectedOptionIndex', optionsLength - 1);
+    }
+  }
 
-    onDropdownClosed() {
-      set(this, 'isOpen', false);
-      set(this, 'inputValue', null);
-      set(this, 'selectedOptionIndex', -1);
-    },
+  @action
+  updateInputValue(value) {
+    set(this, 'inputValue', value);
+    set(this, 'selectedOptionIndex', -1);
+  }
 
-    onTriggerKeyDown(dropdownApi, event) {
-      // If the input is focused, and the user starts typing a number or letter, we want to auto-open the dropdown
-      let { key } = event;
-      let regex = /^[\d\w]$/;
-      if (regex.test(key)) {
-        dropdownApi.actions.open();
+  @action
+  onDropdownOpened(dropdownApi) {
+    set(this, 'isOpen', true);
+    set(this, '_dropdownApi', dropdownApi);
 
-        // Add to the input, in order to not lose the typed characters
-        let inputValue = this.inputValue || '';
-        set(this, 'inputValue', `${inputValue}${key}`);
-      }
-    },
+    this._focusTimeInput();
+  }
 
-    closeDropdown() {
-      this._close();
-    },
-  },
+  @action
+  onDropdownClosed() {
+    set(this, 'isOpen', false);
+    set(this, 'inputValue', null);
+    set(this, 'selectedOptionIndex', -1);
+  }
+
+  @action
+  onTriggerKeyDown(dropdownApi, event) {
+    // If the input is focused, and the user starts typing a number or letter, we want to auto-open the dropdown
+    let { key } = event;
+    let regex = /^[\d\w]$/;
+    if (regex.test(key)) {
+      dropdownApi.actions.open();
+
+      // Add to the input, in order to not lose the typed characters
+      let inputValue = this.inputValue || '';
+      set(this, 'inputValue', `${inputValue}${key}`);
+    }
+  }
+
+  @action
+  closeDropdown() {
+    this._close();
+  }
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this._setupDefaults();
-  },
+  }
 
   _setupDefaults() {
     if (isNone(this.amPm)) {
       set(this, 'amPm', shouldUseAmPm());
     }
-  },
+  }
 
   _close() {
     let dropdownApi = this._dropdownApi;
     if (dropdownApi) {
       dropdownApi.actions.close();
     }
-  },
+  }
 
   _selectCurrent() {
     let options = this.filteredOptions;
@@ -434,7 +441,7 @@ export default Component.extend({
     // Actually get the string value from the option
     let { value } = selectedOption;
     this._updateValueForString(value);
-  },
+  }
 
   _updateValueForString(stringValue) {
     let parsedValue = (stringValue || '').toLowerCase();
@@ -443,7 +450,7 @@ export default Component.extend({
 
     // Now close the input
     this._close();
-  },
+  }
 
   _sendNewValueAction(newValue) {
     let { value, action, disabled: isDisabled } = this;
@@ -451,7 +458,7 @@ export default Component.extend({
     if (action && !isDisabled && value !== newValue) {
       return action(newValue);
     }
-  },
+  }
 
   /**
    * Move the focus to the date picker.
@@ -461,7 +468,8 @@ export default Component.extend({
    * @method _focusDatePicker
    * @private
    */
-  _originallyFocusedElement: null,
+  _originallyFocusedElement = null;
+
   _focusTimeInput() {
     if (this.isDestroyed) {
       return;
@@ -479,7 +487,7 @@ export default Component.extend({
         timeInput.focus();
       }
     });
-  },
+  }
 
   /**
    * Reset the focus to the previously focused element.
@@ -498,5 +506,5 @@ export default Component.extend({
     ) {
       next(() => originallyFocusedElement.focus());
     }
-  },
-});
+  }
+}

@@ -2,9 +2,14 @@ import Component from '@ember/component';
 import { A as array } from '@ember/array';
 import { typeOf as getTypeOf } from '@ember/utils';
 import { next, once } from '@ember/runloop';
-import { computed, set } from '@ember/object';
-import layout from '../templates/components/date-picker';
+import { computed, set, action } from '@ember/object';
+import template from '../templates/components/date-picker';
 import moment from 'moment';
+import {
+  layout,
+  classNames,
+  classNameBindings,
+} from '@ember-decorators/component';
 
 /**
  * A versatile date picker component.
@@ -15,12 +20,10 @@ import moment from 'moment';
  * @extends Ember.Component
  * @public
  */
-export default Component.extend({
-  layout,
-
-  classNames: ['date-picker__wrapper'],
-  classNameBindings: ['isOpen:date-picker__wrapper--open'],
-
+@classNames('date-picker__wrapper')
+@classNameBindings('isOpen:date-picker__wrapper--open')
+@layout(template)
+export default class DatePicker extends Component {
   // ATTRIBUTES BEGIN ----------------------------------------
 
   /**
@@ -34,7 +37,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  value: null,
+  value = null;
 
   /**
    * An array of optional dates to disable for this date picker.
@@ -45,7 +48,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  disabledDates: null,
+  disabledDates = null;
 
   /**
    * An optional minimum date for this date picker.
@@ -56,7 +59,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  minDate: null,
+  minDate = null;
 
   /**
    * An optional maximum date for this date picker.
@@ -67,7 +70,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  maxDate: null,
+  maxDate = null;
 
   /**
    * If this date picker should select a range instead of a single date.
@@ -79,7 +82,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  range: false,
+  range = false;
 
   /**
    * The placeholder for the button, if no date is selected.
@@ -89,7 +92,7 @@ export default Component.extend({
    * @default 'Select Date...'
    * @public
    */
-  placeholder: 'Select Date...',
+  placeholder = 'Select Date...';
 
   /**
    * Optional classes for the button.
@@ -99,7 +102,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  buttonClasses: '',
+  buttonClasses = '';
 
   /**
    * The date format which should be used for the button.
@@ -110,7 +113,7 @@ export default Component.extend({
    * @default 'L'
    * @public
    */
-  buttonDateFormat: 'L',
+  buttonDateFormat = 'L';
 
   /**
    * If custom options should be displayed.
@@ -122,7 +125,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  options: false,
+  options = false;
 
   /**
    * If this is true, the date picker is disabled and the selected date cannot be changed.
@@ -132,7 +135,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disabled: false,
+  disabled = false;
 
   /**
    * If set to true, the month picker will not be usable.
@@ -142,7 +145,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disableMonthPicker: false,
+  disableMonthPicker = false;
 
   /**
    * If set to true, the year picker will not be usable.
@@ -152,7 +155,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disableYearPicker: false,
+  disableYearPicker = false;
 
   /**
    * The number of years before & after the current year to show in the year picker.
@@ -162,7 +165,7 @@ export default Component.extend({
    * @default 10
    * @public
    */
-  availableYearOffset: 10,
+  availableYearOffset = 10;
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -171,7 +174,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -182,7 +185,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  horizontalPosition: 'auto',
+  horizontalPosition = 'auto';
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -193,7 +196,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  verticalPosition: 'auto',
+  verticalPosition = 'auto';
 
   /**
    * The action to call whenever one of the value changes.
@@ -202,7 +205,7 @@ export default Component.extend({
    * @param {Date|Date[]} date Either a single date (or null) if `range=false`, or an array with two elements if `range=true`.
    * @public
    */
-  action: null,
+  action = null;
 
   /**
    * The action to call whenever the date picker is closed.
@@ -211,7 +214,7 @@ export default Component.extend({
    * @param {Date|Date[]} date Either a single date (or null) if `range=false`, or an array with two elements if `range=true`.
    * @public
    */
-  closeAction: null,
+  closeAction = null;
 
   /**
    * Whether the calendar displays the week starting on Mondayf or Sunday.
@@ -221,7 +224,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  startWeekOnSunday: false,
+  startWeekOnSunday = false;
 
   // ATTRIBUTES END ----------------------------------------
 
@@ -235,7 +238,7 @@ export default Component.extend({
    * @default ' - '
    * @private
    */
-  dateRangeSeparator: ' - ',
+  dateRangeSeparator = ' - ';
 
   /**
    * The internal dates. No matter if it is a range or a single date selector,
@@ -245,7 +248,7 @@ export default Component.extend({
    * @type {Date[]}
    * @private
    */
-  _dates: null,
+  _dates = null;
 
   /**
    * The currently visible month.
@@ -255,7 +258,7 @@ export default Component.extend({
    * @type {Date}
    * @private
    */
-  currentMonth: null,
+  currentMonth = null;
 
   /**
    * If the current selection is the to-step.
@@ -265,7 +268,7 @@ export default Component.extend({
    * @type {Boolean}
    * @private
    */
-  isToStep: false,
+  isToStep = false;
 
   /**
    * If the date picker is open.
@@ -274,7 +277,7 @@ export default Component.extend({
    * @type {Boolean}
    * @private
    */
-  isOpen: false,
+  isOpen = false;
 
   /**
    * The text for the button.
@@ -285,32 +288,27 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonText: computed(
-    '_dates.[]',
-    'buttonDateFormat',
-    'placeholder',
-    'range',
-    function () {
-      let isRange = this.range;
-      let vals = this._dates || array([]);
-      let dateFormat = this.buttonDateFormat;
+  @computed('_dates.[]', 'buttonDateFormat', 'placeholder', 'range')
+  get buttonText() {
+    let isRange = this.range;
+    let vals = this._dates || array([]);
+    let dateFormat = this.buttonDateFormat;
 
-      let [dateFrom] = vals;
+    let [dateFrom] = vals;
 
-      if (!isRange) {
-        if (!dateFrom) {
-          return this.placeholder;
-        }
-        return dateFrom.format(dateFormat);
-      }
-
+    if (!isRange) {
       if (!dateFrom) {
         return this.placeholder;
       }
-
       return dateFrom.format(dateFormat);
     }
-  ),
+
+    if (!dateFrom) {
+      return this.placeholder;
+    }
+
+    return dateFrom.format(dateFormat);
+  }
 
   /**
    * The text for the to-button.
@@ -322,24 +320,19 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonToText: computed(
-    '_dates.[]',
-    'buttonDateFormat',
-    'placeholder',
-    'range',
-    function () {
-      let vals = this._dates || array([]);
-      let dateFormat = this.buttonDateFormat;
+  @computed('_dates.[]', 'buttonDateFormat', 'placeholder', 'range')
+  get buttonToText() {
+    let vals = this._dates || array([]);
+    let dateFormat = this.buttonDateFormat;
 
-      let [, dateTo] = vals;
+    let [, dateTo] = vals;
 
-      if (!dateTo) {
-        return this.placeholder;
-      }
-
-      return dateTo.format(dateFormat);
+    if (!dateTo) {
+      return this.placeholder;
     }
-  ),
+
+    return dateTo.format(dateFormat);
+  }
 
   /**
    * If the (first) button is currently focused.
@@ -349,11 +342,12 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonFocused: computed('range', 'isOpen', 'isToStep', function () {
+  @computed('range', 'isOpen', 'isToStep')
+  get buttonFocused() {
     let { range: isRange, isOpen, isToStep } = this;
 
     return isRange ? isOpen && !isToStep : isOpen;
-  }),
+  }
 
   /**
    * If the to-button is currently focused.
@@ -363,11 +357,12 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  buttonToFocused: computed('range', 'isOpen', 'isToStep', function () {
+  @computed('range', 'isOpen', 'isToStep')
+  get buttonToFocused() {
     let { range: isRange, isOpen, isToStep } = this;
 
     return isRange ? isOpen && isToStep : false;
-  }),
+  }
 
   /**
    * An array with all selected dates.
@@ -379,7 +374,8 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  selectedDates: computed('_dates.[]', function () {
+  @computed('_dates.[]')
+  get selectedDates() {
     let arr = [];
     let [dateFrom, dateTo] = this._dates;
     if (dateFrom) {
@@ -389,7 +385,7 @@ export default Component.extend({
       arr.push(dateTo);
     }
     return array(arr);
-  }),
+  }
 
   /**
    * These are the parsed options.
@@ -400,31 +396,31 @@ export default Component.extend({
    * @readOnly
    * @private
    */
-  _options: computed(
+  @computed(
     '_defaultDateOptions',
     '_defaultDateRangeOptions',
     '_optionsMap',
     'options.[]',
-    'range',
-    function () {
-      let { options, range: isRange, _optionsMap: optionsMap } = this;
+    'range'
+  )
+  get _options() {
+    let { options, range: isRange, _optionsMap: optionsMap } = this;
 
-      if (!options) {
-        return array();
-      }
-
-      // If options is true, return the default options depending on isRange
-      if (getTypeOf(options) !== 'array') {
-        options = isRange
-          ? this._defaultDateRangeOptions
-          : this._defaultDateOptions;
-      }
-
-      return options.map((option) => {
-        return getTypeOf(option) === 'string' ? optionsMap[option] : option;
-      });
+    if (!options) {
+      return array();
     }
-  ),
+
+    // If options is true, return the default options depending on isRange
+    if (getTypeOf(options) !== 'array') {
+      options = isRange
+        ? this._defaultDateRangeOptions
+        : this._defaultDateOptions;
+    }
+
+    return options.map((option) => {
+      return getTypeOf(option) === 'string' ? optionsMap[option] : option;
+    });
+  }
 
   /**
    * This maps how option names are mapped to actual options.
@@ -434,7 +430,8 @@ export default Component.extend({
    * @type {Object}
    * @private
    */
-  _optionsMap: computed(function () {
+  @computed()
+  get _optionsMap() {
     return {
       clear: {
         action: 'clearDate',
@@ -495,7 +492,7 @@ export default Component.extend({
         actionValue: [moment().startOf('month'), moment().startOf('day')],
       },
     };
-  }),
+  }
 
   /**
    * The default options for date pickers.
@@ -505,7 +502,7 @@ export default Component.extend({
    * @type {Array}
    * @private
    */
-  _defaultDateOptions: array(['clear', 'today']),
+  _defaultDateOptions = array(['clear', 'today']);
 
   /**
    * The default options for date range pickers.
@@ -515,13 +512,13 @@ export default Component.extend({
    * @type {Array}
    * @private
    */
-  _defaultDateRangeOptions: array([
+  _defaultDateRangeOptions = array([
     'clear',
     'today',
     'last7Days',
     'last30Days',
     'last3Months',
-  ]),
+  ]);
 
   /**
    * The API of ember-basic-dropdown.
@@ -531,7 +528,7 @@ export default Component.extend({
    * @type {Object}
    * @private
    */
-  _dropdownApi: null,
+  _dropdownApi = null;
 
   // PROPERTIES END ----------------------------------------
 
@@ -539,14 +536,14 @@ export default Component.extend({
 
   // eslint-disable-next-line ember/no-component-lifecycle-hooks
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
     this._setupValue();
-  },
+  }
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
     set(this, '_dates', []);
-  },
+  }
 
   // HOOKS END ----------------------------------------
 
@@ -590,7 +587,7 @@ export default Component.extend({
     } else if (val.length === 0 && isRange) {
       val.pushObjects([null, null]);
     }
-  },
+  }
 
   /**
    * Actually send the action.
@@ -604,7 +601,7 @@ export default Component.extend({
     if (action && !this.disabled) {
       action(isRange ? values : values[0] || null);
     }
-  },
+  }
 
   /**
    * Open the date picker.
@@ -621,7 +618,7 @@ export default Component.extend({
 
     // Move focus to dropdown
     this._focusDatePicker();
-  },
+  }
 
   /**
    * Move the focus to the date picker.
@@ -631,13 +628,15 @@ export default Component.extend({
    * @method _focusDatePicker
    * @private
    */
-  _originallyFocusedElement: null,
+  _originallyFocusedElement = null;
+
   _focusDatePicker() {
     let originallyFocusedElement = document.activeElement;
     set(this, '_originallyFocusedElement', originallyFocusedElement);
 
     this._focusButtonInDatePicker();
-  },
+  }
+
   _focusButtonInDatePicker() {
     let { elementId } = this;
 
@@ -660,7 +659,7 @@ export default Component.extend({
         buttonToFocus.focus();
       }
     });
-  },
+  }
 
   /**
    * Reset the focus to the previously focused element.
@@ -679,7 +678,7 @@ export default Component.extend({
     ) {
       next(() => originallyFocusedElement.focus());
     }
-  },
+  }
 
   /**
    * Close the date picker.
@@ -699,7 +698,7 @@ export default Component.extend({
       this._closeDropdown();
       this._resetFocus();
     }
-  },
+  }
 
   _sendCloseAction() {
     let action = this.closeAction;
@@ -709,21 +708,21 @@ export default Component.extend({
     if (action) {
       action(isRange ? vals : vals[0] || null);
     }
-  },
+  }
 
   _closeDropdown() {
     let dropdownApi = this._dropdownApi;
     if (dropdownApi) {
       dropdownApi.actions.close();
     }
-  },
+  }
 
   _openDropdown() {
     let dropdownApi = this._dropdownApi;
     if (dropdownApi) {
       dropdownApi.actions.open();
     }
-  },
+  }
 
   /**
    * Set a single date value.
@@ -739,7 +738,7 @@ export default Component.extend({
     set(this, '_dates', vals);
     this._close();
     return vals;
-  },
+  }
 
   /**
    * Set the from date to the selected date.
@@ -761,7 +760,7 @@ export default Component.extend({
     }
 
     set(this, '_dates', vals);
-  },
+  }
 
   /**
    * Set the to date to the selected date.
@@ -787,7 +786,7 @@ export default Component.extend({
     }
 
     set(this, '_dates', vals);
-  },
+  }
 
   /**
    * Set date range values.
@@ -808,7 +807,7 @@ export default Component.extend({
       this._setToDate(date);
       this._close();
     }
-  },
+  }
 
   /**
    * Move to the from step.
@@ -825,7 +824,7 @@ export default Component.extend({
     set(this, 'isToStep', false);
     this._openDropdown();
     this._focusButtonInDatePicker();
-  },
+  }
 
   /**
    * Move to the to step.
@@ -842,7 +841,7 @@ export default Component.extend({
     set(this, 'isToStep', true);
     this._openDropdown();
     this._focusButtonInDatePicker();
-  },
+  }
 
   /**
    * Move to the from date and open the date picker.
@@ -853,7 +852,7 @@ export default Component.extend({
   _openFromDate() {
     this._moveToFromStep();
     this._open();
-  },
+  }
 
   /**
    * Move to the to step and open the date picker.
@@ -864,101 +863,108 @@ export default Component.extend({
   _openToDate() {
     this._moveToToStep();
     this._open();
-  },
+  }
 
   // METHODS END ----------------------------------------
 
   // ACTIONS BEGIN ----------------------------------------
 
-  actions: {
-    clearDate() {
-      set(this, '_dates', array());
-      set(this, 'isToStep', false);
-      this._sendAction();
-      this._close();
-    },
+  @action
+  clearDate() {
+    set(this, '_dates', array());
+    set(this, 'isToStep', false);
+    this._sendAction();
+    this._close();
+  }
 
-    selectToday() {
-      let today = moment().startOf('day');
-      if (this.range) {
-        set(this, '_dates', array([today, today]));
-      } else {
-        set(this, '_dates', array([today]));
-      }
+  @action
+  selectToday() {
+    let today = moment().startOf('day');
+    if (this.range) {
+      set(this, '_dates', array([today, today]));
+    } else {
+      set(this, '_dates', array([today]));
+    }
 
-      this._sendAction();
-      this._close();
-    },
+    this._sendAction();
+    this._close();
+  }
 
-    toggleOpen() {
-      let { isOpen, range: isRange, isToStep } = this;
+  @action
+  toggleOpen() {
+    let { isOpen, range: isRange, isToStep } = this;
 
-      if (!isRange) {
-        if (isOpen) {
-          this._close();
-        } else {
-          this._openFromDate();
-        }
-        return;
-      }
-
+    if (!isRange) {
       if (isOpen) {
-        // If it is a range picker, either close it or switch to isToStep=false
-        if (isToStep) {
-          this._moveToFromStep();
-        } else {
-          this._close();
-        }
+        this._close();
       } else {
         this._openFromDate();
       }
-    },
+      return;
+    }
 
-    toggleOpenTo() {
-      let { isOpen, isToStep } = this;
-
-      if (isOpen) {
-        if (!isToStep) {
-          this._moveToToStep();
-        } else {
-          this._close();
-        }
+    if (isOpen) {
+      // If it is a range picker, either close it or switch to isToStep=false
+      if (isToStep) {
+        this._moveToFromStep();
       } else {
-        this._openToDate();
+        this._close();
       }
-    },
+    } else {
+      this._openFromDate();
+    }
+  }
 
-    gotoMonth(month) {
-      set(this, 'currentMonth', month);
-    },
+  @action
+  toggleOpenTo() {
+    let { isOpen, isToStep } = this;
 
-    selectDate(date) {
-      let isRange = this.range;
-
-      if (!isRange) {
-        this._setSingleDate(date);
+    if (isOpen) {
+      if (!isToStep) {
+        this._moveToToStep();
       } else {
-        this._setDateRange(date);
+        this._close();
       }
+    } else {
+      this._openToDate();
+    }
+  }
 
-      this._sendAction();
-    },
+  @action
+  gotoMonth(month) {
+    set(this, 'currentMonth', month);
+  }
 
-    selectDateRange(dates) {
-      set(this, '_dates', array(dates));
+  @action
+  selectDate(date) {
+    let isRange = this.range;
 
-      this._sendAction();
-      this._close();
-    },
+    if (!isRange) {
+      this._setSingleDate(date);
+    } else {
+      this._setDateRange(date);
+    }
 
-    onDropdownClosed() {
-      this._close(true, false);
-    },
+    this._sendAction();
+  }
 
-    onDropdownOpened(dropdownApi) {
-      set(this, '_dropdownApi', dropdownApi);
-    },
-  },
+  @action
+  selectDateRange(dates) {
+    set(this, '_dates', array(dates));
+
+    this._sendAction();
+    this._close();
+  }
+
+  @action
+  onDropdownClosed() {
+    this._close(true, false);
+  }
+
+  @action
+  onDropdownOpened(dropdownApi) {
+    set(this, '_dropdownApi', dropdownApi);
+  }
 
   // ACTIONS END ----------------------------------------
-});
+}

@@ -1,7 +1,10 @@
 import Component from '@ember/component';
-import { computed, set } from '@ember/object';
-import layout from '../templates/components/date-time-picker';
+import { computed, set, action } from '@ember/object';
+import template from '../templates/components/date-time-picker';
 import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
+import { layout, classNames } from '@ember-decorators/component';
+import { isNone } from '@ember/utils';
+import classic from 'ember-classic-decorator';
 
 /**
  * A date & time picker combo.
@@ -12,10 +15,10 @@ import { shouldUseAmPm } from 'ember-date-components/utils/should-use-am-pm';
  * @extends Ember.Component
  * @public
  */
-export default Component.extend({
-  layout,
-  classNames: ['date-time-picker'],
-
+@layout(template)
+@classNames('date-time-picker')
+@classic
+export default class DateTimePicker extends Component {
   /**
    * The currently selected value.
    * This should be a moment.js instance.
@@ -24,7 +27,7 @@ export default Component.extend({
    * @type {Date}
    * @public
    */
-  value: null,
+  value = null;
 
   /**
    * Classes which should be added to the date picker button.
@@ -33,7 +36,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  datePickerClasses: '',
+  datePickerClasses = '';
 
   /**
    * Classes which should be added to the time input.
@@ -42,7 +45,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  timePickerClasses: '',
+  timePickerClasses = '';
 
   /**
    * The date format which should be used for the button.
@@ -53,7 +56,7 @@ export default Component.extend({
    * @default 'L'
    * @public
    */
-  buttonDateFormat: 'L',
+  buttonDateFormat = 'L';
 
   /**
    * If the display format should use am/pm or the 24:00 format.
@@ -65,9 +68,11 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  amPm: computed(function () {
-    return shouldUseAmPm();
-  }),
+  amPm = undefined;
+
+  get shouldUseAmPm() {
+    return isNone(this.amPm) ? shouldUseAmPm() : this.amPm;
+  }
 
   /**
    * An optional minimum date for this date picker.
@@ -78,7 +83,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  minDate: null,
+  minDate = null;
 
   /**
    * An optional maximum date for this date picker.
@@ -89,7 +94,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  maxDate: null,
+  maxDate = null;
 
   /**
    * The minimum time which can be selected.
@@ -100,7 +105,7 @@ export default Component.extend({
    * @default '00:00'
    * @public
    */
-  minTime: '00:00',
+  minTime = '00:00';
 
   /**
    * The maximum time which can be selected.
@@ -111,7 +116,7 @@ export default Component.extend({
    * @default '23:59'
    * @public
    */
-  maxTime: '23:59',
+  maxTime = '23:59';
 
   /**
    * The step in minutes which can be selected.
@@ -123,7 +128,7 @@ export default Component.extend({
    * @default 30
    * @public
    */
-  step: 1,
+  step = 1;
 
   /**
    * The step from which dates can be selected in the dropdown.
@@ -136,7 +141,7 @@ export default Component.extend({
    * @default 30
    * @public
    */
-  selectStep: 30,
+  selectStep = 30;
 
   /**
    * If this is true, the date/time picker is disabled and the selected date cannot be changed.
@@ -146,7 +151,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disabled: false,
+  disabled = false;
 
   /**
    * If ignoreZeroTime is true, and the time is 00:00, don't show a value in the select.
@@ -158,7 +163,7 @@ export default Component.extend({
    * @default true
    * @public
    */
-  ignoreZeroTime: true,
+  ignoreZeroTime = true;
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -167,7 +172,7 @@ export default Component.extend({
    * @type {Boolean}
    * @public
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -178,7 +183,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  horizontalPosition: 'auto',
+  horizontalPosition = 'auto';
 
   /**
    * Value passed to `ember-basic-dropdown`
@@ -189,7 +194,7 @@ export default Component.extend({
    * @type {String}
    * @public
    */
-  verticalPosition: 'auto',
+  verticalPosition = 'auto';
 
   /**
    * The action to call when the date/time updates.
@@ -198,7 +203,7 @@ export default Component.extend({
    * @param {Date} newDate
    * @public
    */
-  action: null,
+  action = null;
 
   /**
    * The internal value.
@@ -207,7 +212,7 @@ export default Component.extend({
    * @type {Date}
    * @protected
    */
-  _value: null,
+  _value = null;
 
   /**
    * You can only enter a time once a date is selected.
@@ -217,9 +222,10 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timePickerDisabled: computed('disabled', 'value', function () {
+  @computed('disabled', 'value')
+  get timePickerDisabled() {
     return this.disabled || !this.value;
-  }),
+  }
 
   /**
    * The value for the time picker.
@@ -231,7 +237,8 @@ export default Component.extend({
    * @readOnly
    * @protected
    */
-  timePickerValue: computed('ignoreZeroTime', 'value', function () {
+  @computed('ignoreZeroTime', 'value')
+  get timePickerValue() {
     let { value } = this;
     if (!this.ignoreZeroTime || !value) {
       return value;
@@ -242,7 +249,7 @@ export default Component.extend({
       return null;
     }
     return value;
-  }),
+  }
 
   /**
    * Send the update action.
@@ -254,39 +261,39 @@ export default Component.extend({
     let { _value: value, action } = this;
 
     return action(value);
-  },
+  }
 
   // eslint-disable-next-line ember/no-component-lifecycle-hooks
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
     set(this, '_value', this.value);
-  },
+  }
 
-  actions: {
-    updateDate(val) {
-      let oldDate = this._value;
-      if (oldDate && val) {
-        val.hours(oldDate.hours());
-        val.minutes(oldDate.minutes());
-        val.seconds(oldDate.seconds());
-        val.milliseconds(oldDate.milliseconds());
-      }
+  @action
+  updateDate(val) {
+    let oldDate = this._value;
+    if (oldDate && val) {
+      val.hours(oldDate.hours());
+      val.minutes(oldDate.minutes());
+      val.seconds(oldDate.seconds());
+      val.milliseconds(oldDate.milliseconds());
+    }
 
-      set(this, '_value', val);
-      this._sendAction();
-    },
+    set(this, '_value', val);
+    this._sendAction();
+  }
 
-    updateTime(val) {
-      let oldDate = this._value;
+  @action
+  updateTime(val) {
+    let oldDate = this._value;
 
-      if (oldDate && val) {
-        val.year(oldDate.year());
-        val.month(oldDate.month());
-        val.date(oldDate.date());
-      }
+    if (oldDate && val) {
+      val.year(oldDate.year());
+      val.month(oldDate.month());
+      val.date(oldDate.date());
+    }
 
-      set(this, '_value', val);
-      this._sendAction();
-    },
-  },
-});
+    set(this, '_value', val);
+    this._sendAction();
+  }
+}
