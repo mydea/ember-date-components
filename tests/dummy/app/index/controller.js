@@ -1,36 +1,40 @@
-import { computed, set } from '@ember/object';
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import moment from 'moment';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  date: null,
-  time: null,
+export default class ExampleIndexController extends Controller {
+  @tracked date;
+  @tracked time;
+  @tracked dateRange;
+  @tracked dateTime;
 
-  date2: computed(function () {
-    return {
-      value: moment().add(2, 'months'),
-    };
-  }),
+  date2 = {
+    value: moment().add(2, 'months'),
+  };
 
-  date3: computed(function () {
-    return {
-      min: moment().subtract(1, 'month'),
-      max: moment().add(1, 'month').add(10, 'days'),
-    };
-  }),
+  date3 = {
+    min: moment().subtract(1, 'month'),
+    max: moment().add(1, 'month').add(10, 'days'),
+  };
 
-  actions: {
-    updateDate(date) {
-      set(this, 'date', date);
-    },
-    updateDateRange(dateRange) {
-      set(this, 'dateRange', dateRange);
-    },
-    updateTime(time) {
-      set(this, 'time', time);
-    },
-    updateDateTime(dateTime) {
-      set(this, 'dateTime', dateTime);
-    },
-  },
-});
+  @action
+  updateDate(date) {
+    this.date = date;
+  }
+
+  @action
+  updateDateRange(dateRange) {
+    this.dateRange = dateRange;
+  }
+
+  @action
+  updateTime(time) {
+    this.time = time;
+  }
+
+  @action
+  updateDateTime(dateTime) {
+    this.dateTime = dateTime;
+  }
+}

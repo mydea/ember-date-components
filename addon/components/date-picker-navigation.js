@@ -1,9 +1,12 @@
 import Component from '@ember/component';
-import layout from '../templates/components/date-picker-navigation';
+import template from '../templates/components/date-picker-navigation';
+import { layout } from '@ember-decorators/component';
+import { action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  layout,
-
+@layout(template)
+@classic
+export default class DatePickerNavigation extends Component {
   /**
    * The currently visible month.
    * This is set on initialisation. It is either the first selected date (if a value is provided), or today.
@@ -12,7 +15,7 @@ export default Component.extend({
    * @type {Date}
    * @private
    */
-  currentMonth: null,
+  currentMonth = null;
 
   /**
    * An optional minimum date for this date picker.
@@ -23,7 +26,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  minDate: null,
+  minDate = null;
 
   /**
    * An optional maximum date for this date picker.
@@ -34,7 +37,7 @@ export default Component.extend({
    * @optional
    * @public
    */
-  maxDate: null,
+  maxDate = null;
 
   /**
    * If set to true, the month picker will not be usable.
@@ -44,7 +47,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disableMonthPicker: false,
+  disableMonthPicker = false;
 
   /**
    * If set to true, the year picker will not be usable.
@@ -54,7 +57,7 @@ export default Component.extend({
    * @default false
    * @public
    */
-  disableYearPicker: false,
+  disableYearPicker = false;
 
   /**
    * The number of years before & after the current year to show in the year picker.
@@ -64,27 +67,28 @@ export default Component.extend({
    * @default 10
    * @public
    */
-  availableYearOffset: 10,
+  availableYearOffset = 10;
 
-  updateMonth: null,
+  updateMonth = null;
 
   _sendAction(newMonth) {
     this.updateMonth(newMonth);
-  },
+  }
 
-  actions: {
-    gotoNextMonth() {
-      let month = this.currentMonth;
-      this._sendAction(month.clone().add(1, 'month'));
-    },
+  @action
+  gotoNextMonth() {
+    let month = this.currentMonth;
+    this._sendAction(month.clone().add(1, 'month'));
+  }
 
-    gotoPreviousMonth() {
-      let month = this.currentMonth;
-      this._sendAction(month.clone().subtract(1, 'month'));
-    },
+  @action
+  gotoPreviousMonth() {
+    let month = this.currentMonth;
+    this._sendAction(month.clone().subtract(1, 'month'));
+  }
 
-    gotoMonth(month) {
-      this._sendAction(month.clone().startOf('month'));
-    },
-  },
-});
+  @action
+  gotoMonth(month) {
+    this._sendAction(month.clone().startOf('month'));
+  }
+}

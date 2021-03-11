@@ -1,5 +1,7 @@
 import TextField from '@ember/component/text-field';
 import { once } from '@ember/runloop';
+import { attributeBindings } from '@ember-decorators/component';
+import classic from 'ember-classic-decorator';
 
 /**
  * This is an extended {{input}} to send appropriate events for arrowUp/arrowDown.
@@ -11,18 +13,11 @@ import { once } from '@ember/runloop';
  * @extends Ember.TextField
  * @public
  */
-export default TextField.extend({
-  classNames: [],
-
-  attributeBindings: [
-    'disabled',
-    'data-time-picker-input-instance',
-    'tabindex',
-  ],
-
-  type: 'text',
-
-  tabindex: -1,
+@attributeBindings('disabled', 'data-time-picker-input-instance', 'tabindex')
+@classic
+export default class TimePickerInput extends TextField {
+  type = 'text';
+  tabindex = -1;
 
   /**
    * If this is true, the time picker is disabled and the selected time cannot be changed.
@@ -32,11 +27,11 @@ export default TextField.extend({
    * @default false
    * @public
    */
-  disabled: false,
+  disabled = false;
 
   keyUp() {
     // overwrite default implementation
-  },
+  }
 
   keyDown(event) {
     // Tab doesn't trigger keyUp, so we need to capture it in keyDown
@@ -52,40 +47,40 @@ export default TextField.extend({
       case 'Tab':
         return this._tab(event);
     }
-  },
+  }
 
   input() {
     once(this, this.inputChange);
-  },
+  }
 
   inputChange() {
     this._elementValueDidChange();
     let { value, 'input-change': action } = this;
     return action(value, this);
-  },
+  }
 
   _tab(event) {
     let action = this.tab;
     return action(this, event);
-  },
+  }
 
   _arrowUp(event) {
     let { 'arrow-up': action } = this;
     return action(this, event);
-  },
+  }
 
   _arrowDown(event) {
     let { 'arrow-down': action } = this;
     return action(this, event);
-  },
+  }
 
   _escape(event) {
     let action = this.escape;
     return action(this, event);
-  },
+  }
 
   _enter(event) {
     let action = this.enter;
     return action(this, event);
-  },
-});
+  }
+}
