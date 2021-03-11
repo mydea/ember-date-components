@@ -537,6 +537,7 @@ export default Component.extend({
 
   // HOOKS BEGIN ----------------------------------------
 
+  // eslint-disable-next-line ember/no-component-lifecycle-hooks
   didReceiveAttrs() {
     this._super(...arguments);
     this._setupValue();

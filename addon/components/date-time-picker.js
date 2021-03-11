@@ -256,7 +256,9 @@ export default Component.extend({
     return action(value);
   },
 
+  // eslint-disable-next-line ember/no-component-lifecycle-hooks
   didReceiveAttrs() {
+    this._super(...arguments);
     set(this, '_value', this.value);
   },
 
