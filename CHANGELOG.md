@@ -1,5 +1,10 @@
 # Changelog
 
+v3.1.0
+
+- Add disabled option for Ember Basic Dropdown to datetime picker
+- [INTERNAL] Update dependencies
+
 v3.0.0
 
 - [INTERNAL] Update ember-basic-dropdown to 3.x
