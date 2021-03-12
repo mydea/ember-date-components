@@ -1,0 +1,37 @@
+<div class='date-picker__calendar__outer'>
+  {{#if this.showWeekdays}}
+    <div class='date-picker__weekdays'>
+      {{#each this.weekdays as |day|}}
+        <div class='date-picker__weekday'>
+          {{day}}
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <div class='date-picker__days' data-test-date-picker-days>
+    {{#each this.daysInMonth key='dateString' as |dayItem|}}
+      {{#if dayItem.show}}
+        <button
+          type='button'
+          data-test-date-picker-day='{{dayItem.year}}-{{dayItem.month}}-{{dayItem.day}}'
+          data-date-picker-day='{{dayItem.year}}-{{dayItem.month}}-{{dayItem.day}}'
+          disabled={{dayItem.disabled}}
+          class={{
+            date-picker-day-classes
+            'date-picker__day'
+            isDisabled=dayItem.disabled
+            isInRange=dayItem.inRange
+            isToday=(is-equal-day dayItem.date this.today)
+            isSelected=(is-equal-day dayItem.date this.selectedDates)
+          }}
+          {{on 'click' (fn this.selectDate dayItem.date)}}
+        >
+          {{dayItem.day}}
+        </button>
+      {{else}}
+        <div class='date-picker__day__placeholder'></div>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
