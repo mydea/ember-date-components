@@ -1,77 +1,68 @@
 {{page-title 'ember-date-components'}}
 
-<div class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <div class="navbar-toggle-wrapper visible-xs">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".js-navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      {{#link-to 'index' class="navbar-brand"}}ember-date-components{{/link-to}}
-    </div>
-    <div class="collapse navbar-collapse js-navbar-collapse">
-      <ul class="navbar-nav nav">
-        <li>
-          {{#link-to 'index'}}
-            Getting Started
-          {{/link-to}}
-        </li>
+<BsNavbar
+  @type='dark'
+  @backgroundColor='primary'
+  @collapsed={{true}} as |navbar|
+>
+  <div class='navbar-header'>
+    {{navbar.toggle}}
 
-        {{#bs-dropdown tagName="li" as |dd|}}
-          {{#dd.toggle}}
-            Component Docs
-            <span class="caret"></span>
-          {{/dd.toggle}}
-
-          {{#dd.menu as |menu|}}
-            {{#menu.item}}
-              {{#link-to 'usage.date-picker'}}
-                Date Picker
-              {{/link-to}}
-            {{/menu.item}}
-            {{#menu.item}}
-              {{#link-to 'usage.date-range-picker'}}
-                Date Range Picker
-              {{/link-to}}
-            {{/menu.item}}
-            {{#menu.item}}
-              {{#link-to 'usage.time-picker'}}
-                Time Picker
-              {{/link-to}}
-            {{/menu.item}}
-            {{#menu.item}}
-              {{#link-to 'usage.date-time-picker'}}
-                Date Time Picker
-              {{/link-to}}
-            {{/menu.item}}
-            {{#menu.item}}
-              {{#link-to 'usage.custom-options'}}
-                Presets
-              {{/link-to}}
-            {{/menu.item}}
-          {{/dd.menu}}
-        {{/bs-dropdown}}
-
-        <li>
-          {{#link-to 'usage.testing'}}
-            Testing
-          {{/link-to}}
-        </li>
-      </ul>
-      <ul class="navbar-nav nav navbar-right">
-        <li>
-          <a href="https://github.com/mydea/ember-date-components">
-            View on Github
-          </a>
-        </li>
-
-      </ul>
-    </div>
+    {{#link-to 'index' class='navbar-brand'}}
+      ember-date-components
+    {{/link-to}}
   </div>
-</div>
-<div class="container">
+  <navbar.content>
+    <navbar.nav as |nav|>
+      <nav.item>
+        <nav.link-to @route='index'>
+          Getting started
+        </nav.link-to>
+      </nav.item>
+
+      <nav.dropdown as |dd|>
+        <dd.toggle>
+          Component docs
+          <span class='caret'></span>
+        </dd.toggle>
+        <dd.menu as |ddm|>
+          <ddm.item>
+            <ddm.link-to @route='usage.date-picker'>
+              Date Picker
+            </ddm.link-to>
+          </ddm.item>
+          <ddm.item>
+            <ddm.link-to @route='usage.date-range-picker'>
+              Date Range Picker
+            </ddm.link-to>
+          </ddm.item>
+          <ddm.item>
+            <ddm.link-to @route='usage.time-picker'>
+              Time Picker
+            </ddm.link-to>
+          </ddm.item>
+          <ddm.item>
+            <ddm.link-to @route='usage.date-time-picker'>
+              Date Time Picker
+            </ddm.link-to>
+          </ddm.item>
+          <ddm.item>
+            <ddm.link-to @route='usage.custom-options'>
+              Presets
+            </ddm.link-to>
+          </ddm.item>
+        </dd.menu>
+      </nav.dropdown>
+
+      <nav.item>
+        <nav.link-to @route='usage.testing'>
+          Testing
+        </nav.link-to>
+      </nav.item>
+    </navbar.nav>
+  </navbar.content>
+</BsNavbar>
+
+<div class='container'>
   {{outlet}}
 </div>

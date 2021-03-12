@@ -6,10 +6,9 @@ module.exports = function (defaults) {
     sassOptions: {},
     'ember-bootstrap': {
       importBootstrapTheme: true,
-      bootstrapVersion: 3,
-      importBootstrapFont: true,
+      bootstrapVersion: 4,
       importBootstrapCSS: false,
-      whitelist: ['bs-dropdown'],
+      whitelist: ['bs-nav', 'bs-navbar', 'bs-dropdown', 'bs-collapse'],
     },
     'ember-prism': {
       theme: 'twilight',

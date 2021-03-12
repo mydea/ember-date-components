@@ -24,7 +24,7 @@
     "@ember/optional-features": "~2.0.0",
     "@ember/test-helpers": "^2.2.0",
     "babel-eslint": "~10.1.0",
-    "bootstrap-sass": "~3.4.1",
+    "bootstrap": "^4.3.1",
     "broccoli-asset-rev": "~3.0.0",
     "ember-auto-import": "~1.10.1",
     "ember-bootstrap": "~4.6.3",
