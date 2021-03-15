@@ -30,8 +30,8 @@
 
     <dd.Content>
       <div
-        class='time-picker__dropdown {{dropdownClasses}}'
-        data-time-picker-instance={{elementId}}
+        class='time-picker__dropdown {{@dropdownClasses}}'
+        data-time-picker-instance={{this.guid}}
       >
         <TimePickerInput
           @value={{this.inputValue}}
