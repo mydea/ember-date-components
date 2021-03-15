@@ -31,7 +31,7 @@ An Ember add-on which provides pure Ember-based date picker components.
 ```
 
 ```hbs
-{{date-time-picker action=(action 'updateDate')}}
+<DateTimePicker @value={{this.date}} @onChange={{this.updateDateTime}} />
 ```
 
 The date picker can also display custom options, e.g. 'Last 7 days'.

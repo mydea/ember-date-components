@@ -1,0 +1,33 @@
+<div class='date-time-picker' ...attributes>
+  <span class='date-time-picker__item date-time-picker__item--date'>
+    <DatePicker
+      @value={{@value}}
+      @buttonClasses={{@datePickerClasses}}
+      @buttonDateFormat={{@buttonDateFormat}}
+      @minDate={{@minDate}}
+      @maxDate={{@maxDate}}
+      @disabled={{@disabled}}
+      @renderInPlace={{@renderInPlace}}
+      @horizontalPosition={{@horizontalPosition}}
+      @verticalPosition={{@verticalPosition}}
+      @onChange={{this.updateDate}}
+    />
+  </span>
+
+  <span class='date-time-picker__item date-time-picker__item--time'>
+    <TimePicker
+      @value={{this.timePickerValue}}
+      @disabled={{this.timePickerDisabled}}
+      @minTime={{@minTime}}
+      @maxTime={{@maxTime}}
+      @step={{@step}}
+      @selectStep={{this.selectStep}}
+      @amPm={{@amPm}}
+      @inputClasses={{@timePickerClasses}}
+      @renderInPlace={{@renderInPlace}}
+      @horizontalPosition={{@horizontalPosition}}
+      @verticalPosition={{@verticalPosition}}
+      @onChange={{this.updateTime}}
+    />
+  </span>
+</div>

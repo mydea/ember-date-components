@@ -91,9 +91,11 @@
 <h2>
   Date/Time Picker Usage
 </h2>
-{{date-time-picker action=(action 'updateDateTime') value=dateTime}}
+
+<DateTimePicker @value={{this.dateTime}} @onChange={{this.updateDateTime}} />
+
 {{#code-block language='handlebars'}}
-  \{{date-time-picker action=(action 'updateDateTime')}}
+&lt;DateTimePicker @value=\{{this.dateTime}} @onChange=\{{this.updateDateTime}} /&gt;
 {{/code-block}}
 <p>
   {{#link-to 'usage.date-time-picker'}}
