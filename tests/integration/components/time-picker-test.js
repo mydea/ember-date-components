@@ -201,4 +201,29 @@ module('Integration | Component | time-picker', function (hooks) {
         'The trigger has a special `--in-place` class'
       );
   });
+
+  test('it allows to yield a custom button', async function (assert) {
+    let time = moment();
+
+    this.onChange = () => {};
+    this.defaultTime = time;
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @amPm={{false}} 
+        @onChange={{this.onChange}} 
+      as |opts|>
+        <button type='button' id='test-1-button'>{{opts.displayValue}}</button>
+      </TimePicker>
+    `);
+
+    assert.dom('button').hasText(time.format('HH:mm'), 'Correct date is shown');
+    assert.dom('button').hasAttribute('id', 'test-1-button');
+
+    assert.ok(
+      compareTimes(getSelectedTime(this.element), time),
+      'getSelectedTime returns correct moment instance'
+    );
+  });
 });

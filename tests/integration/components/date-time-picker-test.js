@@ -21,7 +21,7 @@ module('Integration | Component | date-time-picker', function (hooks) {
       />
     `);
 
-    assert.dom('[data-time-picker-toggle-button]').isDisabled();
+    assert.dom('[data-time-picker-toggle-button] button').isDisabled();
   });
 
   test('selecting a time works with a value pre-set', async function (assert) {
@@ -66,7 +66,7 @@ module('Integration | Component | date-time-picker', function (hooks) {
       />
     `);
 
-    assert.dom('[data-time-picker-toggle-button]').isDisabled();
+    assert.dom('[data-time-picker-toggle-button] button').isDisabled();
   });
 
   test('time-picker value is pre-filled', async function (assert) {
