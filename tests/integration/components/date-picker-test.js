@@ -330,9 +330,9 @@ module('Integration | Component | date-picker', function (hooks) {
   });
 
   test('should disable dates with min&max attributes', async function (assert) {
-    let min = moment().subtract(5, 'days');
-    let max = moment().add(10, 'days');
-    let today = moment();
+    let min = moment().subtract(5, 'days').startOf('day');
+    let max = moment().add(10, 'days').startOf('day');
+    let today = moment().startOf('day').startOf('day');
     let daysInMonth = today.daysInMonth();
 
     this.minDate = min;
@@ -353,7 +353,7 @@ module('Integration | Component | date-picker', function (hooks) {
     await datePicker.toggle();
 
     for (let i = 1; i <= daysInMonth; i++) {
-      let iterationDay = today.clone().set('date', i);
+      let iterationDay = today.clone().set('date', i).startOf('day');
       let daySelector = `${iterationDay.year()}-${iterationDay.month()}-${iterationDay.date()}`;
       if (iterationDay.isBefore(min) || iterationDay.isAfter(max)) {
         assert.dom(`[data-test-date-picker-day="${daySelector}"]`).isDisabled();

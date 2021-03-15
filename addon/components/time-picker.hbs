@@ -11,27 +11,41 @@
     @verticalPosition={{@verticalPosition}}
     @matchTriggerWidth={{@matchTriggerWidth}} as |dd|
   >
-    <dd.Trigger @onKeyDown={{this.onKeyDown}} class='time-picker__trigger'>
-      <button
-        type='button'
-        disabled={{@disabled}}
-        class='time-picker__button {{@buttonClasses}}'
-        data-time-picker-toggle-button={{this.guid}}
-        data-time-picker-value={{this.displayValue}}
-        tabindex='-1'
-      >
-        {{#if this.displayValue}}
-          {{this.displayValue}}
-        {{else}}
-          {{this.placeholder}}
-        {{/if}}
-      </button>
+    <dd.Trigger
+      @onKeyDown={{this.onKeyDown}}
+      class='time-picker__trigger'
+      data-time-picker-toggle-button={{this.guid}}
+      data-time-picker-value={{this.displayValue}}
+    >
+      {{#if (has-block)}}
+        {{yield
+          (hash
+            displayValue=this.displayValue
+            value=@value
+            disabled=@disabled
+            guid=this.guid
+          )
+        }}
+      {{else}}
+        <button
+          type='button'
+          disabled={{@disabled}}
+          class='time-picker__button {{@buttonClasses}}'
+          tabindex='-1'
+        >
+          {{#if this.displayValue}}
+            {{this.displayValue}}
+          {{else}}
+            {{this.placeholder}}
+          {{/if}}
+        </button>
+      {{/if}}
     </dd.Trigger>
 
     <dd.Content>
       <div
-        class='time-picker__dropdown {{dropdownClasses}}'
-        data-time-picker-instance={{elementId}}
+        class='time-picker__dropdown {{@dropdownClasses}}'
+        data-time-picker-instance={{this.guid}}
       >
         <TimePickerInput
           @value={{this.inputValue}}
