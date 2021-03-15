@@ -14,7 +14,7 @@
 <DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}} />
 
 {{#code-block language='handlebars'}}
-&lt;DateTimePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
+  &lt;DateTimePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
 {{/code-block}}
 
 <div class='wrapper'>
@@ -29,8 +29,46 @@
   <h2>
     Disabled
   </h2>
-  <DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}} @disabled={{true}} />
+  <DateTimePicker
+    @value={{this.date1}}
+    @onChange={{this.updateDate1}}
+    @disabled={{true}}
+  />
 </div>
+
+<h2>
+  With custom date/time picker properties
+</h2>
+<DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}}>
+  <:date as |DatePicker|>
+    <DatePicker @placeholder='Custom placeholder' />
+  </:date>
+
+  <:time as |TimePicker|>
+    <TimePicker @placeholder='Custom time' />
+  </:time>
+</DateTimePicker>
+
+<p>
+  Note that this uses named blocks, a feature available in Ember 3.25+. 
+  If you want to use it in an app running an older version of Ember, you can install
+  <a href='https://github.com/ember-polyfills/ember-named-blocks-polyfill'>
+    ember-named-blocks-polyfill
+  </a>
+  .
+</p>
+
+{{#code-block language='handlebars'}}
+  &lt;DateTimePicker @value=\{{this.date1}} @onChange=\{{this.updateDate1}}&gt;
+  &lt;:date as |DatePicker|&gt;
+    &lt;DatePicker @placeholder='Custom placeholder' /&gt;
+  &lt;/:date&gt;
+
+  &lt;:time as |TimePicker|&gt;
+    &lt;TimePicker @placeholder='Custom time' /&gt;
+  &lt;/:time&gt;
+&lt;/DateTimePicker&gt;
+{{/code-block}}
 
 <h2>
   Attributes
@@ -97,141 +135,6 @@
     </tr>
     <tr>
       <td>
-        minDate
-      </td>
-      <td>
-        The minimum selectable date. No date before this date will be selectable.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          null
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        maxDate
-      </td>
-      <td>
-        The maximum selectable date. No date after this date will be selectable.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          null
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        minTime
-      </td>
-      <td>
-        The minimum selectable time. No time before this time will be selectable.
-        This can be either a moment.js date, or a parseable string.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          null
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        maxTime
-      </td>
-      <td>
-        The maximum selectable time. No time after this time will be selectable.
-        This can be either a moment.js date, or a parseable string.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          null
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        step
-      </td>
-      <td>
-        The step in which the times can be set, in minutes.
-        Times entered will be rounded to the nearest fitting step.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          1
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        selectStep
-      </td>
-      <td>
-        The steps that are available in the dropdown.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          30
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        datePickerClasses
-      </td>
-      <td>
-        Classes to add to the date picker button.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          ''
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        timePickerClasses
-      </td>
-      <td>
-        Classes to add to the time picker input.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          ''
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        buttonDateFormat
-      </td>
-      <td>
-        This is passed through to date-picker.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          'L'
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        amPm
-      </td>
-      <td>
-        If the am/pm time format should be used instead of the 24h format.
-        By default, this is computed from the moment.js locale.
-        You can overwrite this if necessary.
-      </td>
-      <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
-          true
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
         disabled
       </td>
       <td>
@@ -240,60 +143,6 @@
       <td>
         {{#code-inline language='javascript'}}
           false
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        renderInPlace
-      </td>
-      <td>
-        This is passed through to ember-basic-dropdown.
-        See
-        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
-          ember-basic-dropdown docs
-        </a>
-        for details.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          false
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        horizontalPosition
-      </td>
-      <td>
-        This is passed through to ember-basic-dropdown.
-        See
-        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
-          ember-basic-dropdown docs
-        </a>
-        for details.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          'auto'
-        {{/code-inline}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        verticalPosition
-      </td>
-      <td>
-        This is passed through to ember-basic-dropdown.
-        See
-        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
-          ember-basic-dropdown docs
-        </a>
-        for details.
-      </td>
-      <td>
-        {{#code-inline language='javascript'}}
-          'auto'
         {{/code-inline}}
       </td>
     </tr>

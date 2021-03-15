@@ -9,7 +9,7 @@ import {
 import { selectTime } from 'ember-date-components/test-support/helpers/time-picker';
 import moment from 'moment';
 
-module('Integration | Component | date time picker', function (hooks) {
+module('Integration | Component | date-time-picker', function (hooks) {
   setupRenderingTest(hooks);
 
   test('time picker is disabled if no value is set', async function (assert) {
@@ -271,5 +271,75 @@ module('Integration | Component | date time picker', function (hooks) {
     );
 
     assert.verifySteps(['onChange is called', 'onChange is called']);
+  });
+
+  module('named blocks', function () {
+    test('it allows to yield the components', async function (assert) {
+      let today = moment('2017-05-13');
+
+      this.onChange = function (val) {
+        assert.equal(val.hours(), today.hours(), 'hours remain the same');
+        assert.equal(val.minutes(), today.minutes(), 'minutes remain the same');
+        assert.equal(val.seconds(), today.seconds(), 'seconds remain the same');
+        assert.equal(
+          val.milliseconds(),
+          today.milliseconds(),
+          'ms remain the same'
+        );
+
+        assert.equal(val.year(), 2017, 'year is correct');
+        assert.equal(val.month(), 4, 'month is correct');
+        assert.equal(val.date(), 6, 'date is correct');
+
+        assert.equal(this.value, today, 'the value is not modified');
+
+        assert.step('onChange is called');
+      };
+
+      this.value = today;
+
+      await render(hbs`
+        <DateTimePicker 
+          @value={{this.value}}
+          @onChange={{this.onChange}} 
+        >
+        <:date as |DatePicker|>
+          <DatePicker />
+        </:date>
+
+        <:time as |TimePicker|>
+          <TimePicker />
+        </:time>
+
+        </DateTimePicker>
+      `);
+
+      let datePicker = getDatePicker(this.element);
+      await datePicker.toggle();
+      await datePicker.selectDate(moment('2017-05-06'));
+
+      assert.verifySteps(['onChange is called']);
+    });
+
+    test('it allows to pass arguments to yielded components', async function (assert) {
+      this.onChange = function () {};
+
+      await render(hbs`
+        <DateTimePicker 
+          @onChange={{this.onChange}} 
+        >
+        <:date as |DatePicker|>
+          <DatePicker @placeholder='test 1' />
+        </:date>
+
+        <:time as |TimePicker|>
+          <TimePicker @placeholder='test 2' />
+        </:time>
+
+        </DateTimePicker>
+      `);
+
+      assert.dom('[data-time-picker-toggle-button]').hasText('test 2');
+    });
   });
 });

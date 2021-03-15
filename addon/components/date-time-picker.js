@@ -8,21 +8,8 @@ import { assert } from '@ember/debug';
  *
  * Attributes:
  * - value
- * - datePickerClasses
- * - timePickerClasses
- * - buttonDateFormat
- * - amPm
- * - minDate
- * - maxDate
- * - minTime
- * - maxTime
- * - step
- * - selectStep
- * - disabled
  * - ignoreZeroTime
- * - renderInPlace
- * - horizontalPosition
- * - verticalPosition
+ * - disabled
  * - onChange
  */
 export default class DateTimePicker extends Component {
