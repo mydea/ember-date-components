@@ -1,51 +1,68 @@
 {{page-title 'Date Picker'}}
 
-<h1>date-picker</h1>
+<h1>
+  date-picker
+</h1>
 
 <p>
   This component adds a configurable date picker which emits an action if the selected date changes.
 </p>
 
-<h2>Basic Usage</h2>
-{{date-picker action=(action 'updateDate')}}
-{{#code-block language='handlebars'}}\{{date-picker action=(action 'updateDate')}}{{/code-block}}
+<h2>
+  Basic Usage
+</h2>
+<DatePicker @value={{this.date}} @onChange={{this.updateDate}} />
+{{#code-block language='handlebars'}}
+  &lt;DatePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
+{{/code-block}}
 
-<div class="wrapper">
-  <h2>With start value</h2>
-  {{date-picker value=date2.value action=(action 'updateDate')}}
+<div class='wrapper'>
+  <h2>
+    With start value
+  </h2>
+  <DatePicker @value={{this.date2.value}} @onChange={{this.updateDate}} />
 </div>
 
-<div class="wrapper">
-  <h2>With min & max value</h2>
-  {{date-picker minDate=date3.min maxDate=date3.max action=(action 'updateDate')}}
+<div class='wrapper'>
+  <h2>
+    With min & max value
+  </h2>
+  <DatePicker
+    @minDate={{this.date3.min}}
+    @maxDate={{this.date3.max}}
+    @onChange={{this.updateDate}}
+  />
 </div>
 
-<div class="wrapper">
-  <h2>Disabled</h2>
-  {{date-picker disabled=true action=(action 'updateDate')}}
+<div class='wrapper'>
+  <h2>
+    Disabled
+  </h2>
+  <DatePicker @disabled={{true}} @onChange={{this.updateDate}} />
 </div>
 
-<div class="wrapper">
-  <h2>Inline Form</h2>
+<div class='wrapper'>
+  <h2>
+    Inline Form
+  </h2>
 
-  {{#code-block language='handlebars'}}\{{date-picker-inline action=(action 'updateDate')}}{{/code-block}}
+  <DatePickerInline @value={{this.date}} @onChange={{this.updateDate}} />
 
-  {{date-picker-inline action=(action 'updateDate')}}
+    {{#code-block language='handlebars'}}
+&lt;DatePickerInline @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
+  {{/code-block}}
 </div>
 
-<div class="wrapper">
-  <h2>Custom Button</h2>
+<div class='wrapper'>
+  <h2>
+    Custom Button
+  </h2>
 
-  {{#code-block language='handlebars'}}\{{#date-picker
-  action=(action 'updateDate')
-as |selectedDates|}}
-  &lt;button>Select me! Current value: \{{moment-format selectedDates.firstObject 'L'}}&lt;/button>
-\{{/date-picker}}{{/code-block}}
-
-  {{#date-picker
-    action=(action 'updateDate')
-  as |selectedDates|}}
-    <button>
+  <DatePicker 
+    @value={{this.date}} 
+    @onChange={{this.updateDate}} 
+    as |selectedDates|>
+    <button type='button'>
       Select me! Current value:
       {{#if selectedDates.firstObject}}
         {{moment-format selectedDates.firstObject 'L'}}
@@ -53,7 +70,14 @@ as |selectedDates|}}
         None
       {{/if}}
     </button>
-  {{/date-picker}}
+  </DatePicker>
+
+  {{#code-block language='handlebars'}}
+&lt;DatePicker 
+  @value=\{{this.date}} 
+  @onChange=\{{this.updateDate}} 
+  as |selectedDates|&gt;&lt;/DatePicker&gt;
+  {{/code-block}}
 
   <p>
     Note that this will always receive an array as yielded content.
@@ -62,19 +86,22 @@ as |selectedDates|}}
   </p>
 </div>
 
-<div class="wrapper">
-  <h2>Disable month/year picker</h2>
-  {{date-picker disableYearPicker=true disableMonthPicker=true action=(action 'updateDate')}}
-</div>
+<h2>
+  Attributes
+</h2>
 
-<h2>Attributes</h2>
-
-<table class="table table-bordered table-hover table-striped">
+<table class='table table-bordered table-hover table-striped'>
   <thead>
     <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-      <th>Default</th>
+      <th>
+        Attribute
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Default
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -87,40 +114,54 @@ as |selectedDates|}}
         This can be null, a moment.js-Date, or an array containing 0-2 moment.js Dates.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
       <td>
-        action
+        onChange
       </td>
       <td>
         The action to call whenever the date changes.
-        Has to be an actual action method, not an action name, e.g.
-        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
         The action will receive the selected (moment.js) date as parameter.
-        If you set {{#code-inline language='javascript'}}range=true{{/code-inline}}, the action will receive
+        If you set
+        {{#code-inline language='javascript'}}
+          range=true
+        {{/code-inline}}
+        , the action will receive
         an array with 2 elements as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
       <td>
-        closeAction
+        onClose
       </td>
       <td>
-        While <i>action</i> will be sent whenever one of the values changes, this action will be called whenever the
+        While
+        <i>
+          action
+        </i>
+        will be sent whenever one of the values changes, this action will be called whenever the
         date-picker is closed. This is especially useful for date range pickers.
-        Has to be an actual action method, not an action name, e.g.
-        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
         The action will receive the selected (moment.js) date as parameter.
-        If you set {{#code-inline language='javascript'}}range=true{{/code-inline}}, the action will receive
+        If you set
+        {{#code-inline language='javascript'}}
+          range=true
+        {{/code-inline}}
+        , the action will receive
         an array with 2 elements as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -131,7 +172,9 @@ as |selectedDates|}}
         The minimum selectable date. No date before this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -142,7 +185,9 @@ as |selectedDates|}}
         The maximum selectable date. No date after this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -151,10 +196,16 @@ as |selectedDates|}}
       </td>
       <td>
         If set to true, this will be a date-range picker.
-        See {{#link-to 'usage.date-range-picker'}}Date Range Picker{{/link-to}} for more details.
+        See
+        {{#link-to 'usage.date-range-picker'}}
+          Date Range Picker
+        {{/link-to}}
+        for more details.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}false{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -165,7 +216,9 @@ as |selectedDates|}}
         The placeholder for the date picker. Defaults to 'Select Date...'.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}'Select Date...'{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          'Select Date...'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -176,7 +229,9 @@ as |selectedDates|}}
         Classes to add to the date picker button.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          ''
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -187,7 +242,9 @@ as |selectedDates|}}
         A moment.js-format which is used for the values on the button.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}'L'{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          'L'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -198,7 +255,9 @@ as |selectedDates|}}
         If this is true, the date cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -209,7 +268,9 @@ as |selectedDates|}}
         An array of (moment.js) dates that should not be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}[]{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          []
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -220,7 +281,9 @@ as |selectedDates|}}
         If this is true, the month picker (when clicking on the month name in the date picker) will be disabled.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -231,7 +294,9 @@ as |selectedDates|}}
         If this is true, the year picker (when clicking on the year in the date picker) will be disabled.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -242,7 +307,9 @@ as |selectedDates|}}
         The number of years to show in the year picker before & after the current year.
       </td>
       <td>
-        {{#code-inline language='javascript'}}10{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          10
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -253,7 +320,9 @@ as |selectedDates|}}
         If set to true, the calendar will be displayed with the week starting on Sunday.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -262,10 +331,16 @@ as |selectedDates|}}
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -274,10 +349,16 @@ as |selectedDates|}}
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -286,10 +367,16 @@ as |selectedDates|}}
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
   </tbody>

@@ -1,33 +1,53 @@
 {{page-title 'Date Time Picker'}}
 
-<h1>date-time-picker</h1>
+<h1>
+  date-time-picker
+</h1>
 
 <p>
   This component adds a date/time picker combo. It is basically a wrapper for date-picker & time-picker in combination.
 </p>
 
-<h2>Basic Usage</h2>
-{{date-time-picker value=date1.value action=(action 'updateDate1')}}
-{{#code-block language='handlebars'}}\{{date-time-picker action=(action 'updateDateTime')}}{{/code-block}}
+<h2>
+  Basic Usage
+</h2>
+<DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}} />
 
-<div class="wrapper">
-  <h2>With start value</h2>
-  {{date-time-picker value=date2.value action=(action 'updateDateTime')}}
+{{#code-block language='handlebars'}}
+&lt;DateTimePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
+{{/code-block}}
+
+<div class='wrapper'>
+  <h2>
+    With start value
+  </h2>
+
+  <DateTimePicker @value={{this.date2}} @onChange={{this.updateDate1}} />
 </div>
 
-<div class="wrapper">
-  <h2>Disabled</h2>
-  {{date-time-picker value=date2.value disabled=true action=(action 'updateDateTime')}}
+<div class='wrapper'>
+  <h2>
+    Disabled
+  </h2>
+  <DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}} @disabled={{true}} />
 </div>
 
-<h2>Attributes</h2>
+<h2>
+  Attributes
+</h2>
 
-<table class="table table-bordered table-hover table-striped">
+<table class='table table-bordered table-hover table-striped'>
   <thead>
     <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-      <th>Default</th>
+      <th>
+        Attribute
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Default
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -40,21 +60,23 @@
         This can be null or a moment.js-Date.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
       <td>
-        action
+        onChange
       </td>
       <td>
         The action to call whenever the date or time changes.
-        Has to be an actual action method, not an action name, e.g.
-        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
         The action will receive the selected (moment.js) date as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -68,7 +90,9 @@
         Note that this only affects the display of the time.
       </td>
       <td>
-        {{#code-inline language='javascript'}}true{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          true
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -79,7 +103,9 @@
         The minimum selectable date. No date before this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -90,7 +116,9 @@
         The maximum selectable date. No date after this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -102,7 +130,9 @@
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -114,7 +144,9 @@
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -126,7 +158,9 @@
         Times entered will be rounded to the nearest fitting step.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}1{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          1
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -137,7 +171,9 @@
         The steps that are available in the dropdown.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}30{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          30
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -148,7 +184,9 @@
         Classes to add to the date picker button.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          ''
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -159,7 +197,9 @@
         Classes to add to the time picker input.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          ''
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -170,7 +210,9 @@
         This is passed through to date-picker.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}'L'{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          'L'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -183,7 +225,9 @@
         You can overwrite this if necessary.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}true{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          true
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -194,7 +238,9 @@
         If this is true, the date/time cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -203,10 +249,16 @@
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -215,10 +267,16 @@
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -227,10 +285,16 @@
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
   </tbody>

@@ -1,40 +1,72 @@
 {{page-title 'Time Picker'}}
 
-<h1>time-picker</h1>
+<h1>
+  time-picker
+</h1>
 
 <p>
   This component adds a configurable time picker which emits an action if the selected time changes.
 </p>
 
-<h2>Basic Usage</h2>
-{{time-picker action=(action 'updateTime')}}
-{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime')}}{{/code-block}}
+<h2>
+  Basic Usage
+</h2>
+<TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
+{{#code-block language='handlebars'}}
+  &lt;TimePicker @value=\{{this.time}} @onChange=\{{this.updateTime}} /&gt;
+{{/code-block}}
 
-<h2>With a default value</h2>
-{{time-picker action=(action 'updateTime') value='14:30'}}
-{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime') value='14:30'}}{{/code-block}}
+<p>
+  You can pass in either a moment instance as value, or a time in string form like "08:30".
+</p>
 
-<h2>With a min/max values & 15min step</h2>
-{{time-picker action=(action 'updateTime') minTime='08:30' maxTime='17:30' step=15}}
-{{#code-block language='handlebars'}}\{{time-picker action=(action 'updateTime') minTime='08:30' maxTime='17:30' step=15}}{{/code-block}}
+<h2>
+  With a min/max values & 15min step
+</h2>
+<TimePicker
+  @value={{this.time}}
+  @onChange={{this.updateTime}}
+  @minTime='08:30'
+  @maxTime='17:30'
+  @step={{15}}
+/>
+{{#code-block language='handlebars'}}
+  &lt;TimePicker
+  @value=\{{this.time}}
+  @onChange=\{{this.updateTime}}
+  @minTime='08:30'
+  @maxTime='17:30'
+  @step=\{{15}}
+/&gt;
+{{/code-block}}
 
-<h2>Disabled</h2>
-{{time-picker disabled=true action=(action 'updateTime')}}
-{{#code-block language='handlebars'}}\{{time-picker disabled=true action=(action 'updateTime')}}{{/code-block}}
+<h2>
+  Disabled
+</h2>
+<TimePicker @disabled={{true}} @onChange={{this.updateTime}} />
+{{#code-block language='handlebars'}}
+  &lt;TimePicker @disabled=\{{true}} @onChange=\{{this.updateTime}} /&gt;
+{{/code-block}}
 
-<h2>Notes about the Usage</h2>
+<h2>
+  Notes about the Usage
+</h2>
 
 <p>
   Note that this will send moment.js objects with the corresponding times set on them as parameter for the action.
   They are basically generated like this:
-  {{#code-inline language='javascript'}}moment(0).hours(hours).minutes(minutes);{{/code-inline}}.
+  {{#code-inline language='javascript'}}
+    moment(0).hours(hours).minutes(minutes);
+  {{/code-inline}}
+  .
 </p>
 
 <p>
   This means that you can work with them like this:
 </p>
 
-{{#code-block language='javascript'}}actions: {
+{{#code-block language='javascript'}}
+  actions: {
   updateTime(time) {
     let date = this.get('date');
     let hours = time ? time.hours() : 0;
@@ -42,20 +74,22 @@
     let newDate = date.clone().startOf('day').hours(hours).minutes(minutes);
     // Do something with newDate
   }
-}{{/code-block}}
+}
+{{/code-block}}
 
 Or simply use the included util which does exactly the above:
 
-{{#code-block language='javascript'}}import setTimeOnDate from 'ember-date-components/utils/set-time-on-date';
+{{#code-block language='javascript'}}
+import setTimeOnDate from 'ember-date-components/utils/set-time-on-date';
 // ...
 
-actions: {
-  updateTime(time) {
-    let date = this.get('date');
-    let newDate = setTimeOnDate(date, time);
-    // Do something with newDate
-  }
-}{{/code-block}}
+@action
+updateTime(time) {
+  let date = this.get('date');
+  let newDate = setTimeOnDate(date, time);
+  // Do something with newDate
+}
+{{/code-block}}
 
 <p>
   Other useful tips: You can always close the time picker with ESC.
@@ -64,25 +98,43 @@ actions: {
 </p>
 
 <ul>
-  <li>7</li>
-  <li>8pm</li>
-  <li>6,5</li>
-  <li>14:30</li>
-  <li>9:30 pm</li>
+  <li>
+    7
+  </li>
+  <li>
+    8pm
+  </li>
+  <li>
+    6,5
+  </li>
+  <li>
+    14:30
+  </li>
+  <li>
+    9:30 pm
+  </li>
 </ul>
 
 <p>
   And press enter, and the time will be parsed from it.
 </p>
 
-<h2>Attributes</h2>
+<h2>
+  Attributes
+</h2>
 
-<table class="table table-bordered table-hover table-striped">
+<table class='table table-bordered table-hover table-striped'>
   <thead>
     <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-      <th>Default</th>
+      <th>
+        Attribute
+      </th>
+      <th>
+        Description
+      </th>
+      <th>
+        Default
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -92,11 +144,19 @@ actions: {
       </td>
       <td>
         The default value for the time picker.
-        This can be null, a moment.js-Date, or a parseable string like {{#code-inline}}14:30{{/code-inline}}
-        or {{#code-inline}}7:15 pm{{/code-inline}}
+        This can be null, a moment.js-Date, or a parseable string like
+        {{#code-inline}}
+          14:30
+        {{/code-inline}}
+        or
+        {{#code-inline}}
+          7:15 pm
+        {{/code-inline}}
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -105,12 +165,12 @@ actions: {
       </td>
       <td>
         The action to call whenever the time changes.
-        Has to be an actual action method, not an action name, e.g.
-        {{#code-inline language='handlebars'}}action=(action 'myAction'){{/code-inline}}.
         The action will receive the selected (moment.js) date as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -122,7 +182,9 @@ actions: {
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -134,7 +196,9 @@ actions: {
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}null{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -146,7 +210,9 @@ actions: {
         Times entered will be rounded to the nearest fitting step.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}30{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          30
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -155,12 +221,18 @@ actions: {
       </td>
       <td>
         The steps that are available in the dropdown. By default, this takes the value
-        from {{#code-inline language='javascript' class="no-wrap"}}step{{/code-inline}}, so you don't need to define
+        from
+        {{#code-inline language='javascript' class='no-wrap'}}
+          step
+        {{/code-inline}}
+        , so you don't need to define
         this again here. You only need to set it if you want
         the select to e.g. only show 30 minute steps, while also allowing the entry of 15 minute steps.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}null{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          null
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -171,7 +243,9 @@ actions: {
         The placeholder for the time input. Defaults to 'Enter time...'.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}'Enter time...'{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          'Enter time...'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -182,7 +256,9 @@ actions: {
         Classes to add to the time input.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          ''
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -193,7 +269,9 @@ actions: {
         Classes to add to the dropdown container.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}''{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          ''
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -206,7 +284,9 @@ actions: {
         You can overwrite this if necessary.
       </td>
       <td>
-        {{#code-inline language='javascript' class="no-wrap"}}true{{/code-inline}}
+        {{#code-inline language='javascript' class='no-wrap'}}
+          true
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -217,7 +297,9 @@ actions: {
         If this is true, the time cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -226,10 +308,16 @@ actions: {
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}false{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          false
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -238,10 +326,16 @@ actions: {
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
     <tr>
@@ -250,10 +344,16 @@ actions: {
       </td>
       <td>
         This is passed through to ember-basic-dropdown.
-        See <a href="https://www.ember-basic-dropdown.com/docs/api-reference">ember-basic-dropdown docs</a> for details.
+        See
+        <a href='https://www.ember-basic-dropdown.com/docs/api-reference'>
+          ember-basic-dropdown docs
+        </a>
+        for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}'auto'{{/code-inline}}
+        {{#code-inline language='javascript'}}
+          'auto'
+        {{/code-inline}}
       </td>
     </tr>
   </tbody>

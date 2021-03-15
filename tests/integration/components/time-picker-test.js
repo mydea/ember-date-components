@@ -7,22 +7,19 @@ import {
   selectTime,
   getSelectedTime,
 } from 'ember-date-components/test-support/helpers/time-picker';
-import { set } from '@ember/object';
 import { compareTimes } from 'dummy/tests/helpers/compare-times';
 
-module('Integration | Component | time picker', function (hooks) {
+module('Integration | Component | time-picker', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     moment.locale('en');
-
-    this.actions = {};
-    this.send = (actionName, ...args) =>
-      this.actions[actionName].apply(this, args);
   });
 
   test('it renders with no attribute set', async function (assert) {
-    await render(hbs`{{time-picker}}`);
+    this.onChange = () => {};
+
+    await render(hbs`<TimePicker @onChange={{this.onChange}} />`);
 
     assert.dom('button').exists('button is shown by default');
     assert
@@ -36,10 +33,19 @@ module('Integration | Component | time picker', function (hooks) {
     assert.dom('button').hasText('Enter time...');
   });
 
-  test('default value works', async function (assert) {
+  test('value as moment instance works', async function (assert) {
     let time = moment();
-    set(this, 'defaultTime', time);
-    await render(hbs`{{time-picker value=defaultTime amPm=false}}`);
+
+    this.onChange = () => {};
+    this.defaultTime = time;
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @amPm={{false}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     assert.dom('button').hasText(time.format('HH:mm'), 'Correct date is shown');
     assert.ok(
@@ -48,10 +54,41 @@ module('Integration | Component | time picker', function (hooks) {
     );
   });
 
+  test('value as string works', async function (assert) {
+    this.onChange = () => {};
+    this.defaultTime = '08:30';
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @amPm={{false}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
+
+    assert.dom('button').hasText('08:30', 'Correct date is shown');
+    assert.ok(
+      compareTimes(
+        getSelectedTime(this.element),
+        moment().set('hour', 8).set('minute', 30).startOf('minute')
+      ),
+      'getSelectedTime returns correct moment instance'
+    );
+  });
+
   test('amPm setting works', async function (assert) {
     let time = moment();
-    set(this, 'defaultTime', time);
-    await render(hbs`{{time-picker value=defaultTime amPm=true}}`);
+
+    this.onChange = () => {};
+    this.defaultTime = time;
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @amPm={{true}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     assert
       .dom('button')
@@ -61,7 +98,7 @@ module('Integration | Component | time picker', function (hooks) {
   test('action is sent on value change', async function (assert) {
     assert.expect(3);
 
-    this.actions.uptimeTime = function (time) {
+    this.onChange = function (time) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(
         time.format('HH:mm'),
@@ -69,7 +106,12 @@ module('Integration | Component | time picker', function (hooks) {
         'correct time is passed to action.'
       );
     };
-    await render(hbs`{{time-picker action=(action 'uptimeTime')}}`);
+
+    await render(hbs`
+      <TimePicker 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     await selectTime(this.element, '14:30');
     assert
@@ -77,12 +119,13 @@ module('Integration | Component | time picker', function (hooks) {
       .doesNotExist('time picker dropdown is closed after selection.');
   });
 
-  test('default value is not muted after change of time', async function (assert) {
+  test('default value is not mutated after change of time', async function (assert) {
     assert.expect(2);
 
     let time = moment(0).hours(4).minutes(30);
-    set(this, 'defaultTime', time);
-    this.actions.uptimeTime = (newTime) => {
+    this.defaultTime = time;
+
+    this.onChange = (newTime) => {
       assert.equal(
         newTime.format('HH:mm'),
         '05:30',
@@ -94,9 +137,13 @@ module('Integration | Component | time picker', function (hooks) {
         'original default time is not changed.'
       );
     };
-    await render(
-      hbs`{{time-picker value=defaultTime action=(action 'uptimeTime')}}`
-    );
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     await selectTime(this.element, '05:30');
   });
@@ -104,8 +151,16 @@ module('Integration | Component | time picker', function (hooks) {
   test('amPm is correctly evaluated for locale en', async function (assert) {
     moment.locale('en');
     let time = moment();
-    set(this, 'defaultTime', time);
-    await render(hbs`{{time-picker value=defaultTime}}`);
+
+    this.defaultTime = time;
+    this.onChange = () => {};
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     assert
       .dom('button')
@@ -115,15 +170,29 @@ module('Integration | Component | time picker', function (hooks) {
   test('amPm is correctly evaluated for locale de', async function (assert) {
     moment.locale('de');
     let time = moment();
-    set(this, 'defaultTime', time);
-    await render(hbs`{{time-picker value=defaultTime}}`);
+
+    this.defaultTime = time;
+    this.onChange = () => {};
+
+    await render(hbs`
+      <TimePicker 
+        @value={{this.defaultTime}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     assert.dom('button').hasText(time.format('HH:mm'), 'Correct date is shown');
   });
 
   test('`renderInPlace` correctly rendered', async function (assert) {
-    set(this, 'renderInPlace', true);
-    await render(hbs`{{time-picker renderInPlace=renderInPlace}}`);
+    this.onChange = () => {};
+
+    await render(hbs`
+      <TimePicker 
+        @renderInPlace={{true}} 
+        @onChange={{this.onChange}} 
+      />
+    `);
 
     assert
       .dom('.ember-basic-dropdown-trigger')

@@ -1,4 +1,3 @@
-import { run, next } from '@ember/runloop';
 import { typeOf as getTypeOf } from '@ember/utils';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -11,32 +10,37 @@ import {
   selectDateRange,
   getSelectedDate,
 } from 'ember-date-components/test-support/helpers/date-picker';
-import { set } from '@ember/object';
+import settled from '@ember/test-helpers/settled';
 
-module('Integration | Component | date picker', function (hooks) {
+module('Integration | Component | date-picker', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     moment.locale('en');
-
-    this.actions = {};
-    this.send = (actionName, ...args) =>
-      this.actions[actionName].apply(this, args);
   });
 
   test('it renders with no attribute set', async function (assert) {
-    await render(hbs`{{date-picker}}`);
+    this.onChange = () => {};
+
+    await render(hbs`<DatePicker @onChange={{this.onChange}} />`);
 
     assert.dom('[data-test-date-picker-toggle-button]').exists();
     assert
       .dom('[data-test-date-picker-toggle-button]')
-      .hasText('Select Date...', 'Default placeholder is displayed in button.');
+      .hasText('Select date...', 'Default placeholder is displayed in button.');
   });
 
   test('default value works', async function (assert) {
     let date = moment();
-    set(this, 'defaultDate', date);
-    await render(hbs`{{date-picker value=defaultDate}}`);
+
+    this.date = date;
+    this.onChange = () => {};
+
+    await render(hbs`
+      <DatePicker 
+        @value={{this.date}}
+        @onChange={{this.onChange}}
+      />`);
 
     assert.dom('[data-test-date-picker-toggle-button]').exists();
     assert
@@ -48,17 +52,21 @@ module('Integration | Component | date picker', function (hooks) {
   });
 
   test('action is sent on value change', async function (assert) {
-    assert.expect(3);
-
-    this.actions.updateDate = function (date) {
+    this.onChange = function (date) {
       assert.equal(arguments.length, 1, 'one argument is passed to action.');
       assert.equal(
         date.format('YYYY-MM-DD'),
         moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed to action.'
       );
+
+      assert.step('onChange is called');
     };
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
+
+    await render(hbs`
+      <DatePicker 
+        @onChange={{this.onChange}}
+      />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
@@ -67,38 +75,50 @@ module('Integration | Component | date picker', function (hooks) {
     assert
       .dom('.date-picker')
       .doesNotExist('date picker is closed after selection.');
+
+    assert.verifySteps(['onChange is called']);
   });
 
   test('default value is not muted after change of date', async function (assert) {
-    assert.expect(2);
-
     let date = moment();
-    set(this, 'defaultDate', date);
-    this.actions.updateDate = (newDate) => {
+    this.date = date;
+
+    this.onChange = function (date) {
       assert.equal(
-        newDate.format('YYYY-MM-DD'),
+        date.format('YYYY-MM-DD'),
         moment().date(7).format('YYYY-MM-DD'),
         'correct date is passed to action.'
       );
-      assert.equal(
-        this.defaultDate,
-        date,
-        'original default date is not changed.'
-      );
+
+      assert.step('onChange is called');
     };
-    await render(
-      hbs`{{date-picker value=defaultDate action=(action 'updateDate')}}`
-    );
+
+    await render(hbs`
+      <DatePicker 
+        @value={{this.date}}
+        @onChange={{this.onChange}}
+      />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
+
+    assert.equal(this.date, date, 'original default date is not changed.');
+
+    assert.verifySteps(['onChange is called']);
   });
 
   test('value updates if bound value changes', async function (assert) {
     let date = moment();
-    set(this, 'defaultDate', date);
-    await render(hbs`{{date-picker value=defaultDate}}`);
+    this.date = date;
+
+    this.onChange = () => {};
+
+    await render(hbs`
+      <DatePicker 
+        @value={{this.date}}
+        @onChange={{this.onChange}}
+      />`);
 
     assert
       .dom('[data-test-date-picker-toggle-button]')
@@ -107,38 +127,42 @@ module('Integration | Component | date picker', function (hooks) {
         'Formatted value of default date is displayed in button.'
       );
 
-    run(() => {
-      date = moment().add(1, 'day');
-      set(this, 'defaultDate', date);
-    });
+    let newDate = moment().add(1, 'day');
+    this.set('date', newDate);
+    await settled();
 
     assert
       .dom('[data-test-date-picker-toggle-button]')
-      .hasText(date.format('L'), 'value in date picker is updated.');
+      .hasText(newDate.format('L'), 'value in date picker is updated.');
   });
 
   test('date picker shows month of value if set', async function (assert) {
     let date = moment().add(2, 'months');
-    set(this, 'defaultDate', date);
-    await render(hbs`{{date-picker value=defaultDate}}`);
+    this.date = date;
+
+    this.onChange = () => {};
+
+    await render(hbs`
+      <DatePicker 
+        @value={{this.date}}
+        @onChange={{this.onChange}}
+      />`);
+
+    let datePicker = getDatePicker('.date-picker__wrapper');
+    await datePicker.toggle();
 
     assert
-      .dom('[data-test-date-picker-toggle-button]')
-      .hasText(
-        date.format('L'),
-        'Formatted value of default date is displayed in button.'
-      );
-    run(() => {
-      date = moment().add(1, 'day');
-      set(this, 'defaultDate', date);
-    });
-    assert
-      .dom('[data-test-date-picker-toggle-button]')
-      .hasText(date.format('L'), 'value in date picker is updated.');
+      .dom('[data-test-date-picker-month]')
+      .hasAttribute('data-test-date-picker-month', `${date.format('MM')}`);
   });
 
   test('calendar displays week starting on Monday', async function (assert) {
-    await render(hbs`{{date-picker}}`);
+    this.onChange = () => {};
+
+    await render(hbs`
+      <DatePicker 
+        @onChange={{this.onChange}}
+      />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
@@ -149,7 +173,13 @@ module('Integration | Component | date picker', function (hooks) {
   });
 
   test('calendar displays week starting on Sunday', async function (assert) {
-    await render(hbs`{{date-picker startWeekOnSunday=true}}`);
+    this.onChange = () => {};
+
+    await render(hbs`
+      <DatePicker 
+        @onChange={{this.onChange}}
+        @startWeekOnSunday={{true}}
+      />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
@@ -159,126 +189,49 @@ module('Integration | Component | date picker', function (hooks) {
       .hasText('Su', 'first week day is Sunday');
   });
 
-  test('date-range picker action works', async function (assert) {
-    assert.expect(10);
-
-    let counter = 0;
-    this.actions.updateDate = function (dates) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(getTypeOf(dates), 'array', 'array is passed');
-
-      let [from, to] = dates;
-
-      if (counter === 0) {
-        assert.equal(
-          from.format('YYYY-MM-DD'),
-          moment().date(7).format('YYYY-MM-DD'),
-          'correct date is passed as from-date.'
-        );
-        assert.equal(to, null, 'to-date is null');
-      } else {
-        assert.equal(
-          from.format('YYYY-MM-DD'),
-          moment().date(7).format('YYYY-MM-DD'),
-          'correct date is passed as from-date.'
-        );
-        assert.equal(
-          to.format('YYYY-MM-DD'),
-          moment().date(14).format('YYYY-MM-DD'),
-          'correct date is passed as to-date.'
-        );
-
-        next(() => {
-          assert.notOk(
-            datePicker.isOpen(),
-            'date picker is closed after to-selection.'
-          );
-        });
-      }
-      counter++;
+  test('onClose works', async function (assert) {
+    this.onChange = () => {
+      assert.step('onChange is called');
     };
 
-    await render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
+    this.onClose = function (date) {
+      assert.equal(arguments.length, 1, 'one argument is passed to action.');
+
+      assert.equal(
+        date.format('YYYY-MM-DD'),
+        moment().date(7).format('YYYY-MM-DD'),
+        'correct date is passed'
+      );
+
+      assert.step('onClose is called');
+    };
+
+    await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+      @onClose={{this.onClose}}
+    />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
     await datePicker.selectDate(moment().date(7));
 
-    assert.ok(
+    assert.notOk(
       datePicker.isOpen(),
-      'date picker is not closed after from-selection.'
+      'date picker is closed after to-selection.'
     );
 
-    await datePicker.selectDate(moment().date(14));
+    assert.verifySteps(['onChange is called', 'onClose is called']);
   });
 
-  test('date-range allows selection of to-value without from-value', async function (assert) {
-    assert.expect(4);
+  test('`renderInPlace` correctly rendered', async function (assert) {
+    this.onChange = () => {};
 
-    this.actions.updateDate = function (dates) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(getTypeOf(dates), 'array', 'array is passed');
-
-      let [from, to] = dates;
-      assert.equal(from, null, 'from-date is null');
-      assert.equal(
-        to.format('YYYY-MM-DD'),
-        moment().date(7).format('YYYY-MM-DD'),
-        'correct date is passed as to-date.'
-      );
-    };
-    await render(hbs`{{date-picker range=true action=(action 'updateDate')}}`);
-
-    let datePicker = getDatePicker('.date-picker__wrapper');
-    await datePicker.toggleTo();
-    await datePicker.selectDate(moment().date(7));
-  });
-
-  test('date-range picker closeAction works', async function (assert) {
-    assert.expect(6);
-
-    this.actions.updateDate = function (dates) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(getTypeOf(dates), 'array', 'array is passed');
-
-      let [from, to] = dates;
-      assert.equal(
-        from.format('YYYY-MM-DD'),
-        moment().date(7).format('YYYY-MM-DD'),
-        'correct date is passed as from-date.'
-      );
-      assert.equal(
-        to.format('YYYY-MM-DD'),
-        moment().date(14).format('YYYY-MM-DD'),
-        'correct date is passed as to-date.'
-      );
-
-      next(() => {
-        assert.notOk(
-          datePicker.isOpen(),
-          'date picker is closed after to-selection.'
-        );
-      });
-    };
-    await render(
-      hbs`{{date-picker range=true closeAction=(action 'updateDate')}}`
-    );
-
-    let datePicker = getDatePicker('.date-picker__wrapper');
-    await datePicker.toggle();
-    await datePicker.selectDate(moment().date(7));
-
-    assert.ok(
-      datePicker.isOpen(),
-      'date picker is not closed after from-selection.'
-    );
-
-    await datePicker.selectDate(moment().date(14));
-  });
-
-  test('`renderPlace` correctly rendered', async function (assert) {
-    set(this, 'renderInPlace', true);
-    await render(hbs`{{date-picker renderInPlace=renderInPlace}}`);
+    await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+      @renderInPlace={{true}}
+    />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
@@ -293,10 +246,17 @@ module('Integration | Component | date picker', function (hooks) {
 
   test('yielding a button works', async function (assert) {
     let date = moment();
-    set(this, 'defaultDate', date);
-    await render(
-      hbs`{{#date-picker value=defaultDate}}<button class='test1'>Button</button>{{/date-picker}}`
-    );
+    this.date = date;
+
+    this.onChange = () => {};
+
+    await render(hbs`
+    <DatePicker 
+      @value={{this.date}}
+      @onChange={{this.onChange}}
+    >
+      <button class='test1' type='button'>Button</button>
+    </DatePicker>`);
 
     assert.dom('.test1').exists('Custom Button is displayed');
 
@@ -313,14 +273,19 @@ module('Integration | Component | date picker', function (hooks) {
 
   test('the yielded content receives the array of selected dates as values', async function (assert) {
     let date = moment();
-    set(this, 'defaultDate', date);
-    await render(hbs`{{#date-picker
-      value=defaultDate
-    as |values|}}
+    this.date = date;
+
+    this.onChange = () => {};
+
+    await render(hbs`
+    <DatePicker 
+      @value={{this.date}}
+      @onChange={{this.onChange}}
+    as |values|>
       {{#each values as |value|}}
         <div class='test-values'>{{if value (moment-format value 'YYYY-MM-DD')}}</div>
       {{/each}}
-    {{/date-picker}}`);
+    </DatePicker>`);
 
     assert
       .dom('.test-values')
@@ -330,51 +295,36 @@ module('Integration | Component | date picker', function (hooks) {
       .hasText(date.format('YYYY-MM-DD'), 'correct date is yielded');
   });
 
-  test('the yielded content receives the array of selected dates as values (date-range)', async function (assert) {
-    let date = moment();
-    set(this, 'defaultDates', [date, null]);
-    await render(hbs`{{#date-picker
-      value=defaultDates
-      range=true
-    as |values|}}
-      {{#each values as |value|}}
-        <div class='test-values'>{{if value (moment-format value 'YYYY-MM-DD')}}</div>
-      {{/each}}
-    {{/date-picker}}`);
-
-    assert
-      .dom('.test-values')
-      .exists({ count: 2 }, 'two values are yielded for date range pickers');
-    assert
-      .dom('.test-values:nth-child(1)')
-      .hasText(date.format('YYYY-MM-DD'), 'correct date is yielded');
-    assert
-      .dom('.test-values:nth-child(2)')
-      .hasText('', 'correct date is yielded');
-  });
-
-  test('Submitting disabled dates disables those dates on the date picker', async function (assert) {
+  test('submitting disabled dates disables those dates on the date picker', async function (assert) {
     let date1 = moment();
     // We use tomorrow as the second day, except for the case where tomorrow is in the next month
     let date2 =
       moment().add(1, 'day').month() === date1.month()
         ? moment().add(1, 'day')
         : moment().subtract(1, 'day');
-    let defaultDates = [date1, date2];
-    set(this, 'disabledDates', defaultDates);
-    await render(hbs`{{date-picker disabledDates=disabledDates}}`);
+
+    let disabledDates = [date1, date2];
+    this.disabledDates = disabledDates;
+
+    this.onChange = () => {};
+
+    await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+      @disabledDates={{this.disabledDates}}
+    />`);
 
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
     assert
       .dom(
-        `button[data-test-date-picker-day="${defaultDates[0].year()}-${defaultDates[0].month()}-${defaultDates[0].date()}"]`
+        `button[data-test-date-picker-day="${disabledDates[0].year()}-${disabledDates[0].month()}-${disabledDates[0].date()}"]`
       )
       .hasAttribute('disabled');
     assert
       .dom(
-        `button[data-test-date-picker-day="${defaultDates[1].year()}-${defaultDates[1].month()}-${defaultDates[1].date()}"]`
+        `button[data-test-date-picker-day="${disabledDates[1].year()}-${disabledDates[1].month()}-${disabledDates[1].date()}"]`
       )
       .hasAttribute('disabled');
   });
@@ -385,12 +335,20 @@ module('Integration | Component | date picker', function (hooks) {
     let today = moment();
     let daysInMonth = today.daysInMonth();
 
-    set(this, 'min', min);
-    set(this, 'max', max);
+    this.minDate = min;
+    this.maxDate = max;
+
+    this.onChange = () => {};
 
     assert.expect(daysInMonth);
 
-    await render(hbs`{{date-picker minDate=min maxDate=max}}`);
+    await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+      @minDate={{this.minDate}}
+      @maxDate={{this.maxDate}}
+    />`);
+
     let datePicker = getDatePicker('.date-picker__wrapper');
     await datePicker.toggle();
 
@@ -405,163 +363,404 @@ module('Integration | Component | date picker', function (hooks) {
     }
   });
 
-  test('getDatePicker works in the past', async function (assert) {
-    assert.expect(3);
+  module('range', function () {
+    test('onChange works', async function (assert) {
+      let counter = 0;
 
-    let targetDate = moment().subtract(3, 'years');
+      this.onChange = function (dates) {
+        assert.equal(arguments.length, 1, 'one argument is passed to action.');
+        assert.equal(getTypeOf(dates), 'array', 'array is passed');
 
-    this.actions.updateDate = function (date) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(
-        date.format('YYYY-MM-DD'),
-        targetDate.format('YYYY-MM-DD'),
-        'correct date is passed to action.'
+        let [from, to] = dates;
+
+        if (counter === 0) {
+          assert.equal(
+            from.format('YYYY-MM-DD'),
+            moment().date(7).format('YYYY-MM-DD'),
+            'correct date is passed as from-date.'
+          );
+          assert.equal(to, null, 'to-date is null');
+        } else {
+          assert.equal(
+            from.format('YYYY-MM-DD'),
+            moment().date(7).format('YYYY-MM-DD'),
+            'correct date is passed as from-date.'
+          );
+          assert.equal(
+            to.format('YYYY-MM-DD'),
+            moment().date(14).format('YYYY-MM-DD'),
+            'correct date is passed as to-date.'
+          );
+        }
+
+        counter++;
+        assert.step('onChange is called');
+      };
+
+      await render(hbs`
+        <DatePicker 
+          @range={{true}}
+          @onChange={{this.onChange}}
+        />`);
+
+      let datePicker = getDatePicker('.date-picker__wrapper');
+      await datePicker.toggle();
+      await datePicker.selectDate(moment().date(7));
+
+      assert.ok(
+        datePicker.isOpen(),
+        'date picker is not closed after from-selection.'
       );
-    };
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-    let datePicker = getDatePicker('.date-picker__wrapper');
-    await datePicker.toggle();
-    await datePicker.selectDate(targetDate);
+      await datePicker.selectDate(moment().date(14));
 
-    assert
-      .dom('.date-picker')
-      .doesNotExist('date picker is closed after selection.');
-  });
-
-  test('getDatePicker works in the future', async function (assert) {
-    assert.expect(3);
-
-    let targetDate = moment().add(3, 'years');
-
-    this.actions.updateDate = function (date) {
-      assert.equal(arguments.length, 1, 'one argument is passed to action.');
-      assert.equal(
-        date.format('YYYY-MM-DD'),
-        targetDate.format('YYYY-MM-DD'),
-        'correct date is passed to action.'
+      assert.notOk(
+        datePicker.isOpen(),
+        'date picker is closed after to-selection.'
       );
-    };
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
 
-    let datePicker = getDatePicker('.date-picker__wrapper');
-    await datePicker.toggle();
-    await datePicker.selectDate(targetDate);
+      assert.verifySteps(['onChange is called', 'onChange is called']);
+    });
 
-    assert
-      .dom('.date-picker')
-      .doesNotExist('date picker is closed after selection.');
+    test('it allows selection of to-value without from-value', async function (assert) {
+      this.onChange = function (dates) {
+        assert.equal(arguments.length, 1, 'one argument is passed to action.');
+        assert.equal(getTypeOf(dates), 'array', 'array is passed');
+
+        let [from, to] = dates;
+        assert.equal(from, null, 'from-date is null');
+        assert.equal(
+          to.format('YYYY-MM-DD'),
+          moment().date(7).format('YYYY-MM-DD'),
+          'correct date is passed as to-date.'
+        );
+
+        assert.step('onChange is called');
+      };
+
+      await render(hbs`
+      <DatePicker 
+        @range={{true}}
+        @onChange={{this.onChange}}
+      />`);
+
+      let datePicker = getDatePicker('.date-picker__wrapper');
+      await datePicker.toggleTo();
+      await datePicker.selectDate(moment().date(7));
+
+      assert.verifySteps(['onChange is called']);
+    });
+
+    test('onClose works', async function (assert) {
+      this.onChange = () => {
+        assert.step('onChange is called');
+      };
+
+      this.onClose = function (dates) {
+        assert.equal(arguments.length, 1, 'one argument is passed to action.');
+        assert.equal(getTypeOf(dates), 'array', 'array is passed');
+
+        let [from, to] = dates;
+        assert.equal(
+          from.format('YYYY-MM-DD'),
+          moment().date(7).format('YYYY-MM-DD'),
+          'correct date is passed as from-date.'
+        );
+        assert.equal(
+          to.format('YYYY-MM-DD'),
+          moment().date(14).format('YYYY-MM-DD'),
+          'correct date is passed as to-date.'
+        );
+
+        assert.step('onClose is called');
+      };
+
+      await render(hbs`
+      <DatePicker 
+        @range={{true}}
+        @onChange={{this.onChange}}
+        @onClose={{this.onClose}}
+      />`);
+
+      let datePicker = getDatePicker('.date-picker__wrapper');
+      await datePicker.toggle();
+      await datePicker.selectDate(moment().date(7));
+
+      assert.ok(
+        datePicker.isOpen(),
+        'date picker is not closed after from-selection.'
+      );
+
+      await datePicker.selectDate(moment().date(14));
+
+      assert.notOk(
+        datePicker.isOpen(),
+        'date picker is closed after to-selection.'
+      );
+
+      assert.verifySteps([
+        'onChange is called',
+        'onChange is called',
+        'onClose is called',
+      ]);
+    });
+
+    test('the yielded content receives the array of selected dates as values', async function (assert) {
+      let date = moment();
+      this.dates = [date, null];
+
+      this.onChange = () => {};
+
+      await render(hbs`
+      <DatePicker 
+        @range={{true}}
+        @value={{this.dates}}
+        @onChange={{this.onChange}}
+      as |values|>
+        {{#each values as |value|}}
+          <div class='test-values'>{{if value (moment-format value 'YYYY-MM-DD')}}</div>
+        {{/each}}
+      </DatePicker>`);
+
+      assert
+        .dom('.test-values')
+        .exists({ count: 2 }, 'two values are yielded for date range pickers');
+      assert
+        .dom('.test-values:nth-child(1)')
+        .hasText(date.format('YYYY-MM-DD'), 'correct date is yielded');
+      assert
+        .dom('.test-values:nth-child(2)')
+        .hasText('', 'correct date is yielded');
+    });
   });
 
-  test('selectDate helper works in the past', async function (assert) {
-    assert.expect(2);
+  module('test helperts', function () {
+    test('getDatePicker works in the past', async function (assert) {
+      let targetDate = moment().subtract(3, 'years');
 
-    let targetDate = moment().subtract(3, 'years');
+      this.onChange = function (date) {
+        assert.equal(
+          date.format('YYYY-MM-DD'),
+          targetDate.format('YYYY-MM-DD'),
+          'correct date is passed to action.'
+        );
 
-    this.actions.updateDate = function (date) {
-      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
-    };
+        assert.step('onChange is called');
+      };
 
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
-    await selectDate('.date-picker__wrapper', targetDate);
-    assert
-      .dom('.date-picker')
-      .doesNotExist('date picker is closed after selection.');
-  });
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
 
-  test('selectDate helper works in the present', async function (assert) {
-    assert.expect(2);
+      let datePicker = getDatePicker('.date-picker__wrapper');
+      await datePicker.toggle();
+      await datePicker.selectDate(targetDate);
 
-    let targetDate = moment();
+      assert
+        .dom('.date-picker')
+        .doesNotExist('date picker is closed after selection.');
 
-    this.actions.updateDate = function (date) {
-      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
-    };
+      assert.verifySteps(['onChange is called']);
+    });
 
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
-    await selectDate('.date-picker__wrapper', targetDate);
-    assert
-      .dom('.date-picker')
-      .doesNotExist('date picker is closed after selection.');
-  });
+    test('getDatePicker works in the future', async function (assert) {
+      let targetDate = moment().add(3, 'years');
 
-  test('selectDate helper works in the future', async function (assert) {
-    assert.expect(2);
+      this.onChange = function (date) {
+        assert.equal(
+          date.format('YYYY-MM-DD'),
+          targetDate.format('YYYY-MM-DD'),
+          'correct date is passed to action.'
+        );
 
-    let targetDate = moment().add(3, 'years');
+        assert.step('onChange is called');
+      };
 
-    this.actions.updateDate = function (date) {
-      assert.equal(date.format('YYYY-MM-DD'), targetDate.format('YYYY-MM-DD'));
-    };
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
 
-    await render(hbs`{{date-picker action=(action 'updateDate')}}`);
-    await selectDate('.date-picker__wrapper', targetDate);
-    assert
-      .dom('.date-picker')
-      .doesNotExist('date picker is closed after selection.');
-  });
+      let datePicker = getDatePicker('.date-picker__wrapper');
+      await datePicker.toggle();
+      await datePicker.selectDate(targetDate);
 
-  test('getSelectedDate helper works', async function (assert) {
-    this.date = moment().add(2, 'days').add(2, 'hours');
+      assert
+        .dom('.date-picker')
+        .doesNotExist('date picker is closed after selection.');
 
-    await render(hbs`{{date-picker value=date}}`);
+      assert.verifySteps(['onChange is called']);
+    });
 
-    let selectedDate = await getSelectedDate(this.element);
-    assert.ok(selectedDate.isSame(this.date, 'day'));
-  });
+    test('selectDate helper works in the past', async function (assert) {
+      let targetDate = moment().subtract(3, 'years');
 
-  test('getSelectedDate helper works without a value', async function (assert) {
-    await render(hbs`{{date-picker}}`);
+      this.onChange = function (date) {
+        assert.equal(
+          date.format('YYYY-MM-DD'),
+          targetDate.format('YYYY-MM-DD'),
+          'correct date is passed to action.'
+        );
 
-    let selectedDate = await getSelectedDate(this.element);
-    assert.equal(selectedDate, null);
-  });
+        assert.step('onChange is called');
+      };
 
-  test('getSelectedDate helper works with a range', async function (assert) {
-    this.dates = [
-      moment().add(2, 'days').add(2, 'hours'),
-      moment().add(5, 'days').add(2, 'hours'),
-    ];
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
 
-    await render(hbs`{{date-picker value=dates range=true}}`);
+      await selectDate('.date-picker__wrapper', targetDate);
+      assert
+        .dom('.date-picker')
+        .doesNotExist('date picker is closed after selection.');
 
-    let selectedDates = await getSelectedDate(this.element);
-    assert.ok(
-      selectedDates[0].isSame(this.dates[0], 'day'),
-      'date from is correct'
-    );
-    assert.ok(
-      selectedDates[1].isSame(this.dates[1], 'day'),
-      'date to is correct'
-    );
-  });
+      assert.verifySteps(['onChange is called']);
+    });
 
-  test('getSelectedDate helper works with a range without values', async function (assert) {
-    await render(hbs`{{date-picker range=true}}`);
+    test('selectDate helper works in the present', async function (assert) {
+      let targetDate = moment();
 
-    let selectedDates = await getSelectedDate(this.element);
-    assert.deepEqual(selectedDates, [null, null]);
-  });
+      this.onChange = function (date) {
+        assert.equal(
+          date.format('YYYY-MM-DD'),
+          targetDate.format('YYYY-MM-DD'),
+          'correct date is passed to action.'
+        );
 
-  test('selectDateRange test helper works', async function (assert) {
-    let fromDate = moment('2018-01-05');
-    let toDate = moment('2018-02-02');
+        assert.step('onChange is called');
+      };
 
-    this.actions.update = (dateRange) => {
-      set(this, 'dateRange', dateRange);
-    };
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
 
-    this.dateRange = null;
-    await render(
-      hbs`{{date-picker range=true action=(action 'update') value=dateRange}}`
-    );
+      await selectDate('.date-picker__wrapper', targetDate);
+      assert
+        .dom('.date-picker')
+        .doesNotExist('date picker is closed after selection.');
 
-    await selectDateRange(this.element, fromDate, toDate);
+      assert.verifySteps(['onChange is called']);
+    });
 
-    assert.ok(
-      fromDate.isSame(this.dateRange[0], 'day'),
-      'from date is correct'
-    );
-    assert.ok(toDate.isSame(this.dateRange[1], 'day'), 'to date is correct');
+    test('selectDate helper works in the future', async function (assert) {
+      let targetDate = moment().add(3, 'years');
+
+      this.onChange = function (date) {
+        assert.equal(
+          date.format('YYYY-MM-DD'),
+          targetDate.format('YYYY-MM-DD'),
+          'correct date is passed to action.'
+        );
+
+        assert.step('onChange is called');
+      };
+
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
+
+      await selectDate('.date-picker__wrapper', targetDate);
+      assert
+        .dom('.date-picker')
+        .doesNotExist('date picker is closed after selection.');
+
+      assert.verifySteps(['onChange is called']);
+    });
+
+    test('getSelectedDate helper works', async function (assert) {
+      this.date = moment().add(2, 'days').add(2, 'hours');
+
+      this.onChange = () => {};
+
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+      @value={{this.date}}
+    />`);
+
+      let selectedDate = await getSelectedDate(this.element);
+      assert.ok(selectedDate.isSame(this.date, 'day'));
+    });
+
+    test('getSelectedDate helper works without a value', async function (assert) {
+      this.onChange = () => {};
+
+      await render(hbs`
+    <DatePicker 
+      @onChange={{this.onChange}}
+    />`);
+
+      let selectedDate = await getSelectedDate(this.element);
+      assert.equal(selectedDate, null);
+    });
+
+    test('getSelectedDate helper works with a range', async function (assert) {
+      this.dates = [
+        moment().add(2, 'days').add(2, 'hours'),
+        moment().add(5, 'days').add(2, 'hours'),
+      ];
+
+      this.onChange = () => {};
+
+      await render(hbs`
+    <DatePicker 
+      @range={{true}}
+      @onChange={{this.onChange}}
+      @value={{this.dates}}
+    />`);
+
+      let selectedDates = await getSelectedDate(this.element);
+      assert.ok(
+        selectedDates[0].isSame(this.dates[0], 'day'),
+        'date from is correct'
+      );
+      assert.ok(
+        selectedDates[1].isSame(this.dates[1], 'day'),
+        'date to is correct'
+      );
+    });
+
+    test('getSelectedDate helper works with a range without values', async function (assert) {
+      this.onChange = () => {};
+
+      await render(hbs`
+    <DatePicker 
+      @range={{true}}
+      @onChange={{this.onChange}}
+    />`);
+
+      let selectedDates = await getSelectedDate(this.element);
+      assert.deepEqual(selectedDates, [null, null]);
+    });
+
+    test('selectDateRange test helper works', async function (assert) {
+      let fromDate = moment('2018-01-05');
+      let toDate = moment('2018-02-02');
+
+      this.dateRange = null;
+
+      this.onChange = (dateRange) => {
+        this.set('dateRange', dateRange);
+      };
+
+      await render(hbs`
+    <DatePicker 
+      @range={{true}}
+      @onChange={{this.onChange}}
+      @value={{this.dates}}
+    />`);
+
+      await selectDateRange(this.element, fromDate, toDate);
+
+      assert.ok(
+        fromDate.isSame(this.dateRange[0], 'day'),
+        'from date is correct'
+      );
+      assert.ok(toDate.isSame(this.dateRange[1], 'day'), 'to date is correct');
+    });
   });
 });

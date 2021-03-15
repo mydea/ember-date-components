@@ -1,27 +1,47 @@
 {{page-title 'Custom Options'}}
 
-<h1>Custom Options</h1>
+<h1>
+  Custom Options
+</h1>
 
 <p>
   The date picker can show custom options by setting
-  {{#code-inline language='javascript'}}options=true{{/code-inline}}.
+  {{#code-inline language='javascript'}}
+    options=true
+  {{/code-inline}}
+  .
   This will extend the date picker to show quick select buttons for often used date (-range) values.
 </p>
 
-<h2>Default options for date picker</h2>
-{{date-picker options=true action=(action 'updateDateRange')}}
-{{#code-block language='handlebars'}}\{{date-picker options=true action=(action 'updateDate')}}{{/code-block}}
+<h2>
+  Default options for date picker
+</h2>
 
-<h2>Default options for date range picker</h2>
-{{date-picker options=true range=true action=(action 'updateDateRange')}}
-{{#code-block language='handlebars'}}\{{date-picker options=true range=true action=(action 'updateDateRange')}}{{/code-block}}
+<DatePicker @options={{true}} @onChange={{this.updateDate}} />
 
-<h2>Custom options for date range picker</h2>
+{{#code-block language='handlebars'}}
+&lt;DatePicker @options=\{{true}} @onChange=\{{this.updateDate}} /&gt;
+{{/code-block}}
+
+<h2>
+  Default options for date range picker
+</h2>
+
+<DatePicker @options={{true}} @range={{true}} @onChange={{this.updateDateRange}} />
+
+{{#code-block language='handlebars'}}
+&lt;DatePicker @options=\{{true}} @range=\{{true}} @onChange=\{{this.updateDateRange}} /&gt;
+{{/code-block}}
+
+<h2>
+  Custom options for date range picker
+</h2>
 <p>
   You can also specify which options should be visible. The following options are built-in:
 </p>
 
-{{#code-block language='javascript'}}{
+{{#code-block language='javascript'}}
+  {
   'clear': {
     action: 'clearDate',
     label: 'Clear'
@@ -65,14 +85,20 @@
     label: 'This month',
     actionValue: [moment().startOf('month'), moment().startOf('day')]
   }
-}{{/code-block}}
+}
+{{/code-block}}
 
 <p>
-  You can also specify custom options. Options also take a <i>classes</i> property, which will be appended to the button.
+  You can also specify custom options. Options also take a
+  <i>
+    classes
+  </i>
+  property, which will be appended to the button.
   An example configuration could be:
 </p>
 
-{{#code-block language='javascript'}}let myOptions = [
+{{#code-block language='javascript'}}
+  let myOptions = [
   'clear',
   'today',
   'thisWeek',
@@ -82,7 +108,11 @@
     actionValue: [moment().startOf('day').subtract(2, 'days'), moment().startOf('day')],
     classes: 'my-custom-class other-class'
   }
-];{{/code-block}}
+];
+{{/code-block}}
 
-{{date-picker options=myOptions range=true action=(action 'updateDateRange')}}
-{{#code-block language='handlebars'}}\{{date-picker options=myOptions range=true action=(action 'updateDateRange')}}{{/code-block}}
+<DatePicker @options={{this.myOptions}} @range={{true}} @onChange={{this.updateDateRange}} />
+
+{{#code-block language='handlebars'}}
+&lt;DatePicker @options=\{{this.myOptions}} @range=\{{true}} @onChange=\{{this.updateDateRange}} /&gt;
+{{/code-block}}

@@ -1,0 +1,43 @@
+{{! template-lint-disable no-inline-styles }}
+<div
+  class='date-picker date-picker--inline {{
+    if this.options ' date-picker--options'
+  }}'
+  ...attributes
+>
+  <div class='date-picker__calendar'>
+    <DatePickerNavigation
+      @currentMonth={{this.currentMonth}}
+      @minDate={{@minDate}}
+      @maxDate={{@maxDate}}
+      @disableMonthPicker={{@disableMonthPicker}}
+      @disableYearPicker={{@disableYearPicker}}
+      @availableYearOffset={{@availableYearOffset}}
+      @updateMonth={{this.gotoMonth}}
+    />
+
+    <DatePickerMonth
+      @disabledDates={{@disabledDates}}
+      @month={{this.currentMonth}}
+      @selectedDates={{this.selectedDates}}
+      @selectDate={{this.selectDate}}
+      @minDate={{@minDate}}
+      @maxDate={{@maxDate}}
+      @startWeekOnSunday={{this.startWeekOnSunday}}
+    />
+  </div>
+
+  {{#if this.options}}
+    <div class='date-picker__options'>
+      {{#each this.availableOptions as |opt|}}
+        <button
+          type='button'
+          class='date-picker__options__button {{opt.classes}}'
+          {{on 'click' (fn opt.action opt.actionValue)}}
+        >
+          {{opt.label}}
+        </button>
+      {{/each}}
+    </div>
+  {{/if}}
+</div>
