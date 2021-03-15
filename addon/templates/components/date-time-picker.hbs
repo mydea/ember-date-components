@@ -1,16 +1,16 @@
 <span class='date-time-picker__item date-time-picker__item--date'>
-  {{date-picker
-    value=value
-    buttonClasses=datePickerClasses
-    buttonDateFormat=buttonDateFormat
-    minDate=minDate
-    maxDate=maxDate
-    disabled=disabled
-    renderInPlace=renderInPlace
-    horizontalPosition=horizontalPosition
-    verticalPosition=verticalPosition
-    action=(action 'updateDate')
-  }}
+  <DatePicker
+    @value={{@value}}
+    @buttonClasses={{@datePickerClasses}}
+    @buttonDateFormat={{@buttonDateFormat}}
+    @minDate={{@minDate}}
+    @maxDate={{@maxDate}}
+    @disabled={{@disabled}}
+    @renderInPlace={{@renderInPlace}}
+    @horizontalPosition={{@horizontalPosition}}
+    @verticalPosition={{@verticalPosition}}
+    @onChange={{action 'updateDate'}}
+  />
 </span>
 
 <span class='date-time-picker__item date-time-picker__item--time'>

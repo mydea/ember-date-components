@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
 import moment from 'moment';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 /* eslint-disable no-console */
 export default class UsageDatePickerController extends Controller {
+  @tracked date;
+
   date2 = {
     value: moment().add(2, 'months'),
   };
@@ -16,5 +19,6 @@ export default class UsageDatePickerController extends Controller {
   @action
   updateDate(date) {
     console.log(date);
+    this.date = date;
   }
 }

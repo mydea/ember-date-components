@@ -1,0 +1,93 @@
+<div
+  class='date-picker__wrapper {{if this.isOpen 'date-picker__wrapper--open'}}'
+  {{did-update this.valueDidUpdate @value}}
+  ...attributes
+>
+  <BasicDropdown
+    @disabled={{this.disabled}}
+    @onOpen={{this.onDropdownOpened}}
+    @onClose={{this.onDropdownClosed}}
+    @renderInPlace={{@renderInPlace}}
+    @horizontalPosition={{@horizontalPosition}}
+    @verticalPosition={{@verticalPosition}} as |dd|
+  >
+    <dd.Trigger class='date-picker__trigger' tabindex='-1'>
+      {{#if (has-block)}}
+        {{yield this.dates}}
+      {{else}}
+        <button
+          type='button'
+          class='date-picker__button {{@buttonClasses}}
+           {{if this.range ' date-picker__button--range'}}
+           {{if this.buttonFocused 'date-picker__button--focus'}}'
+          data-test-date-picker-toggle-button
+          data-date-picker-toggle-button-instance={{this.guid}}
+          data-test-date-picker-toggle-button-format={{this.buttonDateFormat}}
+          disabled={{this.disabled}}
+          {{on 'click' (fn this.toggleOpen dd)}}
+        >
+          {{this.buttonText}}
+        </button>
+
+        {{#if this.range}}
+          {{this.dateRangeSeparator}}
+          <button
+            type='button'
+            class='date-picker__button {{@buttonClasses}}
+             date-picker__button--range
+            {{if this.buttonToFocused ' date-picker__button--focus'}}'
+            data-test-date-picker-toggle-button
+            disabled={{this.disabled}}
+            {{on 'click' (fn this.toggleOpenTo dd)}}
+          >
+            {{this.buttonToText}}
+          </button>
+        {{/if}}
+      {{/if}}
+    </dd.Trigger>
+
+    <dd.Content>
+      <div
+        data-date-picker-instance={{this.guid}}
+        class='date-picker{{if this.options ' date-picker--options'}}'
+        {{did-insert this.focusDatePicker}}
+      >
+        <div class='date-picker__calendar'>
+          <DatePickerNavigation
+            @currentMonth={{this.currentMonth}}
+            @minDate={{@minDate}}
+            @maxDate={{@maxDate}}
+            @disableMonthPicker={{@disableMonthPicker}}
+            @disableYearPicker={{@disableYearPicker}}
+            @availableYearOffset={{@availableYearOffset}}
+            @updateMonth={{this.gotoMonth}}
+          />
+
+          <DatePickerMonth
+            @disabledDates={{@disabledDates}}
+            @month={{this.currentMonth}}
+            @selectedDates={{this.selectedDates}}
+            @selectDate={{this.selectDate}}
+            @minDate={{@minDate}}
+            @maxDate={{@maxDate}}
+            @startWeekOnSunday={{this.startWeekOnSunday}}
+          />
+        </div>
+
+        {{#if this.options}}
+          <div class='date-picker__options'>
+            {{#each this.availableOptions as |opt|}}
+              <button
+                type='button'
+                class='date-picker__options__button {{opt.classes}}'
+                {{on 'click' (fn this.selectOption opt)}}
+              >
+                {{opt.label}}
+              </button>
+            {{/each}}
+          </div>
+        {{/if}}
+      </div>
+    </dd.Content>
+  </BasicDropdown>
+</div>

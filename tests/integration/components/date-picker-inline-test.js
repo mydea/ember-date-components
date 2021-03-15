@@ -11,15 +11,19 @@ module('Integration | Component | date-picker-inline', function (hooks) {
   test('it works', async function (assert) {
     let targetDate = moment('2018-01-10');
 
-    this.update = function (newDate) {
+    this.onChange = function (newDate) {
       assert.ok(
         targetDate.isSame(newDate, 'day'),
         'action is called with correct date'
       );
+
+      assert.step('onChange is called');
     };
 
-    await render(hbs`{{date-picker-inline action=(action update)}}`);
+    await render(hbs`<DatePickerInline @onChange={{this.onChange}} />}`);
 
     await selectDate(this.element, targetDate);
+
+    assert.verifySteps(['onChange is called']);
   });
 });

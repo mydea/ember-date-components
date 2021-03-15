@@ -19,17 +19,16 @@ An Ember add-on which provides pure Ember-based date picker components.
 ## Basic Usage
 
 ```hbs
-{{date-picker action=(action 'updateDate')}}
+<DatePicker @value={{this.date}} @onChange={{this.updateDate}} />
 ```
 
 ```hbs
-{{date-picker range=true action=(action 'updateDateRange')}}
+<DatePicker @range={{true}} @value={{this.dateRange}} @onChange={{this.updateDateRange}} />
 ```
 
 ```hbs
 <TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
 ```
-
 
 ```hbs
 {{date-time-picker action=(action 'updateDate')}}
