@@ -1,5 +1,20 @@
 # Changelog
 
+v4.0.0
+
+- Refactor all components to Glimmer components [#189](https://github.com/mydea/ember-date-components/pull/189)
+- Allow to yield named blocks for `<DateTimePicker>` [#190](https://github.com/mydea/ember-date-components/pull/190)
+- Allow to provide custom component for `<TimePicker>` [#192](https://github.com/mydea/ember-date-components/pull/192)
+- Ensure ember-moment is installed when installing this addon [#191](https://github.com/mydea/ember-date-components/pull/191)
+
+BREAKING CHANGES:
+
+- Rename `action` argument to `onChange` (See: [#189](https://github.com/mydea/ember-date-components/pull/189))
+- If you used to extend some of the components, you will probably need to adjust that code. Everything that used to be a computed property is now a native getter and needs to be adjusted accordingly - please check the source code directly for these cases.
+
+Not really a breaking change, but v4 really enforces the data down, actions up approach. It will now assert that `@onChange` is set and present and only show the passed in values, never any internal state.
+
+
 v3.1.0
 
 - Add disabled option for Ember Basic Dropdown to datetime picker
