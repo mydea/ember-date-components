@@ -1,5 +1,9 @@
 # Changelog
 
+v4.0.1
+
+- [BUGFIX] Ensure date picker can be re-opened after closing it [#199](https://github.com/mydea/ember-date-components/pull/199)
+
 v4.0.0
 
 - Refactor all components to Glimmer components [#189](https://github.com/mydea/ember-date-components/pull/189)
