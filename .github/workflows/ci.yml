@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: volta-cli/action@v1
+      - uses: mydea/actions-ember-testing@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test:ember
+      - name: Lint
+        run: |
+          yarn lint:js
+          yarn lint:hbs

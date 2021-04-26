@@ -1,10 +1,9 @@
-name: Test & Lint
+name: ci-pr
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   test:
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -22,7 +21,6 @@ jobs:
           yarn lint:hbs
 
   test-matrix:
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -34,8 +32,6 @@ jobs:
             ember-lts-3.16,
             ember-lts-3.20,
             ember-release,
-            ember-beta,
-            ember-canary,
             ember-default-with-jquery,
             ember-classic,
           ]
