@@ -315,14 +315,6 @@ export default class DatePicker extends Component {
     this.args.onClose(value);
   }
 
-  _open(forceOpenDropdown = true) {
-    this.isOpen = true;
-
-    if (forceOpenDropdown) {
-      this._openDropdown();
-    }
-  }
-
   @action
   focusDatePicker(datePickerDropdown) {
     let originallyFocusedElement = document.activeElement;
@@ -367,13 +359,11 @@ export default class DatePicker extends Component {
     }
   }
 
-  _close(sendAction = true, forceCloseDropdown = true) {
+  _close({ forceCloseDropdown = true }) {
     this.isOpen = false;
     this.isToStep = false;
 
-    if (sendAction) {
-      this._sendOnClose();
-    }
+    this._sendOnClose();
 
     if (forceCloseDropdown) {
       this._closeDropdown();
@@ -399,7 +389,7 @@ export default class DatePicker extends Component {
     this.dates = dates;
 
     this._sendOnChange();
-    this._close();
+    this._close({ forceCloseDropdown: true });
   }
 
   _setFromDate(dateFrom) {
@@ -438,7 +428,7 @@ export default class DatePicker extends Component {
     } else {
       this._setToDate(date);
       this._sendOnChange();
-      this._close();
+      this._close({ forceCloseDropdown: true });
     }
   }
 
@@ -451,7 +441,6 @@ export default class DatePicker extends Component {
 
     this.isToStep = false;
 
-    this._openDropdown();
     this._focusButtonInDatePicker();
   }
 
@@ -464,19 +453,16 @@ export default class DatePicker extends Component {
 
     this.isToStep = true;
 
-    this._openDropdown();
-
     this._focusButtonInDatePicker();
   }
 
-  _openFromDate() {
-    this._moveToFromStep();
-    this._open();
-  }
+  async _ensureDropdownIsOpen() {
+    // Ensure the dropdown is actually opened
+    await new Promise((resolve) => setTimeout(resolve, 1));
 
-  _openToDate() {
-    this._moveToToStep();
-    this._open();
+    if (!this._dropdownApi?.isOpen) {
+      this._openDropdown();
+    }
   }
 
   // METHODS END ----------------------------------------
@@ -489,7 +475,7 @@ export default class DatePicker extends Component {
     this.isToStep = false;
 
     this._sendOnChange();
-    this._close();
+    this._close({ forceCloseDropdown: true });
   }
 
   @action
@@ -499,7 +485,7 @@ export default class DatePicker extends Component {
     this.dates = this.range ? array([today, today]) : array([today]);
 
     this._sendOnChange();
-    this._close();
+    this._close({ forceCloseDropdown: true });
   }
 
   @action
@@ -508,14 +494,16 @@ export default class DatePicker extends Component {
 
     event.preventDefault();
 
+    this._ensureDropdownIsOpen();
+
     if (!isOpen) {
-      this._openFromDate();
+      this._moveToFromStep();
       return;
     }
 
     // SINGLE
     if (!range) {
-      this._close();
+      this._close({ forceCloseDropdown: true });
       return;
     }
 
@@ -523,7 +511,7 @@ export default class DatePicker extends Component {
     if (isToStep) {
       this._moveToFromStep();
     } else {
-      this._close();
+      this._close({ forceCloseDropdown: true });
     }
   }
 
@@ -533,15 +521,12 @@ export default class DatePicker extends Component {
 
     event.preventDefault();
 
-    if (!isOpen) {
-      this._openToDate();
-      return;
-    }
+    this._ensureDropdownIsOpen();
 
-    if (!isToStep) {
+    if (!isToStep || !isOpen) {
       this._moveToToStep();
     } else {
-      this._close();
+      this._close({ forceCloseDropdown: true });
     }
   }
 
@@ -566,7 +551,7 @@ export default class DatePicker extends Component {
     this.dates = array(dateRange);
 
     this._sendOnChange();
-    this._close();
+    this._close({ forceCloseDropdown: true });
   }
 
   @action
@@ -575,7 +560,7 @@ export default class DatePicker extends Component {
     await new Promise((resolve) => setTimeout(resolve, 1));
 
     if (this.isOpen) {
-      this._close(true, false);
+      this._close({ forceCloseDropdown: false });
     }
   }
 

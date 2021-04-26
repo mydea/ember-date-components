@@ -189,6 +189,40 @@ module('Integration | Component | date-picker', function (hooks) {
       .hasText('Su', 'first week day is Sunday');
   });
 
+  test('it allows to change date multiple times', async function (assert) {
+    this.date = undefined;
+
+    this.onChange = (date) => {
+      assert.step(`onChange is called with ${date.format('YYYY-MM-DD')}`);
+      this.set('date', date);
+    };
+
+    await render(hbs`
+      <DatePicker 
+        @value={{this.date}}
+        @onChange={{this.onChange}}
+      />`);
+
+    let datePicker = getDatePicker('.date-picker__wrapper');
+
+    await datePicker.selectDate(moment('2021-04-26'));
+    await datePicker.selectDate(moment('2021-04-28'));
+    await datePicker.selectDate(moment('2021-04-24'));
+
+    assert
+      .dom('[data-test-date-picker-toggle-button]')
+      .hasText(
+        moment('2021-04-24').format('L'),
+        'value in date picker is updated.'
+      );
+
+    assert.verifySteps([
+      'onChange is called with 2021-04-26',
+      'onChange is called with 2021-04-28',
+      'onChange is called with 2021-04-24',
+    ]);
+  });
+
   test('onClose works', async function (assert) {
     this.onChange = () => {
       assert.step('onChange is called');
