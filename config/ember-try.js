@@ -21,6 +21,10 @@ module.exports = async function () {
           devDependencies: {
             'ember-source': '~3.20.5',
           },
+          resolutions: {
+            'ember-basic-dropdown/@embroider/macros': '^0.40.0',
+            'ember-bootstrap/@embroider/macros': '^0.40.0',
+          },
         },
       },
       {
