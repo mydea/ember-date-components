@@ -65,12 +65,12 @@
 
         <div>
           {{! template-lint-disable no-invalid-interactive }}
-          {{#each filteredOptions as |option i|}}
+          {{#each this.filteredOptions as |option i|}}
             <div
               class='time-picker__dropdown__item
               {{
                 if
-                (is-equal selectedOptionIndex i)
+                (is-equal this.selectedOptionIndex i)
                 'time-picker__dropdown__item--selected'
               }}'
               {{on 'click' (fn this.selectValue option.value)}}
