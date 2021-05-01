@@ -5009,7 +5009,7 @@ ember-cli-htmlbars@^4.2.0:
     strip-bom "^4.0.0"
     walk-sync "^2.0.2"
 
-ember-cli-htmlbars@^5.1.0, ember-cli-htmlbars@^5.1.1, ember-cli-htmlbars@^5.2.0, ember-cli-htmlbars@^5.3.1, ember-cli-htmlbars@^5.3.2, ember-cli-htmlbars@^5.6.3, ember-cli-htmlbars@^5.7.1:
+ember-cli-htmlbars@^5.1.0, ember-cli-htmlbars@^5.2.0, ember-cli-htmlbars@^5.3.1, ember-cli-htmlbars@^5.3.2, ember-cli-htmlbars@^5.6.3, ember-cli-htmlbars@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-5.7.1.tgz#eb5b88c7d9083bc27665fb5447a9b7503b32ce4f"
   integrity sha512-9laCgL4tSy48orNoQgQKEHp93MaqAs9ZOl7or5q+8iyGGJHW6sVXIYrVv5/5O9HfV6Ts8/pW1rSoaeKyLUE+oA==
@@ -5558,16 +5558,16 @@ ember-popper@^0.11.3:
     fastboot-transform "^0.1.0"
     popper.js "^1.14.1"
 
-ember-prism@~0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/ember-prism/-/ember-prism-0.7.0.tgz#b526d2900614fbd21c50e1263fd156f8491aebd2"
-  integrity sha512-TXMbz62FVwgiuPHRorl8LlP9VPecSvl3Wx38WOeK7J4irD1P9cUO/t/yeodVzx+UGMSAXptueChi5S9YUs9D1A==
+ember-prism@~0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/ember-prism/-/ember-prism-0.9.1.tgz#0d8a993cfe86dc446212cd40fcaaef247c9ba0d6"
+  integrity sha512-zeCjlQVlaIiO2EAkS8JLHTXMPCopNEvZsFNuA8BiemXjGJs5rKcSv+UYr4jm4oS4ISTwyUORmP4oLPkA3ZY+YA==
   dependencies:
-    ember-cli-babel "^7.19.0"
-    ember-cli-htmlbars "^5.1.1"
+    "@ember/render-modifiers" "^1.0.2"
+    ember-cli-babel "^7.22.1"
+    ember-cli-htmlbars "^5.3.1"
     ember-cli-node-assets "^0.2.2"
-    ember-in-element-polyfill "^1.0.0"
-    prismjs "^1.19.0"
+    prismjs "^1.22.0"
 
 ember-qunit@~5.1.4:
   version "5.1.4"
@@ -9873,7 +9873,7 @@ printf@^0.6.1:
   resolved "https://registry.yarnpkg.com/printf/-/printf-0.6.1.tgz#b9afa3d3b55b7f2e8b1715272479fc756ed88650"
   integrity sha512-is0ctgGdPJ5951KulgfzvHGwJtZ5ck8l042vRkV6jrkpBzTmb/lueTqguWHy2JfVA+RY6gFVlaZgUS0j7S/dsw==
 
-prismjs@^1.19.0:
+prismjs@^1.22.0:
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
   integrity sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA==
