@@ -1,5 +1,5 @@
 <div>
-  {{#if @monthPickerDisabled}}
+  {{#if this.monthPickerDisabled}}
     {{moment-format @currentMonth 'MMMM'}}
   {{else}}
     <BasicDropdown @horizontalPosition='right' as |monthDropdown|>
@@ -30,7 +30,7 @@
     </BasicDropdown>
   {{/if}}
 
-  {{#if @yearPickerDisabled}}
+  {{#if this.yearPickerDisabled}}
     {{moment-format @currentMonth 'YYYY'}}
   {{else}}
     <BasicDropdown as |yearDropdown|>
