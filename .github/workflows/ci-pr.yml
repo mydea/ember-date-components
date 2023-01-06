@@ -29,10 +29,9 @@ jobs:
         # Keep this in sync with config/ember-try.js
         ember:
           [
-            ember-lts-3.16,
-            ember-lts-3.20,
+            ember-lts-3.28,
+            ember-lts-4.4,
             ember-release,
-            ember-default-with-jquery,
             ember-classic,
           ]
 
