@@ -12,9 +12,9 @@
   Basic Usage
 </h2>
 <DatePicker @value={{this.date}} @onChange={{this.updateDate}} />
-{{#code-block language='handlebars'}}
-  &lt;DatePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+  &lt;DatePicker @value={{this.date}} @onChange={{this.updateDate}} /&gt;
+</CodeBlock>
 
 <div class='wrapper'>
   <h2>
@@ -48,9 +48,9 @@
 
   <DatePickerInline @value={{this.date}} @onChange={{this.updateDate}} />
 
-    {{#code-block language='handlebars'}}
-&lt;DatePickerInline @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
-  {{/code-block}}
+    <CodeBlock @language="handlebars">
+&lt;DatePickerInline @value={{this.date}} @onChange={{this.updateDate}} /&gt;
+  </CodeBlock>
 </div>
 
 <div class='wrapper'>
@@ -72,12 +72,12 @@
     </button>
   </DatePicker>
 
-  {{#code-block language='handlebars'}}
+  <CodeBlock @language="handlebars">
 &lt;DatePicker 
-  @value=\{{this.date}} 
-  @onChange=\{{this.updateDate}} 
+  @value={{this.date}} 
+  @onChange={{this.updateDate}} 
   as |selectedDates|&gt;&lt;/DatePicker&gt;
-  {{/code-block}}
+  </CodeBlock>
 
   <p>
     Note that this will always receive an array as yielded content.
@@ -114,9 +114,9 @@
         This can be null, a moment.js-Date, or an array containing 0-2 moment.js Dates.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -127,16 +127,16 @@
         The action to call whenever the date changes.
         The action will receive the selected (moment.js) date as parameter.
         If you set
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           range=true
-        {{/code-inline}}
+        </CodeInline>
         , the action will receive
         an array with 2 elements as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -152,16 +152,16 @@
         date-picker is closed. This is especially useful for date range pickers.
         The action will receive the selected (moment.js) date as parameter.
         If you set
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           range=true
-        {{/code-inline}}
+        </CodeInline>
         , the action will receive
         an array with 2 elements as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -172,9 +172,9 @@
         The minimum selectable date. No date before this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -185,9 +185,9 @@
         The maximum selectable date. No date after this date will be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -197,15 +197,15 @@
       <td>
         If set to true, this will be a date-range picker.
         See
-        {{#link-to 'usage.date-range-picker'}}
+        <LinkTo @route="usage.date-range-picker">
           Date Range Picker
-        {{/link-to}}
+        </LinkTo>
         for more details.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -216,9 +216,9 @@
         The placeholder for the date picker. Defaults to 'Select Date...'.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           'Select Date...'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -229,9 +229,9 @@
         Classes to add to the date picker button.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           ''
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -242,9 +242,9 @@
         A moment.js-format which is used for the values on the button.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           'L'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -255,9 +255,9 @@
         If this is true, the date cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -268,9 +268,9 @@
         An array of (moment.js) dates that should not be selectable.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           []
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -281,9 +281,9 @@
         If this is true, the month picker (when clicking on the month name in the date picker) will be disabled.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -294,9 +294,9 @@
         If this is true, the year picker (when clicking on the year in the date picker) will be disabled.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -307,9 +307,9 @@
         The number of years to show in the year picker before & after the current year.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           10
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -320,9 +320,9 @@
         If set to true, the calendar will be displayed with the week starting on Sunday.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -338,9 +338,9 @@
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -356,9 +356,9 @@
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           'auto'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -374,9 +374,9 @@
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           'auto'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
   </tbody>

@@ -40,10 +40,10 @@ module('Integration | Component | time-picker', function (hooks) {
     this.defaultTime = time;
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @amPm={{false}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @amPm={{false}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -59,10 +59,10 @@ module('Integration | Component | time-picker', function (hooks) {
     this.defaultTime = '08:30';
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @amPm={{false}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @amPm={{false}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -83,10 +83,10 @@ module('Integration | Component | time-picker', function (hooks) {
     this.defaultTime = time;
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @amPm={{true}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @amPm={{true}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -108,8 +108,8 @@ module('Integration | Component | time-picker', function (hooks) {
     };
 
     await render(hbs`
-      <TimePicker 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -139,9 +139,9 @@ module('Integration | Component | time-picker', function (hooks) {
     };
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -156,9 +156,9 @@ module('Integration | Component | time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -175,9 +175,9 @@ module('Integration | Component | time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -188,9 +188,9 @@ module('Integration | Component | time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <TimePicker 
-        @renderInPlace={{true}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @renderInPlace={{true}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -209,10 +209,10 @@ module('Integration | Component | time-picker', function (hooks) {
     this.defaultTime = time;
 
     await render(hbs`
-      <TimePicker 
-        @value={{this.defaultTime}} 
-        @amPm={{false}} 
-        @onChange={{this.onChange}} 
+      <TimePicker
+        @value={{this.defaultTime}}
+        @amPm={{false}}
+        @onChange={{this.onChange}}
       as |opts|>
         <button type='button' id='test-1-button'>{{opts.displayValue}}</button>
       </TimePicker>

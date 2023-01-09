@@ -37,7 +37,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @value={{this.date}}
         @onChange={{this.onChange}}
       />`);
@@ -64,7 +64,7 @@ module('Integration | Component | date-picker', function (hooks) {
     };
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @onChange={{this.onChange}}
       />`);
 
@@ -94,7 +94,7 @@ module('Integration | Component | date-picker', function (hooks) {
     };
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @value={{this.date}}
         @onChange={{this.onChange}}
       />`);
@@ -115,7 +115,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @value={{this.date}}
         @onChange={{this.onChange}}
       />`);
@@ -143,7 +143,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @value={{this.date}}
         @onChange={{this.onChange}}
       />`);
@@ -160,7 +160,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @onChange={{this.onChange}}
       />`);
 
@@ -176,7 +176,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @onChange={{this.onChange}}
         @startWeekOnSunday={{true}}
       />`);
@@ -198,7 +198,7 @@ module('Integration | Component | date-picker', function (hooks) {
     };
 
     await render(hbs`
-      <DatePicker 
+      <DatePicker
         @value={{this.date}}
         @onChange={{this.onChange}}
       />`);
@@ -241,7 +241,7 @@ module('Integration | Component | date-picker', function (hooks) {
     };
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
       @onClose={{this.onClose}}
     />`);
@@ -262,7 +262,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
       @renderInPlace={{true}}
     />`);
@@ -285,7 +285,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @value={{this.date}}
       @onChange={{this.onChange}}
     >
@@ -312,7 +312,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @value={{this.date}}
       @onChange={{this.onChange}}
     as |values|>
@@ -343,7 +343,7 @@ module('Integration | Component | date-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
       @disabledDates={{this.disabledDates}}
     />`);
@@ -377,7 +377,7 @@ module('Integration | Component | date-picker', function (hooks) {
     assert.expect(daysInMonth);
 
     await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
       @minDate={{this.minDate}}
       @maxDate={{this.maxDate}}
@@ -432,7 +432,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-        <DatePicker 
+        <DatePicker
           @range={{true}}
           @onChange={{this.onChange}}
         />`);
@@ -473,7 +473,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-      <DatePicker 
+      <DatePicker
         @range={{true}}
         @onChange={{this.onChange}}
       />`);
@@ -510,7 +510,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-      <DatePicker 
+      <DatePicker
         @range={{true}}
         @onChange={{this.onChange}}
         @onClose={{this.onClose}}
@@ -546,7 +546,7 @@ module('Integration | Component | date-picker', function (hooks) {
       this.onChange = () => {};
 
       await render(hbs`
-      <DatePicker 
+      <DatePicker
         @range={{true}}
         @value={{this.dates}}
         @onChange={{this.onChange}}
@@ -583,7 +583,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -612,7 +612,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -641,7 +641,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -667,7 +667,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -693,7 +693,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -711,7 +711,7 @@ module('Integration | Component | date-picker', function (hooks) {
       this.onChange = () => {};
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
       @value={{this.date}}
     />`);
@@ -724,7 +724,7 @@ module('Integration | Component | date-picker', function (hooks) {
       this.onChange = () => {};
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @onChange={{this.onChange}}
     />`);
 
@@ -741,7 +741,7 @@ module('Integration | Component | date-picker', function (hooks) {
       this.onChange = () => {};
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @range={{true}}
       @onChange={{this.onChange}}
       @value={{this.dates}}
@@ -762,7 +762,7 @@ module('Integration | Component | date-picker', function (hooks) {
       this.onChange = () => {};
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @range={{true}}
       @onChange={{this.onChange}}
     />`);
@@ -782,7 +782,7 @@ module('Integration | Component | date-picker', function (hooks) {
       };
 
       await render(hbs`
-    <DatePicker 
+    <DatePicker
       @range={{true}}
       @onChange={{this.onChange}}
       @value={{this.dates}}

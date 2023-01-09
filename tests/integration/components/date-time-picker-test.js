@@ -16,8 +16,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
-        @onChange={{this.onChange}} 
+      <DateTimePicker
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -46,8 +46,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
 
     await render(hbs`
       <DateTimePicker
-        @value={{this.value}} 
-        @onChange={{this.onChange}} 
+        @value={{this.value}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -60,8 +60,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
-        @onChange={{this.onChange}} 
+      <DateTimePicker
+        @onChange={{this.onChange}}
         @disabled={{true}}
       />
     `);
@@ -77,9 +77,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -98,9 +98,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -121,10 +121,10 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
         @ignoreZeroTime={{false}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -137,8 +137,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
-        @onChange={{this.onChange}} 
+      <DateTimePicker
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -148,12 +148,13 @@ module('Integration | Component | date-time-picker', function (hooks) {
 
   test('date picker is disabled if disabled=true', async function (assert) {
     this.onChange = () => {};
+    this.now = moment();
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @disabled={{true}}
-        @value={{now}}
-        @onChange={{this.onChange}} 
+        @value={{this.now}}
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -186,9 +187,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.value = today;
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -216,8 +217,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
     };
 
     await render(hbs`
-      <DateTimePicker 
-        @onChange={{this.onChange}} 
+      <DateTimePicker
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -235,9 +236,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.onChange = () => {};
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -255,9 +256,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
     this.value = null;
 
     await render(hbs`
-      <DateTimePicker 
+      <DateTimePicker
         @value={{this.value}}
-        @onChange={{this.onChange}} 
+        @onChange={{this.onChange}}
       />
     `);
 
@@ -299,9 +300,9 @@ module('Integration | Component | date-time-picker', function (hooks) {
       this.value = today;
 
       await render(hbs`
-        <DateTimePicker 
+        <DateTimePicker
           @value={{this.value}}
-          @onChange={{this.onChange}} 
+          @onChange={{this.onChange}}
         >
         <:date as |DatePicker|>
           <DatePicker />
@@ -325,8 +326,8 @@ module('Integration | Component | date-time-picker', function (hooks) {
       this.onChange = function () {};
 
       await render(hbs`
-        <DateTimePicker 
-          @onChange={{this.onChange}} 
+        <DateTimePicker
+          @onChange={{this.onChange}}
         >
         <:date as |DatePicker|>
           <DatePicker @placeholder='test 1' />

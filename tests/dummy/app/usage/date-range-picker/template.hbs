@@ -6,9 +6,9 @@
 
 <p>
   The date picker can also be used as a date range picker by setting
-  {{#code-inline language='javascript'}}
+  <CodeInline @language="javascript">
     range=true
-  {{/code-inline}}
+  </CodeInline>
   .
   This will change the behavior of the date picker to select a range instead of a single date.
 </p>
@@ -22,15 +22,15 @@
   Basic Usage
 </h2>
 <DatePicker @range={{true}} @onChange={{this.updateDateRange}} />
-{{#code-block language='handlebars'}}
- &lt;DatePicker @range=\{{true}} @value=\{{this.value}} @onChange=\{{this.updateDateRange}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+ &lt;DatePicker @range={{true}} @value={{this.value}} @onChange={{this.updateDateRange}} /&gt;
+</CodeBlock>
 
 <h2>
   Initial Values
 </h2>
 <DatePicker @range={{true}} @value={{date1.value}} @onChange={{this.updateDateRange}} />
 
-{{#code-block language='handlebars'}}
- &lt;DatePicker @range=\{{true}} @value=\{{this.value}} @onChange=\{{this.updateDateRange}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+ &lt;DatePicker @range={{true}} @value={{this.value}} @onChange={{this.updateDateRange}} /&gt;
+</CodeBlock>

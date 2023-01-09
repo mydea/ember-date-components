@@ -6,9 +6,9 @@
 
 <p>
   The date picker can show custom options by setting
-  {{#code-inline language='javascript'}}
+  <CodeInline @language="javascript">
     options=true
-  {{/code-inline}}
+  </CodeInline>
   .
   This will extend the date picker to show quick select buttons for often used date (-range) values.
 </p>
@@ -19,9 +19,9 @@
 
 <DatePicker @options={{true}} @onChange={{this.updateDate}} />
 
-{{#code-block language='handlebars'}}
-&lt;DatePicker @options=\{{true}} @onChange=\{{this.updateDate}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+&lt;DatePicker @options={{true}} @onChange={{this.updateDate}} /&gt;
+</CodeBlock>
 
 <h2>
   Default options for date range picker
@@ -29,9 +29,9 @@
 
 <DatePicker @options={{true}} @range={{true}} @onChange={{this.updateDateRange}} />
 
-{{#code-block language='handlebars'}}
-&lt;DatePicker @options=\{{true}} @range=\{{true}} @onChange=\{{this.updateDateRange}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+&lt;DatePicker @options={{true}} @range={{true}} @onChange={{this.updateDateRange}} /&gt;
+</CodeBlock>
 
 <h2>
   Custom options for date range picker
@@ -40,7 +40,7 @@
   You can also specify which options should be visible. The following options are built-in:
 </p>
 
-{{#code-block language='javascript'}}
+<CodeBlock @language="javascript">
   {
   'clear': {
     action: 'clearDate',
@@ -86,7 +86,7 @@
     actionValue: [moment().startOf('month'), moment().startOf('day')]
   }
 }
-{{/code-block}}
+</CodeBlock>
 
 <p>
   You can also specify custom options. Options also take a
@@ -97,7 +97,7 @@
   An example configuration could be:
 </p>
 
-{{#code-block language='javascript'}}
+<CodeBlock @language="javascript">
   let myOptions = [
   'clear',
   'today',
@@ -109,10 +109,10 @@
     classes: 'my-custom-class other-class'
   }
 ];
-{{/code-block}}
+</CodeBlock>
 
 <DatePicker @options={{this.myOptions}} @range={{true}} @onChange={{this.updateDateRange}} />
 
-{{#code-block language='handlebars'}}
-&lt;DatePicker @options=\{{this.myOptions}} @range=\{{true}} @onChange=\{{this.updateDateRange}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+&lt;DatePicker @options={{this.myOptions}} @range={{true}} @onChange={{this.updateDateRange}} /&gt;
+</CodeBlock>

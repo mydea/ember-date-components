@@ -13,9 +13,9 @@
 </h2>
 <DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}} />
 
-{{#code-block language='handlebars'}}
-  &lt;DateTimePicker @value=\{{this.date}} @onChange=\{{this.updateDate}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+  &lt;DateTimePicker @value={{this.date}} @onChange={{this.updateDate}} /&gt;
+</CodeBlock>
 
 <div class='wrapper'>
   <h2>
@@ -58,8 +58,8 @@
   .
 </p>
 
-{{#code-block language='handlebars'}}
-  &lt;DateTimePicker @value=\{{this.date1}} @onChange=\{{this.updateDate1}}&gt;
+<CodeBlock @language="handlebars">
+  &lt;DateTimePicker @value={{this.date1}} @onChange={{this.updateDate1}}&gt;
   &lt;:date as |DatePicker|&gt;
     &lt;DatePicker @placeholder='Custom placeholder' /&gt;
   &lt;/:date&gt;
@@ -68,7 +68,7 @@
     &lt;TimePicker @placeholder='Custom time' /&gt;
   &lt;/:time&gt;
 &lt;/DateTimePicker&gt;
-{{/code-block}}
+</CodeBlock>
 
 <h2>
   Attributes
@@ -98,9 +98,9 @@
         This can be null or a moment.js-Date.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -112,9 +112,9 @@
         The action will receive the selected (moment.js) date as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -128,9 +128,9 @@
         Note that this only affects the display of the time.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           true
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -141,9 +141,9 @@
         If this is true, the date/time cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
   </tbody>
