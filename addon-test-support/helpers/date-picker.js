@@ -1,7 +1,6 @@
 import { click, find } from '@ember/test-helpers';
 import moment from 'moment';
-import { assert } from '@ember/debug';
-import { deprecate } from '@ember/application/deprecations';
+import { assert, deprecate } from '@ember/debug';
 import { selectTime } from './time-picker';
 
 export function getDatePicker(element) {

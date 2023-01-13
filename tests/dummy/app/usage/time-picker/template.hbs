@@ -12,9 +12,9 @@
   Basic Usage
 </h2>
 <TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
-{{#code-block language='handlebars'}}
-  &lt;TimePicker @value=\{{this.time}} @onChange=\{{this.updateTime}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+  &lt;TimePicker @value={{this.time}} @onChange={{this.updateTime}} /&gt;
+</CodeBlock>
 
 <p>
   You can pass in either a moment instance as value, or a time in string form like "08:30".
@@ -30,23 +30,23 @@
   @maxTime='17:30'
   @step={{15}}
 />
-{{#code-block language='handlebars'}}
+<CodeBlock @language="handlebars">
   &lt;TimePicker
-  @value=\{{this.time}}
-  @onChange=\{{this.updateTime}}
+  @value={{this.time}}
+  @onChange={{this.updateTime}}
   @minTime='08:30'
   @maxTime='17:30'
-  @step=\{{15}}
+  @step={{15}}
 /&gt;
-{{/code-block}}
+</CodeBlock>
 
 <h2>
   Disabled
 </h2>
 <TimePicker @disabled={{true}} @onChange={{this.updateTime}} />
-{{#code-block language='handlebars'}}
-  &lt;TimePicker @disabled=\{{true}} @onChange=\{{this.updateTime}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars">
+  &lt;TimePicker @disabled={{true}} @onChange={{this.updateTime}} /&gt;
+</CodeBlock>
 
 <h2>
   Notes about the Usage
@@ -55,9 +55,9 @@
 <p>
   Note that this will send moment.js objects with the corresponding times set on them as parameter for the action.
   They are basically generated like this:
-  {{#code-inline language='javascript'}}
+  <CodeInline @language="javascript">
     moment(0).hours(hours).minutes(minutes);
-  {{/code-inline}}
+  </CodeInline>
   .
 </p>
 
@@ -65,7 +65,7 @@
   This means that you can work with them like this:
 </p>
 
-{{#code-block language='javascript'}}
+<CodeBlock @language="javascript">
   actions: {
   updateTime(time) {
     let date = this.get('date');
@@ -75,11 +75,11 @@
     // Do something with newDate
   }
 }
-{{/code-block}}
+</CodeBlock>
 
 Or simply use the included util which does exactly the above:
 
-{{#code-block language='javascript'}}
+<CodeBlock @language="javascript">
 import setTimeOnDate from 'ember-date-components/utils/set-time-on-date';
 // ...
 
@@ -89,7 +89,7 @@ updateTime(time) {
   let newDate = setTimeOnDate(date, time);
   // Do something with newDate
 }
-{{/code-block}}
+</CodeBlock>
 
 <p>
   Other useful tips: You can always close the time picker with ESC.
@@ -145,18 +145,18 @@ updateTime(time) {
       <td>
         The default value for the time picker.
         This can be null, a moment.js-Date, or a parseable string like
-        {{#code-inline}}
+        <CodeInline>
           14:30
-        {{/code-inline}}
+        </CodeInline>
         or
-        {{#code-inline}}
+        <CodeInline>
           7:15 pm
-        {{/code-inline}}
+        </CodeInline>
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -168,9 +168,9 @@ updateTime(time) {
         The action will receive the selected (moment.js) date as parameter.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -182,9 +182,9 @@ updateTime(time) {
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -196,9 +196,9 @@ updateTime(time) {
         This can be either a moment.js date, or a parseable string.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -210,9 +210,9 @@ updateTime(time) {
         Times entered will be rounded to the nearest fitting step.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           30
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -222,17 +222,17 @@ updateTime(time) {
       <td>
         The steps that are available in the dropdown. By default, this takes the value
         from
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           step
-        {{/code-inline}}
+        </CodeInline>
         , so you don't need to define
         this again here. You only need to set it if you want
         the select to e.g. only show 30 minute steps, while also allowing the entry of 15 minute steps.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           null
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -243,9 +243,9 @@ updateTime(time) {
         The placeholder for the time input. Defaults to 'Enter time...'.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           'Enter time...'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -256,9 +256,9 @@ updateTime(time) {
         Classes to add to the time input.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           ''
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -269,9 +269,9 @@ updateTime(time) {
         Classes to add to the dropdown container.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           ''
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -284,9 +284,9 @@ updateTime(time) {
         You can overwrite this if necessary.
       </td>
       <td>
-        {{#code-inline language='javascript' class='no-wrap'}}
+        <CodeInline @language="javascript" @class="no-wrap">
           true
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -297,9 +297,9 @@ updateTime(time) {
         If this is true, the time cannot be changed.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -315,9 +315,9 @@ updateTime(time) {
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           false
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -333,9 +333,9 @@ updateTime(time) {
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           'auto'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
     <tr>
@@ -351,9 +351,9 @@ updateTime(time) {
         for details.
       </td>
       <td>
-        {{#code-inline language='javascript'}}
+        <CodeInline @language="javascript">
           'auto'
-        {{/code-inline}}
+        </CodeInline>
       </td>
     </tr>
   </tbody>

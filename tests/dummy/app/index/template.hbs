@@ -11,9 +11,7 @@
   </p>
 
   <p>
-    {{#code-inline language='bash'}}
-      ember install ember-date-components
-    {{/code-inline}}
+    <CodeInline @language="bash" @code="ember install ember-date-components" />
   </p>
 
   <p>
@@ -23,9 +21,9 @@
   </p>
 
   <p>
-    {{#link-to 'usage.date-picker' class='btn btn-primary btn-lg'}}
+    <LinkTo @route='usage.date-picker' class='btn btn-primary btn-lg'>
       date-picker Documentation
-    {{/link-to}}
+    </LinkTo>
   </p>
 </div>
 
@@ -34,14 +32,12 @@
 </h2>
 <p>
   All provided date components are based on
-  <a href='http://momentjs.com/' target='_blank'>
+  <a href='http://momentjs.com/' target='_blank' rel="noopener noreferrer">
     moment.js
   </a>
   .
   This means that all input and output dates are moment.js date objects. You need to
-  {{#code-inline language='bash'}}
-    ember install ember-moment
-  {{/code-inline}}
+  <CodeInline @language="bash" @code="ember install ember-moment" />
   separately for this add-on.
 </p>
 
@@ -49,13 +45,11 @@
   Date Picker Usage
 </h2>
 <DatePicker @onChange={{this.updateDate}} @value={{this.date}} />
-{{#code-block language='handlebars'}}
-  &lt;DatePicker @onChange=\{{this.updateDate}} @value=\{{this.date}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars" @code="&lt;DatePicker @onChange=&#123;&#123;this.updateDate&#125;&#125; @value=&#123;&#123;this.date&#125;&#125; /&gt;" />
 <p>
-  {{#link-to 'usage.date-picker'}}
+  <LinkTo @route='usage.date-picker'>
     More about Date Picker usage
-  {{/link-to}}
+  </LinkTo>
 </p>
 
 <h2>
@@ -66,26 +60,22 @@
   @onChange={{this.updateDateRange}}
   @value={{this.dateRange}}
 />
-{{#code-block language='handlebars'}}
-  &lt;DatePicker @range=\{{true}} @onChange=\{{this.updateDateRange}} @value=\{{this.dateRange}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars" @code="&lt;DatePicker @range=&#123;&#123;true&#125;&#125; @onChange=&#123;&#123;this.updateDateRange&#125;&#125; @value=&#123;&#123;this.dateRange&#125;&#125; /&gt;" />
 <p>
-  {{#link-to 'usage.date-range-picker'}}
+  <LinkTo @route='usage.date-range-picker'>
     More about Date Range Picker usage
-  {{/link-to}}
+  </LinkTo>
 </p>
 
 <h2>
   Time Picker Usage
 </h2>
 <TimePicker @value={{this.time}} @onChange={{this.updateTime}} />
-{{#code-block language='handlebars'}}
-  &lt;TimePicker @value=\{{this.time}} @onChange=\{{this.updateTime}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars" @code="&lt;TimePicker @value=&#123;&#123;this.time&#125;&#125; @onChange=&#123;&#123;this.updateTime&#125;&#125; /&gt;" />
 <p>
-  {{#link-to 'usage.time-picker'}}
+  <LinkTo @route='usage.time-picker'>
     More about Time Picker usage
-  {{/link-to}}
+  </LinkTo>
 </p>
 
 <h2>
@@ -94,13 +84,11 @@
 
 <DateTimePicker @value={{this.dateTime}} @onChange={{this.updateDateTime}} />
 
-{{#code-block language='handlebars'}}
-&lt;DateTimePicker @value=\{{this.dateTime}} @onChange=\{{this.updateDateTime}} /&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars" @code="&lt;DateTimePicker @value=&#123;&#123;this.dateTime&#125;&#125; @onChange=&#123;&#123;this.updateDateTime&#125;&#125; /&gt;" />
 <p>
-  {{#link-to 'usage.date-time-picker'}}
+  <LinkTo @route='usage.date-time-picker'>
     More about Date-Time Picker usage
-  {{/link-to}}
+  </LinkTo>
 </p>
 
 <h2>
@@ -113,18 +101,16 @@
   @options={{true}}
 />
 
-{{#code-block language='handlebars'}}
-&lt;DatePicker
-  @range=\{{true}}
-  @onChange=\{{this.updateDateRange}}
-  @value=\{{this.dateRange}}
-  @options=\{{true}}
-/&gt;
-{{/code-block}}
+<CodeBlock @language="handlebars" @code="&lt;DatePicker
+  @range=&#123;&#123;true&#125;&#125;
+  @onChange=&#123;&#123;this.updateDateRange&#125;&#125;
+  @value=&#123;&#123;this.dateRange&#125;&#125;
+  @options=&#123;&#123;true&#125;&#125;
+/&gt;" />
 <p>
-  {{#link-to 'usage.custom-options'}}
+  <LinkTo @route='usage.custom-options'>
     More about Custom Options
-  {{/link-to}}
+  </LinkTo>
 </p>
 
 <h2>
@@ -135,16 +121,14 @@
   There isn't any configuration needed. A basic stylesheet will be included, unless you opt out of it:
 </p>
 
-{{#code-block language='javascript'}}
-  // ember-cli-build.js
+<CodeBlock @language="javascript" @code="// ember-cli-build.js
 // ...
 let app = new EmberApp({
   'ember-date-components': {
     'includeCSS': false
   }
 });
-// ...
-{{/code-block}}
+// ..." />
 
 <p>
   You are encouraged to overwrite the styles to fit your app.
@@ -153,29 +137,23 @@ let app = new EmberApp({
   it will automatically be added to your project (via the ember-basic-dropdown addon).
 </p>
 
-{{#code-block language='scss'}}
-@import "ember-basic-dropdown";
-@import "ember-date-components/addon";
-{{/code-block}}
+<CodeBlock @language="scss" @code='@import "ember-basic-dropdown";
+@import \"ember-date-components/addon\";' />
 
 <p>
   This partial uses a few variables that you can set:
 </p>
 
-{{#code-block language='scss'}}
-$font-size: 16px !default;
+<CodeBlock @language="scss" @code='$font-size: 16px !default;
 $border-radius: 3px !default;
 $date-picker-color-primary: #2ecc71 !default;
 $date-picker-color-secondary: #ccc !default;
 $date-picker-color-background: #eee !default;
 
-@import "ember-date-components/addon";
-{{/code-block}}
+@import "ember-date-components/addon";' />
 
 <p>
   Note that if you use this partial, you set
-  {{#code-inline langauge='javascript'}}
-    includeCSS: false
-  {{/code-inline}}
+  <CodeInline @language="javascript" @code="includeCSS: false" />
   .
 </p>

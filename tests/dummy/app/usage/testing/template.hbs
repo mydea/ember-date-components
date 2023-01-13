@@ -8,9 +8,7 @@
 
 <h2>Date Picker</h2>
 
-{{#code-block
-  language='javascript'
-}}import { selectDate, getSelectedDate, getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+<CodeBlock @language="javascript">import { selectDate, getSelectedDate, getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
 
 await selectDate('.dom-selector-or-element', moment());
 
@@ -33,35 +31,29 @@ await datepicker.nextMonth();
 await datepicker.previousMonth();
 
 // The current text displayed on the date picker
-datepicker.buttonText();{{/code-block}}
+datepicker.buttonText();</CodeBlock>
 
 <h2>Time Picker</h2>
 
-{{#code-block
-  language='javascript'
-}}import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker';
+<CodeBlock @language="javascript">import { selectTime, getSelectedTime } from 'ember-date-components/test-support/helpers/time-picker';
 
 await selectTime('.dom-selector-or-element', moment());
 await selectTime('.dom-selector-or-element', '15:00');
 
 // Get the currently selected time as a moment instance
-let time = await getSelectedTime('.dom-selector-or-element');{{/code-block}}
+let time = await getSelectedTime('.dom-selector-or-element');</CodeBlock>
 
 <h2>Date-Time Picker</h2>
 
-{{#code-block
-  language='javascript'
-}}import { selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
+<CodeBlock @language="javascript">import { selectDateTime } from 'ember-date-components/test-support/helpers/date-picker';
 
-await selectDateTime('.dom-selector-or-element', moment());{{/code-block}}
+await selectDateTime('.dom-selector-or-element', moment());</CodeBlock>
 
 <h2>Date Range Picker</h2>
 
-{{#code-block
-  language='javascript'
-}}import { selectDateRange, getSelectedDate, getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
+<CodeBlock @language="javascript">import { selectDateRange, getSelectedDate, getDatePicker } from 'ember-date-components/test-support/helpers/date-picker';
 
 await selectDateRange('.dom-selector-or-element', dateFrom, dateTo);
 
 // Note each of the dates could also be null
-let [dateFrom, dateTo] = await getSelectedDate(.dom-selector-or-element');{{/code-block}}
+let [dateFrom, dateTo] = await getSelectedDate(.dom-selector-or-element');</CodeBlock>

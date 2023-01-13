@@ -3,10 +3,17 @@ name: ci
 on:
   push:
     branches:
+      - main
       - master
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
+    name: "Tests"
     runs-on: ubuntu-latest
     timeout-minutes: 5
 

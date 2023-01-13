@@ -8,9 +8,9 @@
   <div class='navbar-header'>
     {{navbar.toggle}}
 
-    {{#link-to 'index' class='navbar-brand'}}
+    <LinkTo @route='index' class='navbar-brand'>
       ember-date-components
-    {{/link-to}}
+    </LinkTo>
   </div>
   <navbar.content>
     <navbar.nav as |nav|>
